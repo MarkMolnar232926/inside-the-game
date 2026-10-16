@@ -3,7 +3,7 @@ data/test_assets/*
 !data/test_assets/README.md
 # Caches & heavy generated artifacts
 data/cache/
-data/synthetic/*.parquet
+data/synthetic/**/*.parquet
 outputs/
 *.mp4
 *.webm
