@@ -1,0 +1,55 @@
+{
+  "properties": {
+    "fps": {
+      "title": "Fps",
+      "type": "number"
+    },
+    "width": {
+      "title": "Width",
+      "type": "integer"
+    },
+    "height": {
+      "title": "Height",
+      "type": "integer"
+    },
+    "source": {
+      "default": "estimated",
+      "enum": [
+        "synthetic_ground_truth",
+        "estimated",
+        "manual"
+      ],
+      "title": "Source",
+      "type": "string"
+    },
+    "homographies": {
+      "description": "Per frame, row-major 3x3 pitch->image (9 floats)",
+      "items": {
+        "items": {
+          "type": "number"
+        },
+        "type": "array"
+      },
+      "title": "Homographies",
+      "type": "array"
+    },
+    "quality": {
+      "description": "Per-frame registration confidence 0..1",
+      "items": {
+        "type": "number"
+      },
+      "title": "Quality",
+      "type": "array"
+    }
+  },
+  "required": [
+    "fps",
+    "width",
+    "height",
+    "homographies"
+  ],
+  "title": "CameraTrack",
+  "type": "object",
+  "$id": "https://pitchlens.dev/schema/1.0.0/camera_track.json",
+  "x-schema-version": "1.0.0"
+}

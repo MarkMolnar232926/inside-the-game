@@ -1,0 +1,26 @@
+# --- Third-party / copyrighted local dev assets: NEVER commit ---
+data/test_assets/*
+!data/test_assets/README.md
+# Caches & heavy generated artifacts
+data/cache/
+data/synthetic/*.parquet
+outputs/
+*.mp4
+*.webm
+*.mov
+!docs/assets/*.mp4
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+# Env / secrets
+.env
+*.pem
+# Node / web
+node_modules/
+web/dist/

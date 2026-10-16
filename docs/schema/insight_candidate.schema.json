@@ -1,0 +1,183 @@
+{
+  "$defs": {
+    "Evidence": {
+      "properties": {
+        "event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Event Ids",
+          "type": "array"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/PitchPoint"
+          },
+          "title": "Points",
+          "type": "array"
+        },
+        "facts": {
+          "additionalProperties": true,
+          "description": "Every number/name the text layer may use. The Verifier only accepts claims found here.",
+          "title": "Facts",
+          "type": "object"
+        }
+      },
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PitchPoint": {
+      "properties": {
+        "x": {
+          "description": "Metres along the pitch length (0..105)",
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "description": "Metres across the pitch (0..68)",
+          "title": "Y",
+          "type": "number"
+        },
+        "label": {
+          "default": "",
+          "title": "Label",
+          "type": "string"
+        },
+        "event_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Event Id"
+        },
+        "appear_at": {
+          "default": 0.0,
+          "description": "Seconds after item t_start when this point appears",
+          "title": "Appear At",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "title": "PitchPoint",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "detector": {
+      "title": "Detector",
+      "type": "string"
+    },
+    "metric": {
+      "description": "Machine key, e.g. 'interceptions_attacking_third'",
+      "title": "Metric",
+      "type": "string"
+    },
+    "t": {
+      "description": "Match clock (s) when the insight became true",
+      "title": "T",
+      "type": "number"
+    },
+    "team_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Team Id"
+    },
+    "player_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Player Id"
+    },
+    "value": {
+      "title": "Value",
+      "type": "number"
+    },
+    "value_text": {
+      "title": "Value Text",
+      "type": "string"
+    },
+    "template_key": {
+      "description": "Narrative template family",
+      "title": "Template Key",
+      "type": "string"
+    },
+    "theme": {
+      "enum": [
+        "control",
+        "chaos",
+        "tempo",
+        "pressure",
+        "milestone",
+        "physical",
+        "quality",
+        "momentum"
+      ],
+      "title": "Theme",
+      "type": "string"
+    },
+    "base_score": {
+      "description": "Detector's own newsworthiness estimate",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Base Score",
+      "type": "number"
+    },
+    "visual": {
+      "description": "Suggested overlay types",
+      "items": {
+        "type": "string"
+      },
+      "title": "Visual",
+      "type": "array"
+    },
+    "evidence": {
+      "$ref": "#/$defs/Evidence"
+    },
+    "expires_after_s": {
+      "default": 90.0,
+      "title": "Expires After S",
+      "type": "number"
+    }
+  },
+  "required": [
+    "id",
+    "detector",
+    "metric",
+    "t",
+    "value",
+    "value_text",
+    "template_key",
+    "theme",
+    "base_score",
+    "evidence"
+  ],
+  "title": "InsightCandidate",
+  "type": "object",
+  "$id": "https://pitchlens.dev/schema/1.0.0/insight_candidate.json",
+  "x-schema-version": "1.0.0"
+}
