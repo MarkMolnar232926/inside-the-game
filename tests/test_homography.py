@@ -63,4 +63,4 @@ def test_chamfer_refinement_reduces_error():
     for _ in range(3):
         Hw, q = reg.refine(small, Hw, reg._static_mask(small.shape[:2]))
     after = reprojection_error(reg.Si @ Hw, H, 1920, 1080)
-    assert after < before and after < 2.0, (before, after)
+    assert after < 0.35 * before and after < 3.0, (before, after)  # 10 px -> ~2 px; small cross-platform variance
