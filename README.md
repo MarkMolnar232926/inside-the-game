@@ -96,8 +96,8 @@ Produced by `scripts/build_demo.py` + `scripts/eval_bundle.py` (written to `outp
 | Pitch registration vs true camera (30 s pan, one simulated 8-point manual calibration with 1.5 px click noise) | **0.9 px mean, 2.2 px max** reprojection error |
 | Evidence-marker glue error (marker centres, estimated vs true camera) | **1.3 px mean, 3.4 px max** |
 | Player detection precision / recall | 0.96 / 0.81 |
-| Identity accuracy (tracks -> dataset players) | 91% of matched boxes |
-| Vision-estimated passes vs dataset passes (30 s clip) | precision 0.6, recall 0.38 (labelled *estimated*) |
+| Identity accuracy (tracks -> dataset players) | 89% of matched boxes |
+| Vision-estimated passes vs dataset passes (30 s clip) | precision 1.0, recall 0.38 (labelled *estimated*) |
 | Event -> overlay decision latency (mock mode) | **~9 ms p99** (budget 1 s) |
 | Full 90' match through all agents, 6 profiles x 7 languages | ~5 s |
 
