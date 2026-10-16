@@ -59,7 +59,8 @@ class EngineResult:
 class PitchLensEngine:
     def __init__(self, meta: MatchMeta, events: list[Event], tracking: pd.DataFrame | None = None,
                  profiles: dict[str, ViewerProfile] | None = None, languages: list[str] | None = None,
-                 llm: LLMClient | None = None, screen: ScreenContext | None = None, keep_tool_traces: bool = True):
+                 llm: LLMClient | None = None, screen: ScreenContext | None = None, keep_tool_traces: bool = True,
+                 orient_team: str | None = None):
         self.meta = meta
         self.events = events
         self.tracking = tracking
@@ -69,6 +70,7 @@ class PitchLensEngine:
         self.verifier = Verifier(meta)
         self.explainer = Explainer(self.verifier, self.trace, llm or default_llm())
         self.screen = screen
+        self.orient_team = orient_team
         self.watcher = StreamWatcher(meta)
         self.scout = InsightScout()
         self.by_id = {e.id: e for e in events}
@@ -78,7 +80,8 @@ class PitchLensEngine:
     def _reset_profiles(self, match_t0: float) -> None:
         self.directors = {k: Director(p, self.trace, self.screen) for k, p in self.profiles.items()}
         self.personalizers = {
-            k: Personalizer(p, self.explainer, self.trace, self.languages, match_t0, self.speed_lookup, self.by_id)
+            k: Personalizer(p, self.explainer, self.trace, self.languages, match_t0, self.speed_lookup, self.by_id,
+                            self.orient_team)
             for k, p in self.profiles.items()
         }
         self.items: dict[str, list[OverlayItem]] = {k: [] for k in self.profiles}

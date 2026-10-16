@@ -27,3 +27,18 @@ def orient_points(points: list[PitchPoint], events: dict[str, Event], display_pe
         else:
             out.append(p)
     return out, flipped
+
+
+def orient_for_team(points: list[PitchPoint], events: dict[str, Event], team_id: str, attacks_right) -> list[PitchPoint]:
+    """Show every point with ``team_id`` attacking towards x = 105 (used to match a real clip's camera end).
+
+    ``attacks_right(team_id, period) -> bool`` comes from MatchState.
+    """
+    out = []
+    for p in points:
+        e = events.get(p.event_id or "")
+        if e is not None and not attacks_right(team_id, e.period):
+            out.append(p.model_copy(update={"x": PITCH_LENGTH - p.x, "y": PITCH_WIDTH - p.y}))
+        else:
+            out.append(p)
+    return out

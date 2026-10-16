@@ -61,7 +61,7 @@ class Calibration:
 @dataclass
 class RegistrationConfig:
     work_scale: float = 0.5  # process at half resolution, report at full
-    max_features: int = 600
+    max_features: int = 900
     refine_every: int = 1
     refine_iters: int = 3
     snap_radius_px: float = 9.0  # at work scale
@@ -78,11 +78,11 @@ def green_mask(bgr: np.ndarray) -> np.ndarray:
 def line_mask(bgr: np.ndarray, ground: np.ndarray) -> np.ndarray:
     """White-ish painted line pixels on the grass (thin, bright, low saturation)."""
     hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
-    bright = cv2.inRange(hsv, (0, 0, 165), (180, 70, 255))
+    bright = cv2.inRange(hsv, (0, 0, 140), (180, 80, 255))
     # Keep thin structures: top-hat on the value channel suppresses big bright blobs (white kits).
     v = hsv[..., 2]
     tophat = cv2.morphologyEx(v, cv2.MORPH_TOPHAT, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (9, 9)))
-    thin = cv2.threshold(tophat, 28, 255, cv2.THRESH_BINARY)[1]
+    thin = cv2.threshold(tophat, 22, 255, cv2.THRESH_BINARY)[1]
     m = cv2.bitwise_and(bright, thin)
     # Must be near grass (lines are painted on it)
     near_grass = cv2.dilate(green_mask(bgr), np.ones((5, 5), np.uint8))
@@ -103,7 +103,8 @@ def player_mask(bgr: np.ndarray, ground: np.ndarray) -> np.ndarray:
     """Non-grass, non-line blobs on the ground region (players, ball, referee) - excluded from flow."""
     g = green_mask(bgr)
     non = cv2.bitwise_and(cv2.bitwise_not(g), ground)
-    non = cv2.morphologyEx(non, cv2.MORPH_OPEN, np.ones((3, 3), np.uint8))
+    # A 5x5 opening erases painted lines (<= ~4 px wide at work scale) but keeps compact player blobs.
+    non = cv2.morphologyEx(non, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5)))
     return cv2.dilate(non, np.ones((7, 7), np.uint8))
 
 
@@ -218,7 +219,7 @@ class PitchRegistrar:
         Hs: list[np.ndarray | None] = [None] * total
         Q = np.zeros(total)
         # Propagate forwards and backwards from every keyframe; keep the estimate closest to a keyframe.
-        dist_to_kf = np.full(total, np.inf)
+        dist_to_kf = np.full(total, -np.inf)  # best candidate score so far
         for kf in self.keyframes:
             if kf.frame >= total:
                 continue
@@ -237,8 +238,11 @@ class PitchRegistrar:
                     else:
                         q = Q[i]
                     d = abs(i - kf.frame)
-                    if d < dist_to_kf[i]:
-                        dist_to_kf[i] = d
+                    # Keep the candidate whose projected lines best match the paint (quality), with a mild
+                    # preference for the nearer keyframe; a broken propagation chain loses to a healthy one.
+                    score = q - 0.0005 * d
+                    if Hs[i] is None or score > dist_to_kf[i]:
+                        dist_to_kf[i] = score
                         Hs[i] = Hw.copy()
                         Q[i] = q
                     prev = i
@@ -250,8 +254,12 @@ class PitchRegistrar:
                            homographies=[(h / h[2, 2]).ravel().tolist() for h in H_full], quality=Q.round(3).tolist())
 
     def flow_h(self, g0: np.ndarray, g1: np.ndarray, Hw: np.ndarray, small0: np.ndarray, static: np.ndarray):
-        ground = cv2.bitwise_and(ground_region(Hw, g0.shape, margin=1.0), static)
-        mask = cv2.bitwise_and(ground, cv2.bitwise_not(player_mask(small0, ground)))
+        # A broadcast camera pans/tilts/zooms about a (nearly) fixed centre, so frame-to-frame motion is one
+        # homography for the *whole* image: stands and boards are valid features too. Only moving players
+        # and burned-in graphics (static mask) are excluded.
+        full = np.full(g0.shape, 255, np.uint8)
+        players = player_mask(small0, ground_region(Hw, g0.shape, margin=2.0))
+        mask = cv2.bitwise_and(cv2.bitwise_and(full, static), cv2.bitwise_not(players))
         p0 = cv2.goodFeaturesToTrack(g0, self.cfg.max_features, 0.003, 7, mask=mask, blockSize=7)
         if p0 is None or len(p0) < 20:
             return None

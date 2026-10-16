@@ -28,6 +28,7 @@ from pitchlens.render.video import render_video
 from pitchlens.schema import CameraTrack, MediaClock, OverlayTimeline, RecapCard, ScreenTracks, TextBlock
 from pitchlens.synth.generate import SyntheticMatch, generate
 from pitchlens.vision import pipeline as vision
+from pitchlens.vision.alignment import retarget_timeline
 from pitchlens.vision.calibrate import from_ground_truth
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -47,6 +48,8 @@ def main() -> None:
     ap.add_argument("--video", type=Path, help="use an existing clip instead of rendering synthetic footage")
     ap.add_argument("--calib", type=Path, help="manual calibration JSON (required with --video)")
     ap.add_argument("--anchors", type=Path, help='{"track_id": "player_id"} for real clips')
+    ap.add_argument("--orient-team", help="real clips: show this team attacking right (towards the camera's end)")
+    ap.add_argument("--no-score-bug", action="store_true", help="the clip already has a burned-in score bug")
     ap.add_argument("--exclude", default="", help='burned-in graphics to ignore, "x0,y0,x1,y1;..." (full-res px)')
     ap.add_argument("--out", type=Path, default=ROOT / "outputs/demo")
     ap.add_argument("--burn", default="casual,analyst", help="profiles to burn into MP4 (comma list, '' for none)")
@@ -93,11 +96,18 @@ def main() -> None:
     # 4. agents on the clip window ----------------------------------------
     n = len(cam.homographies)
     clip = interpolate_clip(m.tracking, a.start, n / cam.fps)
-    screen = ScreenContext(cam, a.start, clip.ball[:, :2])
+    # Real clips: the dataset ball is not in the picture, so the Director gets no ball position.
+    screen = ScreenContext(cam, a.start, None if a.video else clip.ball[:, :2])
     log("agents: clip window (screen-aware Director)")
-    eng = PitchLensEngine(m.meta, m.events, m.tracking, screen=screen)
+    eng = PitchLensEngine(m.meta, m.events, m.tracking, screen=screen, orient_team=a.orient_team)
     res = eng.run(t_from=a.start, t_to=a.start + n / cam.fps, recap=False)
+    by_id = {e.id: e for e in m.events}
     for k, tl in res.timelines.items():
+        if a.video:
+            moved = retarget_timeline(tl, tracks, by_id, a.start, cam.fps)
+            log(f"  {k}: retargeted {moved} evidence point(s) onto anchored tracks")
+        if a.no_score_bug:
+            tl.items = [i for i in tl.items if i.type.value != "score_bug"]
         (out / "timelines" / f"{k}.json").write_text(tl.model_dump_json())
     win = [t.model_dump() for t in res.trace.traces if a.start - 240 <= t.t_match <= a.start + a.duration + 5]
     (out / "traces.json").write_text(json.dumps(win))

@@ -1,0 +1,299 @@
+{
+ "keyframes": [
+  {
+   "frame": 0,
+   "points": [
+    {
+     "name": "halfway_top",
+     "px": [
+      813,
+      100
+     ]
+    },
+    {
+     "name": "circle_top",
+     "px": [
+      814,
+      268
+     ]
+    },
+    {
+     "name": "circle_bottom",
+     "px": [
+      821,
+      470
+     ]
+    },
+    {
+     "name": "halfway_bottom",
+     "px": [
+      830,
+      999
+     ]
+    },
+    {
+     "pitch": [
+      43.35,
+      34.0
+     ],
+     "px": [
+      491,
+      372
+     ],
+     "name": "custom"
+    },
+    {
+     "pitch": [
+      61.65,
+      34.0
+     ],
+     "px": [
+      1141,
+      358
+     ],
+     "name": "custom"
+    }
+   ]
+  },
+  {
+   "frame": 415,
+   "points": [
+    {
+     "name": "right_box_tl",
+     "px": [
+      628,
+      235
+     ]
+    },
+    {
+     "name": "right_box_tr",
+     "px": [
+      1150,
+      172
+     ]
+    },
+    {
+     "name": "corner_tr",
+     "px": [
+      940,
+      93
+     ]
+    },
+    {
+     "name": "right_ga_tl",
+     "px": [
+      1185,
+      275
+     ]
+    },
+    {
+     "name": "right_ga_bl",
+     "px": [
+      1610,
+      455
+     ]
+    },
+    {
+     "name": "right_box_bl",
+     "px": [
+      1472,
+      700
+     ]
+    },
+    {
+     "name": "right_arc_top",
+     "px": [
+      826,
+      345
+     ]
+    },
+    {
+     "name": "right_arc_bottom",
+     "px": [
+      1118,
+      503
+     ]
+    }
+   ]
+  },
+  {
+   "frame": 664,
+   "points": [
+    {
+     "name": "halfway_top",
+     "px": [
+      196,
+      322
+     ]
+    },
+    {
+     "name": "corner_tr",
+     "px": [
+      1262,
+      243
+     ]
+    },
+    {
+     "name": "right_box_tl",
+     "px": [
+      1068,
+      325
+     ]
+    },
+    {
+     "name": "right_box_bl",
+     "px": [
+      1585,
+      637
+     ]
+    },
+    {
+     "name": "right_ga_tl",
+     "px": [
+      1410,
+      360
+     ]
+    },
+    {
+     "name": "right_ga_bl",
+     "px": [
+      1685,
+      487
+     ]
+    },
+    {
+     "name": "right_arc_top",
+     "px": [
+      1185,
+      398
+     ]
+    },
+    {
+     "name": "right_arc_bottom",
+     "px": [
+      1365,
+      503
+     ]
+    },
+    {
+     "name": "circle_top",
+     "px": [
+      205,
+      470
+     ]
+    },
+    {
+     "name": "circle_bottom",
+     "px": [
+      229,
+      660
+     ]
+    }
+   ]
+  },
+  {
+   "frame": 765,
+   "points": [
+    {
+     "name": "halfway_top",
+     "px": [
+      1220,
+      232
+     ]
+    },
+    {
+     "name": "circle_top",
+     "px": [
+      1215,
+      392
+     ]
+    },
+    {
+     "name": "circle_bottom",
+     "px": [
+      1207,
+      585
+     ]
+    },
+    {
+     "name": "custom",
+     "pitch": [
+      61.65,
+      34.0
+     ],
+     "px": [
+      1530,
+      492
+     ]
+    },
+    {
+     "name": "left_box_tr",
+     "px": [
+      270,
+      287
+     ]
+    },
+    {
+     "name": "custom",
+     "pitch": [
+      16.5,
+      41.31
+     ],
+     "px": [
+      127,
+      376
+     ]
+    }
+   ]
+  },
+  {
+   "frame": 900,
+   "points": [
+    {
+     "name": "halfway_top",
+     "px": [
+      1061,
+      190
+     ]
+    },
+    {
+     "name": "circle_top",
+     "px": [
+      1058,
+      408
+     ]
+    },
+    {
+     "name": "circle_bottom",
+     "px": [
+      1052,
+      668
+     ]
+    },
+    {
+     "pitch": [
+      43.35,
+      34.0
+     ],
+     "px": [
+      636,
+      532
+     ],
+     "name": "custom"
+    },
+    {
+     "pitch": [
+      61.65,
+      34.0
+     ],
+     "px": [
+      1480,
+      525
+     ],
+     "name": "custom"
+    }
+   ]
+  }
+ ],
+ "note": "Manual clicks read off grid overlays (scripts/grid_frame.py). Custom points = centre-circle extremes."
+}

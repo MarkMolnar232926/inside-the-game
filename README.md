@@ -93,7 +93,7 @@ Produced by `scripts/build_demo.py` + `scripts/eval_bundle.py` (written to `outp
 
 | | |
 |---|---|
-| Pitch registration vs true camera (30 s pan, one simulated 8-point manual calibration with 1.5 px click noise) | **2.0 px mean, 3.5 px max** reprojection error |
+| Pitch registration vs true camera (30 s pan, one simulated 8-point manual calibration with 1.5 px click noise) | **0.9 px mean, 2.2 px max** reprojection error |
 | Evidence-marker glue error (marker centres, estimated vs true camera) | **1.3 px mean, 3.4 px max** |
 | Player detection precision / recall | 0.96 / 0.81 |
 | Identity accuracy (tracks -> dataset players) | 91% of matched boxes |
@@ -106,6 +106,10 @@ Produced by `scripts/build_demo.py` + `scripts/eval_bundle.py` (written to `outp
 | Why am I seeing this? (evidence drawer) | Live feed: the same overlay JSON drawn on a tactical pitch |
 |---|---|
 | ![](docs/assets/ui_evidence_drawer.jpg) | ![](docs/assets/ui_live.jpg) |
+
+### On a real broadcast clip (local development only)
+
+The same engine ran on a real 30 s tactical-camera clip that stays local (never committed or published). It used 5 manual keyframe calibrations. In leave-one-out checks against held-out manual calibrations, registration was 3-5 px off on well-covered stretches; the wide zoom-out needs its own keyframe. Evidence markers stayed glued through the zoom-out and the panel/ring/lower third rendered as on synthetic footage. Details and limits: [docs/REAL_CLIPS.md](docs/REAL_CLIPS.md).
 
 ## Demo video
 

@@ -13,7 +13,7 @@ from collections.abc import Callable
 
 import numpy as np
 
-from pitchlens.insights.orientation import orient_points
+from pitchlens.insights.orientation import orient_for_team, orient_points
 from pitchlens.narrative import templates as T
 from pitchlens.schema import (
     Chip,
@@ -63,7 +63,8 @@ class Personalizer:
     name = "personalizer"
 
     def __init__(self, profile: ViewerProfile, explainer: Explainer, trace: TraceLog, languages: list[str],
-                 match_t0: float = 0.0, speed_lookup: SpeedLookup | None = None, events: dict[str, Event] | None = None):
+                 match_t0: float = 0.0, speed_lookup: SpeedLookup | None = None, events: dict[str, Event] | None = None,
+                 orient_team: str | None = None):
         self.p = profile
         self.ex = explainer
         self.trace = trace
@@ -71,6 +72,7 @@ class Personalizer:
         self.t0 = match_t0
         self.speed_lookup = speed_lookup
         self.events = events or {}
+        self.orient_team = orient_team  # real clips: show this team attacking right (towards the camera's end)
         self.n = 0
 
     def _id(self, kind: str) -> str:
@@ -95,7 +97,11 @@ class Personalizer:
         items: list[OverlayItem] = []
         f = c.evidence.facts
         common = dict(insight_id=c.id, evidence_event_ids=c.evidence.event_ids[-12:], grounding=grounding)
-        points, flipped = orient_points(c.evidence.points[-8:], self.events, state.period)
+        if self.orient_team:
+            points = orient_for_team(c.evidence.points[-8:], self.events, self.orient_team, state.attacks_right)
+            flipped = False
+        else:
+            points, flipped = orient_points(c.evidence.points[-8:], self.events, state.period)
         note = {lang: T.label("orientation_note", lang) for lang in self.languages} if flipped else {}
         if "stat_card" in vis:
             player = state.meta.player(c.player_id) if c.player_id else None
