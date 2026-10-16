@@ -140,7 +140,8 @@ class RecapAgent:
             for L in self.languages:
                 hl_c, _ = T.render(c.template_key, "casual", ff, L)
                 key = "moment_insight" if c.player_id else "moment_team_insight"
-                texts[L] = T.recap_string(key, ff | {"headline": hl_c, "value": c.value_text}, L)
+                val = T.fmt_number(c.value, L) if c.value_text.replace(".", "", 1).isdigit() else c.value_text
+                texts[L] = T.recap_string(key, ff | {"headline": hl_c, "value": val}, L)
             moments.append(RecapMoment(minute=int(c.t // 60) + 1, t=c.t, kind=c.metric, text=texts,
                                        event_ids=c.evidence.event_ids[-6:]))
         moments.sort(key=lambda m: m.t)
