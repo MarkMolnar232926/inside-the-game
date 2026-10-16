@@ -1,0 +1,66 @@
+{
+  "keyframes": [
+    {
+      "frame": 0,
+      "points": [
+        {
+          "name": "corner_tl",
+          "px": [
+            277.6,
+            272.5
+          ]
+        },
+        {
+          "name": "halfway_top",
+          "px": [
+            1324.2,
+            311.1
+          ]
+        },
+        {
+          "name": "centre_spot",
+          "px": [
+            1309.8,
+            537.8
+          ]
+        },
+        {
+          "name": "circle_bottom",
+          "px": [
+            1306.8,
+            642.0
+          ]
+        },
+        {
+          "name": "circle_top",
+          "px": [
+            1314.0,
+            455.6
+          ]
+        },
+        {
+          "name": "left_box_tr",
+          "px": [
+            478.4,
+            347.4
+          ]
+        },
+        {
+          "name": "left_box_tl",
+          "px": [
+            126.3,
+            332.3
+          ]
+        },
+        {
+          "name": "left_ga_tr",
+          "px": [
+            104.9,
+            398.4
+          ]
+        }
+      ]
+    }
+  ],
+  "note": "Simulated operator clicks (ground truth + noise)."
+}

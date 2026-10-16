@@ -142,7 +142,7 @@ class PassLine(_Base):
 
 class NarrativeLowerThird(_Base):
     type: Literal[OverlayType.NARRATIVE_LOWER_THIRD] = OverlayType.NARRATIVE_LOWER_THIRD
-    tone: Literal["neutral", "control", "chaos", "tempo", "milestone"] = "neutral"
+    tone: Literal["neutral", "control", "chaos", "tempo", "pressure", "milestone", "physical", "quality", "momentum"] = "neutral"
     audio: dict[str, str] = Field(default_factory=dict, description="Language -> TTS asset key")
 
 
