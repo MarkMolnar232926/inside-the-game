@@ -21,6 +21,7 @@ import cv2
 import numpy as np
 from PIL import Image, ImageDraw
 
+from pitchlens.narrative import templates as T
 from pitchlens.schema import (
     CameraTrack,
     MatchMeta,
@@ -349,11 +350,11 @@ class OverlayRenderer:
             sprites.append(pil_to_premul(plate.resize((Wp // S, plh // S), Image.LANCZOS)))
         # --- analyst chips
         if it.extra_metrics and it.density == "dense":
-            sprites.append(self._chips_sprite(it.extra_metrics, Wp // S))
+            sprites.append(self._chips_sprite(it.extra_metrics, Wp // S, lang))
         self.sprite_cache[key] = sprites
         return sprites
 
-    def _chips_sprite(self, chips, width: int) -> np.ndarray:
+    def _chips_sprite(self, chips, width: int, lang: str = "en") -> np.ndarray:
         S = 2
         Wp = width * S
         f_l = font("semibold", self.px(17) * S)
@@ -367,7 +368,8 @@ class OverlayRenderer:
         for i, ch in enumerate(chips):
             cx, cy = (i % cols) * cw, (i // cols) * cell_h
             d.line([cx, cy, cx + cw, cy], fill=rgb(self.c["plate_edge"]), width=S)
-            d.text((cx + self.px(16) * S, cy + self.px(7) * S), ch.label.upper(), font=f_l, fill=rgb(self.c["text_dim"]))
+            d.text((cx + self.px(16) * S, cy + self.px(7) * S), T.label(ch.label, lang).upper(), font=f_l,
+                   fill=rgb(self.c["text_dim"]))
             d.text((cx + self.px(16) * S, cy + self.px(27) * S), f"{ch.value}{ch.unit}", font=f_v, fill=(255, 255, 255))
         return pil_to_premul(im.resize((Wp // S, rows * cell_h // S), Image.LANCZOS))
 
@@ -510,7 +512,8 @@ class OverlayRenderer:
             if ctx.t < it.t_start + ch.appear_at:
                 continue
             u = ease_out_back((ctx.t - it.t_start - ch.appear_at) / self.mo["chip_pop_s"])
-            sp = self._tag_sprite(f"{ch.value} {ch.unit}".strip(), self.c["speed"], self.c["speed_text"], ch.label.upper())
+            sp = self._tag_sprite(f"{ch.value} {ch.unit}".strip(), self.c["speed"], self.c["speed_text"],
+                                  T.label(ch.label, ctx.lang).upper())
             blit(layer, sp, int(cx - sp.shape[1] / 2), int(y - sp.shape[0] * u), alpha * min(u, 1))
             y -= sp.shape[0] + self.px(6)
 
@@ -672,7 +675,7 @@ class OverlayRenderer:
         except np.linalg.LinAlgError:
             pass
         if ctx.tracks is not None:
-            for pid, tr in ctx.tracks.tracks.items():
+            for pid in ctx.tracks.tracks:
                 got = self._player_screen(ctx, pid)
                 if got is None or got[1] is None:
                     continue

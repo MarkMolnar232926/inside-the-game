@@ -147,8 +147,7 @@ class PitchRegistrar:
         if cv2.countNonZero(lines) < 60:
             return Hw, 0.0
         r = self.cfg.snap_radius_px
-        dist = cv2.distanceTransform(cv2.bitwise_not(lines), cv2.DIST_L2, 5)
-        dist = np.minimum(dist, r).astype(np.float32)
+        dist_full = cv2.distanceTransform(cv2.bitwise_not(lines), cv2.DIST_L2, 5)
         proj = apply_h(Hw, self.samples)
         ok = (proj[:, 0] >= 2) & (proj[:, 0] < w - 2) & (proj[:, 1] >= 2) & (proj[:, 1] < h - 2)
         if ok.sum() < 40:
@@ -165,18 +164,24 @@ class PitchRegistrar:
             dst = (anchors_img + delta.reshape(4, 2)).astype(np.float32)
             return cv2.getPerspectiveTransform(anchors_pitch, dst)
 
-        def residuals(delta: np.ndarray) -> np.ndarray:
+        def residuals(delta: np.ndarray, dist: np.ndarray) -> np.ndarray:
             P = apply_h(H_of(delta), M)
             return map_coordinates(dist, [P[:, 1], P[:, 0]], order=1, mode="nearest")
 
-        r0 = residuals(np.zeros(8))
-        sol = least_squares(residuals, np.zeros(8), loss="soft_l1", f_scale=1.5, diff_step=1e-3,
-                            x_scale=2.0, max_nfev=60)
-        Hn = H_of(sol.x)
-        r1 = residuals(sol.x)
+        fine = np.minimum(dist_full, r).astype(np.float32)
+        r0 = residuals(np.zeros(8), fine)
+        x = np.zeros(8)
+        # Coarse-to-fine: a wide truncation pulls large errors in, the tight one rejects outlier lines.
+        for radius, fs in ((3 * r, 4.0), (r, 1.5)):
+            dist = np.minimum(dist_full, radius).astype(np.float32)
+            x = least_squares(residuals, x, args=(dist,), loss="soft_l1", f_scale=fs, diff_step=1e-3, x_scale=2.0,
+                              max_nfev=60).x
+        sol_x = x
+        Hn = H_of(sol_x)
+        r1 = residuals(sol_x, fine)
         before, after = float(np.mean(np.exp(-(r0**2) / 2))), float(np.mean(np.exp(-(r1**2) / 2)))
         quality = float(np.mean(r1 < 1.5))
-        if after <= before or np.abs(sol.x).max() > 4 * r:
+        if after <= before or np.abs(sol_x).max() > 6 * r:
             return Hw, float(np.mean(r0 < 1.5))
         return Hn / Hn[2, 2], quality
 

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PitchLens</title>
+  <link rel="stylesheet" href="/web/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%2212%22 fill=%22none%22 stroke=%22%23e3263a%22 stroke-width=%226%22/%3E%3C/svg%3E" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="lens"></span>Pitch<b>Lens</b><small>inside the game</small></div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-view="broadcast">Broadcast</button>
+      <button class="tab" data-view="live">Live feed</button>
+      <button class="tab" data-view="recap">Recap</button>
+    </nav>
+    <div class="status"><span id="mode-pill" class="pill">mock</span><span class="pill synthetic">100% synthetic data</span></div>
+  </header>
+
+  <main>
+    <!-- ======================= BROADCAST ======================= -->
+    <section id="view-broadcast" class="view active">
+      <div class="stage-col">
+        <div class="stage" id="stage">
+          <video id="video" muted playsinline preload="auto"></video>
+          <canvas id="overlay" width="1920" height="1080"></canvas>
+          <div id="no-video" class="no-video hidden">Demo bundle not built yet. Run <code>python scripts/build_demo.py</code>.</div>
+        </div>
+        <div class="transport">
+          <button id="play" class="icon" title="Play / pause (space)">▶</button>
+          <div class="scrub" id="scrub"><div class="scrub-fill" id="scrub-fill"></div><div id="scrub-marks"></div></div>
+          <span id="clock" class="mono">00:00</span>
+          <label class="toggle"><input type="checkbox" id="burned" /> burned-in render</label>
+        </div>
+        <div class="panels">
+          <div class="panel">
+            <h3>Agent trace <span class="hint">who decided what, and why</span></h3>
+            <ol id="trace" class="trace"></ol>
+          </div>
+          <div class="panel metrics">
+            <h3>Pipeline metrics</h3>
+            <div id="metrics" class="metric-grid"></div>
+          </div>
+        </div>
+      </div>
+      <aside class="side">
+        <div class="card">
+          <h3>Viewer profile</h3>
+          <div id="profiles" class="chips"></div>
+          <p id="profile-desc" class="desc"></p>
+        </div>
+        <div class="card">
+          <h3>Language</h3>
+          <div id="langs" class="chips small"></div>
+        </div>
+        <div class="card grow">
+          <h3>On screen now</h3>
+          <div id="now" class="now"></div>
+          <h3 class="mt">Up next in this clip</h3>
+          <div id="upnext" class="upnext"></div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ======================= LIVE ======================= -->
+    <section id="view-live" class="view">
+      <div class="stage-col">
+        <div class="stage live-stage">
+          <canvas id="live-canvas" width="1920" height="1240"></canvas>
+        </div>
+        <div class="transport">
+          <button id="live-start" class="primary">Start live feed</button>
+          <label>from minute <input id="live-min" type="number" value="80" min="0" max="95" /></label>
+          <label>speed <select id="live-speed"><option>5</option><option selected>15</option><option>40</option></select>×</label>
+          <span id="live-clock" class="mono">--:--</span>
+          <span id="live-latency" class="pill">latency –</span>
+        </div>
+        <div class="panels">
+          <div class="panel"><h3>Event stream <span class="hint">ingest → state</span></h3><ol id="live-events" class="trace"></ol></div>
+          <div class="panel"><h3>Agent decisions</h3><ol id="live-trace" class="trace"></ol></div>
+        </div>
+      </div>
+      <aside class="side">
+        <div class="card"><h3>Viewer profile</h3><div id="live-profiles" class="chips"></div></div>
+        <div class="card"><h3>Language</h3><div id="live-langs" class="chips small"></div></div>
+        <div class="card grow"><h3>Overlay instructions pushed</h3><div id="live-overlays" class="now"></div>
+          <h3 class="mt">Live metrics</h3><div id="live-metrics" class="metric-grid"></div></div>
+      </aside>
+    </section>
+
+    <!-- ======================= RECAP ======================= -->
+    <section id="view-recap" class="view">
+      <div class="recap-wrap">
+        <div class="recap-card" id="recap-card"></div>
+        <div class="recap-actions">
+          <div id="recap-langs" class="chips small"></div>
+          <button id="recap-share" class="primary">Copy share link</button>
+          <a id="recap-png" class="btn" download>Download card (PNG)</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Evidence drawer -->
+  <div id="drawer" class="drawer hidden" role="dialog" aria-label="Why am I seeing this?">
+    <div class="drawer-head"><h2>Why am I seeing this?</h2><button id="drawer-close" class="icon">✕</button></div>
+    <div id="drawer-body"></div>
+  </div>
+
+  <script src="/web/overlay.js"></script>
+  <script src="/web/app.js"></script>
+</body>
+</html>

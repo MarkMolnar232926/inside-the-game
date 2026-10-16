@@ -71,7 +71,7 @@ class ByteTrackLite:
         C = np.linalg.norm(pred[:, None] - pos[None], axis=2)
         # Lost tracks get a wider gate that grows with time since last seen.
         g = np.array([gate + 0.15 * t.lost for t in tracks])[:, None]
-        Cg = np.where(C <= g, C, 1e6)
+        Cg = np.where(g >= C, C, 1e6)
         r, c = linear_sum_assignment(Cg)
         matches, ut, ub = [], set(range(len(tracks))), set(range(len(pos)))
         for i, j in zip(r, c, strict=True):

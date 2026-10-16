@@ -6,21 +6,34 @@ import pandas as pd
 
 from pitchlens.insights.orientation import orient_points
 from pitchlens.render.compositor import OverlayRenderer
-from pitchlens.schema import (CameraTrack, MediaClock, Minimap, NarrativeLowerThird, OverlayTimeline, PitchMarkers,
-                              PitchPoint, PlayerHighlight, ScoreBug, StatCard, TextBlock, Chip)
+from pitchlens.schema import (
+    CameraTrack,
+    Chip,
+    MediaClock,
+    Minimap,
+    NarrativeLowerThird,
+    OverlayTimeline,
+    PitchMarkers,
+    PitchPoint,
+    PlayerHighlight,
+    ScoreBug,
+    StatCard,
+    TextBlock,
+)
 from pitchlens.synth.generate import SyntheticMatch
 from pitchlens.vision.screen_tracks import from_ground_truth
 
-clip = Path("outputs/footage/demo30")
+clip = Path("outputs/demo/clip")
 m = SyntheticMatch.load(Path("data/synthetic/demo"))
 cam = CameraTrack.model_validate_json((clip / "gt/camera_gt.json").read_text())
 gt = pd.read_parquet(clip / "gt/gt_boxes.parquet")
 tracks = from_ground_truth(gt, 30)
-t0 = 5052.0
-FRAME = 345
+t0 = 3721.0
+FRAME = 400
 ev = {e.id: e for e in m.events}
 ints = [e for e in m.events if e.type.value == "interception" and e.player_id == "KBY-07" and e.t <= t0 + FRAME / 30]
 from pitchlens.state.match_state import MatchState
+
 st = MatchState(m.meta)
 for e in m.events:
     if e.t > t0 + FRAME / 30:
@@ -43,11 +56,11 @@ items = [
     Minimap(id="mm", t_start=T, t_end=T + 20, points=pts, focus_player_id=p.id),
     NarrativeLowerThird(id="lt", t_start=T, t_end=T + 20, tone="pressure",
                         text={"en": TextBlock(label="Why it matters", body="Kestane keeps winning the ball high up the pitch: "
-                              "4 interceptions in the attacking third, the most of any player tonight.")}),
+                              "3 interceptions in the attacking third, more than anyone tonight.")}),
 ]
 tl = OverlayTimeline(match_id=m.meta.match_id, profile_id="mock", languages=["en"],
                      media=MediaClock(duration_s=30, match_t_at_media_zero=t0), items=items)
-cap = cv2.VideoCapture(str(clip / "footage.mp4")); cap.set(cv2.CAP_PROP_POS_FRAMES, FRAME); _, fr = cap.read()
+cap = cv2.VideoCapture(str(Path("outputs/demo/media/footage.mp4"))); cap.set(cv2.CAP_PROP_POS_FRAMES, FRAME); _, fr = cap.read()
 r = OverlayRenderer(m.meta)
 out = r.render_frame(fr, tl, cam, FRAME, tracks)
 cv2.imwrite("outputs/deliverables/02_style_mock.png", out)

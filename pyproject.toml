@@ -45,7 +45,11 @@ src = ["src", "tests"]
 select = ["E", "F", "I", "UP", "B", "SIM", "W"]
 ignore = ["E501", "B008"]
 
+[tool.ruff.lint.per-file-ignores]
+# Diagnostic / one-off scripts favour terse exploratory style.
+"scripts/*" = ["E701", "E702", "E402", "E741", "B007", "B905"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
+addopts = "-q -p no:warnings"
 markers = ["slow: long-running render/vision tests"]

@@ -1,38 +1,38 @@
 {
-  "match_id": "SYN-0019-LATE",
+  "match_id": "SYN-0006-LATE",
   "narrative": "late_comeback",
   "final_score": [
-    4,
-    2
+    2,
+    1
   ],
   "teams": {
     "KBY": {
-      "passes": 585,
-      "pass_completion": 0.774,
-      "shots": 24,
-      "goals": 4,
-      "xg": 3.14,
-      "tackles": 60,
-      "interceptions": 66,
-      "pressures": 460,
-      "fouls": 16,
-      "corners": 3,
-      "possession_share_by_passes": 0.498
+      "passes": 663,
+      "pass_completion": 0.771,
+      "shots": 15,
+      "goals": 2,
+      "xg": 2.35,
+      "tackles": 36,
+      "interceptions": 63,
+      "pressures": 467,
+      "fouls": 7,
+      "corners": 2,
+      "possession_share_by_passes": 0.511
     },
     "IRV": {
-      "passes": 589,
-      "pass_completion": 0.793,
-      "shots": 8,
-      "goals": 2,
-      "xg": 0.94,
-      "tackles": 41,
-      "interceptions": 56,
-      "pressures": 408,
-      "fouls": 11,
-      "corners": 2,
-      "possession_share_by_passes": 0.502
+      "passes": 634,
+      "pass_completion": 0.767,
+      "shots": 7,
+      "goals": 1,
+      "xg": 0.5,
+      "tackles": 31,
+      "interceptions": 48,
+      "pressures": 441,
+      "fouls": 5,
+      "corners": 0,
+      "possession_share_by_passes": 0.489
     }
   },
-  "n_events": 3180,
+  "n_events": 3291,
   "tracking_rows": 1283423
 }

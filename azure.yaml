@@ -1,0 +1,14 @@
+# Azure Developer CLI:  azd auth login && azd up
+name: pitchlens
+metadata:
+  template: pitchlens@0.1.0
+services:
+  api:
+    project: .
+    language: python
+    host: containerapp
+    docker:
+      path: ./Dockerfile
+infra:
+  provider: bicep
+  path: infra

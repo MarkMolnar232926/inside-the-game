@@ -20,6 +20,7 @@ for i, e in enumerate(evs):
         fails[nxt.type.value if nxt else "none"] += 1
 print("after failed pass:", dict(fails))
 import numpy as np
+
 L = [e.pass_info.length_m for e in evs if e.type.value == "pass"]
 print("pass len mean/median", np.mean(L), np.median(L))
 inplay = sum(1 for e in evs if e.type.value == "pass")
@@ -30,6 +31,7 @@ print("dist km top/bottom", (dist.tail(3) / 1000).round(2).to_dict(), (dist.head
 print("max speed", pl.speed_kmh.max())
 # attacking third interceptions per player
 from pitchlens.schema import attack_x
+
 ati = Counter()
 for e in evs:
     if e.type.value == "interception":

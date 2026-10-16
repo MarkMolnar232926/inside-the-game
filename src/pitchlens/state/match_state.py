@@ -22,7 +22,8 @@ from pitchlens.schema import PITCH_LENGTH, Event, EventType, MatchMeta, Outcome,
 
 SPRINT_KMH = 25.0
 SPRINT_MIN_S = 1.0
-DEFENSIVE_ACTIONS = {EventType.TACKLE, EventType.INTERCEPTION, EventType.FOUL, EventType.BALL_RECOVERY}
+# Standard PPDA denominator: tackles, interceptions and fouls (loose-ball recoveries excluded).
+DEFENSIVE_ACTIONS = {EventType.TACKLE, EventType.INTERCEPTION, EventType.FOUL}
 
 
 @dataclass
@@ -213,7 +214,8 @@ class MatchState:
     # -------------------------------------------------------- rhythm metrics
     def window(self, seconds: float | None = None) -> list[Event]:
         seconds = self.window_s if seconds is None else seconds
-        return [e for e in self.recent if e.t >= self.t - seconds]
+        pool = self.recent if seconds <= self.window_s else self.events  # long windows scan the full history
+        return [e for e in pool if e.t >= self.t - seconds]
 
     def ppda(self, team_id: str, seconds: float | None = None) -> float | None:
         """Opponent passes allowed per defensive action in the opponent's first 60% (pressing proxy)."""

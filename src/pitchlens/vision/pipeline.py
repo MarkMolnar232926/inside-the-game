@@ -39,20 +39,22 @@ from .screen_tracks import from_table
 from .track import ByteTrackLite, classify_teams, reconcile_identities, shirt_color, smooth_pitch
 
 
-def run_registration(video: Path, calib: Path, out: Path, force: bool = False) -> CameraTrack:
+def run_registration(video: Path, calib: Path, out: Path, force: bool = False,
+                     exclude: tuple[tuple[int, int, int, int], ...] = ()) -> CameraTrack:
     p = out / "homography.json"
     if p.exists() and not force:
         return CameraTrack.model_validate_json(p.read_text())
-    cam = PitchRegistrar(Calibration.load(calib), RegistrationConfig()).run(video, progress=True)
+    cam = PitchRegistrar(Calibration.load(calib), RegistrationConfig(exclude_boxes=exclude)).run(video, progress=True)
     p.write_text(cam.model_dump_json())
     return cam
 
 
-def run_detection_tracking(video: Path, cam: CameraTrack, out: Path, force: bool = False) -> pd.DataFrame:
+def run_detection_tracking(video: Path, cam: CameraTrack, out: Path, force: bool = False,
+                           exclude: tuple[tuple[int, int, int, int], ...] = ()) -> pd.DataFrame:
     p = out / "tracks_raw.parquet"
     if p.exists() and not force:
         return pd.read_parquet(p)
-    det = ColorBlobDetector()
+    det = ColorBlobDetector(exclude_boxes=exclude)
     trk = ByteTrackLite()
     cap = cv2.VideoCapture(str(video))
     rows, det_rows, colors = [], [], {}
@@ -140,14 +142,15 @@ def write_debug_video(video: Path, cam: CameraTrack, tracks: pd.DataFrame, ident
 
 
 def run(video: Path, calib: Path, out: Path, match_dir: Path | None = None, match_t0: float | None = None,
-        anchors: dict[int, str] | None = None, force: bool = False, debug: bool = True) -> dict:
+        anchors: dict[int, str] | None = None, force: bool = False, debug: bool = True,
+        exclude: tuple[tuple[int, int, int, int], ...] = ()) -> dict:
     out.mkdir(parents=True, exist_ok=True)
     timings = {}
     t = time.time()
-    cam = run_registration(video, calib, out, force)
+    cam = run_registration(video, calib, out, force, exclude)
     timings["registration_s"] = round(time.time() - t, 1)
     t = time.time()
-    tracks = run_detection_tracking(video, cam, out, force)
+    tracks = run_detection_tracking(video, cam, out, force, exclude)
     timings["detect_track_s"] = round(time.time() - t, 1)
     identity: dict[int, str] = dict(anchors or {})
     if match_dir is not None and match_t0 is not None:

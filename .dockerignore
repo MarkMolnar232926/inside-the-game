@@ -1,0 +1,8 @@
+.venv
+.git
+outputs
+data/cache
+data/test_assets
+**/__pycache__
+.pytest_cache
+.ruff_cache

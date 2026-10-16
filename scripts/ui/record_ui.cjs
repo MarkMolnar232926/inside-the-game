@@ -1,0 +1,44 @@
+// Records a ~32 s walkthrough of the PitchLens UI for the demo video.
+// NODE_PATH=$(npm root -g) node scripts/ui/record_ui.cjs http://localhost:8000 outputs/demo/media/ui_capture.webm
+const { chromium } = require("playwright");
+const fs = require("fs");
+const path = require("path");
+(async () => {
+  const [base, out] = process.argv.slice(2);
+  const dir = path.join(path.dirname(out), "_rec");
+  fs.mkdirSync(dir, { recursive: true });
+  const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome" });
+  const ctx = await browser.newContext({ viewport: { width: 1920, height: 1080 }, recordVideo: { dir, size: { width: 1920, height: 1080 } } });
+  const page = await ctx.newPage();
+  page.on("pageerror", (e) => console.log("pageerror", e.message));
+  const tl = await (await fetch(`${base}/api/timeline/casual`)).json();
+  const hero = Math.min(...tl.items.filter((i) => i.type === "stat_card").map((i) => i.t_start));
+  await page.goto(`${base}/?profile=casual`, { waitUntil: "networkidle" });
+  await page.waitForTimeout(1200);
+  await page.evaluate((t) => { const v = document.querySelector("#video"); v.currentTime = t; v.play(); }, Math.max(hero - 0.8, 0));
+  await page.waitForTimeout(4500);
+  await page.evaluate(() => document.querySelector("#video").pause());
+  await page.click(".why-btn");
+  await page.waitForTimeout(3500);
+  await page.evaluate(() => { const d = document.querySelector("#drawer"); d.scrollTo({ top: d.scrollHeight, behavior: "smooth" }); });
+  await page.waitForTimeout(3000);
+  await page.click("#drawer-close");
+  await page.click('#profiles .chip[data-v="analyst"]');
+  await page.waitForTimeout(2500);
+  await page.click('#langs .chip[data-v="es"]');
+  await page.waitForTimeout(2500);
+  await page.click('#langs .chip[data-v="en"]');
+  await page.click('.tab[data-view="live"]');
+  await page.fill("#live-min", "61");
+  await page.selectOption("#live-speed", "15");
+  await page.click("#live-start");
+  await page.waitForTimeout(10000);
+  await page.click('.tab[data-view="recap"]');
+  await page.waitForTimeout(3500);
+  const v = page.video();
+  await ctx.close();
+  await browser.close();
+  fs.renameSync(await v.path(), out);
+  fs.rmSync(dir, { recursive: true, force: true });
+  console.log("saved", out);
+})();

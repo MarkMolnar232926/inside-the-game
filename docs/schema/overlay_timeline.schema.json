@@ -289,7 +289,11 @@
             "control",
             "chaos",
             "tempo",
-            "milestone"
+            "pressure",
+            "milestone",
+            "physical",
+            "quality",
+            "momentum"
           ],
           "title": "Tone",
           "type": "string"

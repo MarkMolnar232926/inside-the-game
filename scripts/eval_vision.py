@@ -1,8 +1,12 @@
 """Evaluate detection/tracking/identity against synthetic ground truth boxes."""
-import json, sys
+import json
+import sys
 from pathlib import Path
-import numpy as np, pandas as pd
+
+import numpy as np
+import pandas as pd
 from scipy.optimize import linear_sum_assignment
+
 from pitchlens.vision.track import iou
 
 clip = Path(sys.argv[1]); vis = clip / "vision"

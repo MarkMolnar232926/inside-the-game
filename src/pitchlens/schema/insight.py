@@ -53,6 +53,7 @@ class Decision(BaseModel):
     score: float = 0.0
     duration_s: float = 0.0
     placement: Literal["right", "left"] = "right"
+    preempts: str | None = Field(None, description="Insight id cut short to make room for this one")
 
 
 class AgentTrace(BaseModel):

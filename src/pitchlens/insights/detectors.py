@@ -61,6 +61,8 @@ class ZoneActionCount(Detector):
         self.threshold = threshold
         self.theme = theme
         self.name = metric
+        # High turnovers (won near the opponent's goal) are worth more than deep regains.
+        self.zone_value = 1.15 if "attacking" in metric else 0.85 if "defensive" in metric else 1.0
 
     def on_event(self, s: MatchState, e: Event) -> Iterable[InsightCandidate]:
         if e.type != self.event_type or e.player_id is None or e.outcome == Outcome.FAIL:
@@ -72,10 +74,16 @@ class ZoneActionCount(Detector):
         if not evs or evs[-1].id != e.id:
             return
         team_total = s.team_counters[e.team_id or ""][self.metric]
+        best_other = max((c[self.metric] for pid, c in s.counters.items() if pid != e.player_id), default=0)
+        goal_x = [105.0 if s.attacks_right(x.team_id or "", x.period) else 0.0 for x in evs]
+        dists = [((gx - (x.x or 0)) ** 2 + (34 - (x.y or 0)) ** 2) ** 0.5 for gx, x in zip(goal_x, evs, strict=True)]
         facts = player_facts(s, e.player_id) | {
             "value": n,
             "metric_label": self.label,
             "team_total": team_total,
+            "share_pct": round(100 * n / max(team_total, 1)),
+            "rank": 1 if n > best_other else 2,
+            "avg_dist_goal_m": round(sum(dists) / len(dists)),
             "minute": e.minute,
             "minutes": [x.minute for x in evs],
         }
@@ -90,8 +98,8 @@ class ZoneActionCount(Detector):
             value_text=str(n),
             template_key=self.metric,
             theme=self.theme,  # type: ignore[arg-type]
-            base_score=min(0.5 + 0.08 * (n - self.threshold) + 0.1 * (n / max(team_total, 1)), 0.95),
-            visual=["stat_card", "pitch_markers", "player_highlight", "narrative_lower_third"],
+            base_score=min((0.5 + 0.08 * (n - self.threshold) + 0.1 * (n / max(team_total, 1))) * self.zone_value, 0.95),
+            visual=["stat_card", "pitch_markers", "player_highlight", "narrative_lower_third", "minimap"],
             evidence=Evidence(
                 event_ids=[x.id for x in evs],
                 points=[_pt(x, str(i + 1)) for i, x in enumerate(evs)],
@@ -127,6 +135,7 @@ class PassOfTheMatch(Detector):
             "completion_pct": round(pi.expected_completion * 100),
             "ball_speed_kmh": round(pi.ball_speed_kmh),
             "recipient_name": s.name(e.recipient_id),
+            "recipient_short": s.meta.player(e.recipient_id).short_name.title(),
             "progressive_m": round(pi.progressive_m),
             "minute": e.minute,
         }
@@ -164,6 +173,7 @@ class BigChance(Detector):
             "shot_speed_kmh": round(si.speed_kmh),
             "distance_m": round(si.distance_m),
             "goal": goal,
+            "xg_pct": round(si.xg * 100),
             "minute": e.minute,
             "team_xg": round(sum(x for (_, tid, x) in s.xg_timeline if tid == e.team_id), 2),
         }
@@ -473,8 +483,10 @@ def default_detectors() -> list[Detector]:
         ZoneActionCount("interceptions_attacking_third", EventType.INTERCEPTION, "interceptions in attacking third", 3),
         ZoneActionCount("tackles_won_attacking_third", EventType.TACKLE, "tackles won in attacking third", 2),
         ZoneActionCount("recoveries_attacking_third", EventType.BALL_RECOVERY, "ball recoveries in attacking third", 3),
-        ZoneActionCount("interceptions_defensive_third", EventType.INTERCEPTION, "interceptions in own third", 4,
-                        theme="control"),
+        # Own-third interceptions are inflated by the simulator (every cut-out pass counts), so this
+        # detector is available but off by default:
+        # ZoneActionCount("interceptions_defensive_third", EventType.INTERCEPTION, "interceptions in own third", 4,
+        #                 theme="control"),
         PassOfTheMatch(),
         BigChance(),
         PossessionSpell(),

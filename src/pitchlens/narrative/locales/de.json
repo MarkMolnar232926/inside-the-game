@@ -1,0 +1,143 @@
+{
+  "lang": "de",
+  "name": "Deutsch",
+  "decimal": ",",
+  "labels": {
+    "why_it_matters": "Warum es zählt",
+    "speed": "Tempo",
+    "top_speed": "Höchsttempo",
+    "ball": "Ball",
+    "shot": "Schuss",
+    "distance": "Distanz",
+    "sprints": "Sprints",
+    "estimated": "geschätzt",
+    "key_moments": "Schlüsselmomente",
+    "player_of_the_match": "Spieler des Spiels",
+    "full_time": "Abpfiff",
+    "tactical_summary": "Taktische Analyse",
+    "milestone": "Meilenstein",
+    "orientation_note": "alles in der Spielrichtung dieser Halbzeit dargestellt",
+    "xg": "xG",
+    "ppda": "PPDA",
+    "share": "Teamanteil",
+    "rank": "Rang",
+    "avg_dist_goal": "Ø Distanz zum Tor",
+    "difficulty": "Schwierigkeit",
+    "completion": "Erw. Erfolgsquote",
+    "progression": "Raumgewinn",
+    "field_tilt": "Feldüberlegenheit",
+    "chaos_index": "Chaos-Index",
+    "team_xg": "Team-xG",
+    "passes": "Pässe",
+    "duration": "Dauer"
+  },
+  "templates": {
+    "interceptions_attacking_third": {
+      "headline": "Ballgewinne im letzten Drittel",
+      "casual": "{player_short} schnappt sich den Ball immer wieder weit vorne: schon {value} abgefangene Bälle im letzten Drittel.",
+      "casual_top": "{player_short} schnappt sich den Ball immer wieder weit vorne: schon {value} abgefangene Bälle im letzten Drittel, mehr als jeder andere heute.",
+      "analyst": "{value} abgefangene Bälle im letzten Drittel ({share_pct} % aller von {team_short}), im Schnitt {avg_dist_goal_m} m vor dem Tor: das Pressing gewinnt den Ball genau dort, wo es wehtut.",
+      "kids": "Ballklau! {player_short} hat sich den Ball schon {value}-mal direkt vor dem gegnerischen Tor geholt!"
+    },
+    "tackles_won_attacking_third": {
+      "headline": "Gewonnene Zweikämpfe im letzten Drittel",
+      "casual": "{player_short} gewinnt die Duelle vorne: {value} gewonnene Tacklings im letzten Drittel.",
+      "casual_top": "{player_short} gewinnt die Duelle vorne: {value} gewonnene Tacklings im letzten Drittel, so viele wie kein anderer.",
+      "analyst": "{value} gewonnene Tacklings im letzten Drittel ({share_pct} % von {team_short}), im Schnitt {avg_dist_goal_m} m vor dem Tor: offensive Verteidigung, die den Gegner einschnürt.",
+      "kids": "Tackling! {player_short} hat den Ball {value}-mal am Tor gewonnen!"
+    },
+    "recoveries_attacking_third": {
+      "headline": "Balleroberungen im letzten Drittel",
+      "casual": "{player_short} sammelt vorne alle freien Bälle ein: {value} Balleroberungen im letzten Drittel.",
+      "casual_top": "{player_short} sammelt vorne alle freien Bälle ein: {value} Balleroberungen im letzten Drittel, mehr als jeder andere.",
+      "analyst": "{value} Balleroberungen im letzten Drittel ({share_pct} % von {team_short}), im Schnitt {avg_dist_goal_m} m vor dem Tor: die zweiten Bälle gehören {team_short}.",
+      "kids": "{player_short} hat den Ball {value}-mal am Tor gefunden. Super!"
+    },
+    "interceptions_defensive_third": {
+      "headline": "Ballgewinne im eigenen Drittel",
+      "casual": "{player_short} liest die Gefahr hinten: {value} abgefangene Bälle im eigenen Drittel von {team_short}.",
+      "casual_top": "{player_short} liest die Gefahr hinten: {value} abgefangene Bälle im eigenen Drittel von {team_short}, der Bestwert heute.",
+      "analyst": "{value} abgefangene Bälle im Abwehrdrittel ({share_pct} % von {team_short}): {team_short} fängt den Druck tief ab, statt hoch zu pressen.",
+      "kids": "{player_short} hat {value} Angriffe vor dem eigenen Tor gestoppt. Was für ein Verteidiger!"
+    },
+    "quality_pass": {
+      "headline": "Passqualität",
+      "casual": "Was für ein Ball von {player_short}! Ein {distance_m}-m-Pass auf {recipient_short}, der nur in {completion_pct} % der Fälle ankommt.",
+      "analyst": "{distance_m}-m-Pass, +{progressive_m} m Raumgewinn, Schwierigkeit {difficulty_10}/10 (erwartete Erfolgsquote {completion_pct} %), Ballgeschwindigkeit {ball_speed_kmh} km/h.",
+      "kids": "Klasse Pass! {player_short} hat den Ball {distance_m} Meter genau zu {recipient_short} gespielt!"
+    },
+    "big_chance": {
+      "headline": "Erwartete Tore (xG)",
+      "casual": "Riesenchance für {player_short}! Solche Schüsse gehen in etwa {xg_pct} % der Fälle rein.",
+      "analyst": "{xg} xG aus {distance_m} m, Schuss mit {shot_speed_kmh} km/h. {team_short} steht jetzt bei {team_xg} xG.",
+      "kids": "Knapp! {player_short} hat mit {shot_speed_kmh} km/h geschossen!"
+    },
+    "goal": {
+      "headline": "Tor: Chancenqualität (xG)",
+      "casual": "{player_short} trifft! Mit {shot_speed_kmh} km/h aus {distance_m} m.",
+      "analyst": "Tor aus einer {xg}-xG-Chance ({distance_m} m, {shot_speed_kmh} km/h). {team_short} gesamt: {team_xg} xG.",
+      "kids": "TOOOR! {player_short} hat mit {shot_speed_kmh} km/h getroffen!"
+    },
+    "control_spell": {
+      "headline": "Pässe in einem Angriff",
+      "casual": "{team_short} behält den Ball: {value} Pässe in Folge und {opponent_short} kommt nicht ran.",
+      "analyst": "Passfolge von {value} Pässen in {duration_s} s, während der 5-Minuten-Schnitt bei {avg_passes_per_possession} Pässen pro Ballbesitz liegt: eine Phase der Kontrolle (Chaos-Index {chaos_index}).",
+      "kids": "{team_short} hat sich den Ball {value}-mal hintereinander zugespielt! Teamwork!"
+    },
+    "chaos_spike": {
+      "headline": "Ballverluste in {window_min} Minuten",
+      "casual": "Hin und her! Der Ball hat in {window_min} Minuten {value}-mal den Besitzer gewechselt.",
+      "analyst": "{value} Ballverluste in {window_min} Min. bei nur {avg_passes_per_possession} Pässen pro Ballbesitz (Chaos-Index {chaos_index}): keine Mannschaft findet Ruhe.",
+      "kids": "Verrückt! Der Ball hat in {window_min} Minuten {value}-mal das Team gewechselt!"
+    },
+    "pressing_surge": {
+      "headline": "PPDA, letzte 10 Minuten",
+      "casual": "{team_short} jagt den Ball: {opponent_short} schafft nur etwa {value} Pässe, bevor der Ball weg ist.",
+      "analyst": "PPDA {ppda_recent} in den letzten {window_min} Min. gegenüber {ppda_match} im ganzen Spiel: deutlich höhere Pressingintensität, mit {actions} Ballgewinnen in der gegnerischen Hälfte.",
+      "kids": "{team_short} jagt den Ball überall!"
+    },
+    "momentum_swing": {
+      "headline": "xG, letzte 10 Minuten",
+      "casual": "Das Momentum ist zu {team_short} gekippt: {xg_for} erwartete Tore in den letzten 10 Minuten gegenüber {xg_against}.",
+      "analyst": "{team_short} {xg_for} xG gegenüber {xg_against} in den letzten {window_min} Min.: die Chancenbilanz hat sich gedreht.",
+      "kids": "Jetzt ist {team_short} am Drücker und hat viele Chancen!"
+    },
+    "top_speed": {
+      "headline": "Höchsttempo (km/h)",
+      "casual": "{player_short} fliegt: {speed_kmh} km/h, der schnellste Lauf des Spiels bisher.",
+      "analyst": "Spielbestwert {speed_kmh} km/h; bisher {distance_km} km Laufleistung.",
+      "kids": "Zisch! {player_short} ist {speed_kmh} km/h gerannt!"
+    },
+    "sprints": {
+      "headline": "Sprints",
+      "casual": "{player_short} rennt und rennt: schon {value} Sprints.",
+      "analyst": "{value} Sprints über 25 km/h und {distance_km} km Laufleistung.",
+      "kids": "{player_short} ist schon {value}-mal gesprintet. So viel Energie!"
+    },
+    "passing_milestone": {
+      "headline": "Angekommene Pässe",
+      "casual": "{player_short} zieht die Fäden: {value} angekommene Pässe.",
+      "analyst": "{value}/{attempted} Pässe angekommen ({completion_pct} %), davon {progressive} raumgewinnend.",
+      "kids": "{player_short} hat schon {value} gute Pässe gespielt!"
+    }
+  },
+  "context": {
+    "control": "{ctx_team_short} bestimmt den Rhythmus ({ctx_avg_passes} Pässe pro Ballbesitz).",
+    "chaos": "Das Spiel ist wild: {ctx_turnovers_per_min} Ballverluste pro Minute.",
+    "tempo": "Das Tempo ist hoch: {ctx_passes_per_min} Pässe pro Minute."
+  },
+  "recap": {
+    "headline_comeback": "{winner} dreht das Spiel und schlägt {loser} {score}",
+    "headline_win": "{winner} schlägt {loser} {score}",
+    "headline_draw": "{home} und {away} trennen sich {score}",
+    "summary": "{winner_short} erarbeitete sich {xg_w} xG gegenüber {xg_l}. {tactical}",
+    "summary_draw": "Ausgeglichene Chancen: {xg_h} xG gegenüber {xg_a}. {tactical}",
+    "tactical_press": "{press_team} presste stärker (PPDA {ppda_press} gegenüber {ppda_other}) und eroberte {press_regains} Bälle in der gegnerischen Hälfte.",
+    "moment_goal": "TOR {player_short} ({team_short}), {xg} xG",
+    "moment_chance": "Großchance {player_short}, {xg} xG",
+    "moment_insight": "{headline}: {value} ({player_short})",
+    "moment_team_insight": "{headline}: {value} ({team_short})",
+    "potm": "{player_name} ({team_short}): {reason}",
+    "potm_reason": "{goals} Tore, {interceptions} abgefangene Bälle, {passes_completed} angekommene Pässe"
+  }
+}

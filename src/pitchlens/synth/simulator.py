@@ -344,7 +344,7 @@ class MatchSimulator:
         dist_goal = float(np.linalg.norm(on - np.array([L, W / 2])))
         if on[0] > 78 and abs(on[1] - W / 2) < 22 and dist_goal < 30:
             xg = self.xg(on, under_pressure)
-            p_shoot = np.clip(m.shot_appetite * (xg * 1.4 + 0.015) + 0.05 * self.a_fin[o], 0, 0.75)
+            p_shoot = np.clip(m.shot_appetite * (xg * 1.1 + 0.008) + 0.025 * self.a_fin[o], 0, 0.6)
             if self.rng.random() < p_shoot:
                 self.shoot(o, team, on, xg, under_pressure)
                 return
@@ -389,6 +389,8 @@ class MatchSimulator:
     def _lane_block(self, a: np.ndarray, b: np.ndarray, opp: np.ndarray) -> tuple[float, int]:
         d, u = _seg_dist(self.pos[opp], a, b)
         d = np.where((u > 0.05) & (u < 0.98), d, d + 3)
+        # Anticipation: players who press and read the game well cut out passes from further away.
+        d = d - 1.6 * self.a_press[opp] * self.a_vision[opp]
         k = int(np.argmin(d))
         return float(d[k]), int(opp[k])
 
@@ -396,8 +398,8 @@ class MatchSimulator:
         return float(np.clip(9 + 0.32 * dist, 9, 26))
 
     def pass_probability(self, o: int, dist: float, lane: float, pressured: bool, m: TeamMods) -> float:
-        base = 0.9 + 0.09 * self.a_pass[o]
-        p = base * math.exp(-max(dist - 10, 0) / 110) * (1 - 0.45 * math.exp(-lane / 1.1))
+        base = 0.93 + 0.06 * self.a_pass[o]
+        p = base * math.exp(-max(dist - 12, 0) / 130) * (1 - 0.35 * math.exp(-max(lane, 0.0) / 1.0))
         if pressured:
             p *= 0.9
         return float(np.clip(p * m.pass_acc, 0.05, 0.995))
@@ -407,7 +409,7 @@ class MatchSimulator:
         dy = abs(on[1] - W / 2)
         dist = math.hypot(dx, dy)
         angle = abs(math.atan2(7.32 * dx, dx * dx + dy * dy - (7.32 / 2) ** 2))
-        xg = 0.75 * math.exp(-dist / 6.0) * (0.25 + 0.75 * min(angle / 0.7, 1))
+        xg = 0.6 * math.exp(-dist / 6.0) * (0.25 + 0.75 * min(angle / 0.7, 1))
         return float(np.clip(xg * (0.75 if pressured else 1.0), 0.01, 0.85))
 
     def launch(
@@ -432,7 +434,7 @@ class MatchSimulator:
         roll = self.rng.random()
         result, receiver = "complete", recv
         if roll > p_complete:
-            if lane_d < 3.2:
+            if lane_d < 1.2:
                 result, receiver = "intercept", blocker
                 _, u = _seg_dist(self.pos[blocker][None], start, end)
                 end = start + (end - start) * float(np.clip(u[0], 0.15, 0.95))
@@ -477,7 +479,7 @@ class MatchSimulator:
 
     def shoot(self, o: int, team: int, on: np.ndarray, xg: float, pressured: bool) -> None:
         m = self.mods(team)
-        p_goal = xg * m.finishing * (0.6 + 0.4 * self.a_fin[o])
+        p_goal = xg * m.finishing * (0.5 + 0.35 * self.a_fin[o])
         for g in self.goals_scripted:
             if g.team == team and g.after_s <= self.t <= g.before_s and xg >= 0.08:
                 p_goal = max(p_goal, 0.5)
@@ -646,7 +648,7 @@ class MatchSimulator:
         close = opp[d < 2.0]
         for s in close:
             m = self.mods(self.team_of[s])
-            if self.rng.random() < 0.004 + 0.009 * m.press + 0.006 * self.a_tackle[s]:
+            if self.rng.random() < 0.002 + 0.0045 * m.press + 0.003 * self.a_tackle[s]:
                 if self.rng.random() < 0.2:
                     self.emit(EventType.FOUL, int(s), self.pos[o], opponent_id=self.slot_player[o].id)
                     self.start_dead(EventType.FREE_KICK, int(team), self.pos[o].copy(), 12)

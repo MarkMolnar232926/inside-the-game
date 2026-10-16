@@ -1,7 +1,11 @@
 """Run pitch registration on a clip and compare with ground truth (synthetic footage only)."""
-import json, sys, time
+import json
+import sys
+import time
 from pathlib import Path
+
 import numpy as np
+
 from pitchlens.schema import CameraTrack
 from pitchlens.vision.registration import Calibration, PitchRegistrar, RegistrationConfig, reprojection_error
 
