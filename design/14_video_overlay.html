@@ -1,0 +1,279 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>PitchLens Video Overlay</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* PitchLens Signature: one graphic language used everywhere
+   - chamfered cut corners (14 px), the brand line (crimson > violet > cyan), film grain
+   - display: Big Shoulders Display (numerals, names); text: Instrument Sans (labels, tracked caps)
+   - faceted stars + chevron, lit "product shot" kit card. Fictional clubs only. */
+:root{
+  --night:#08051f;--ind:#170c52;--vio:#4a2cff;--cy:#3fe2ff;--lav:#cdc6ff;--crim:#e3173e;--crim-d:#8f0b25;--teal:#11b3a3;
+  --brand:linear-gradient(90deg,#e3173e 0%,#7a2cff 55%,#3fe2ff 100%);
+  --cut:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
+  --disp:'Big Shoulders Display',sans-serif;--txt:'Instrument Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{background:transparent}body{width:1920px;height:1080px;overflow:hidden;background:transparent;font-family:var(--txt);color:#fff;-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:1920px;height:1080px}
+.bg,.pitch{position:absolute;inset:0}
+.cut{clip-path:var(--cut)}
+.grain{position:relative;isolation:isolate}
+.grain::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;opacity:.16;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.4 -.2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.eyebrow{font:700 18px var(--txt);letter-spacing:.26em;text-transform:uppercase}
+.drop{filter:drop-shadow(0 16px 26px rgba(6,3,26,.5)) drop-shadow(0 3px 6px rgba(6,3,26,.35))}
+
+/* ---------- score bug */
+.bug{position:absolute;left:96px;top:54px;height:66px;display:flex;align-items:stretch}
+.bug .seg{display:flex;align-items:center;gap:12px;padding:0 18px;background:linear-gradient(180deg,#1d1160,#0e0838)}
+.bug .seg svg{width:30px;height:35px}
+.bug .club{font:800 36px var(--disp);letter-spacing:.04em}
+.bug .sc{display:flex}
+.bug .sc b{width:50px;display:grid;place-items:center;font:900 44px var(--disp)}
+.bug .clk{display:flex;flex-direction:column;justify-content:center;padding:0 22px 0 18px;background:#08051f;line-height:1}
+.bug .clk small{font:700 11px var(--txt);letter-spacing:.24em;color:var(--cy)}
+.bug .clk span{font:600 30px var(--txt);font-variant-numeric:tabular-nums;margin-top:3px}
+.bug .line{position:absolute;left:0;right:0;bottom:-4px;height:4px;background:var(--brand)}
+
+/* ---------- column */
+.col{position:absolute;right:96px;bottom:54px;width:500px;transform:scale(.82);transform-origin:bottom right}  /* 410 px on screen, title-safe bottom-right */
+.col .spine{position:absolute;left:-10px;top:14px;bottom:0;width:4px;background:linear-gradient(180deg,#e3173e,#7a2cff 60%,#3fe2ff)}
+.card{position:relative;overflow:hidden}
+/* stat */
+.stat{height:206px;background:
+  radial-gradient(70% 90% at 100% 0%,rgba(63,226,255,.40),rgba(63,226,255,0) 62%),
+  radial-gradient(60% 80% at 0% 100%,rgba(227,23,62,.35),rgba(227,23,62,0) 60%),
+  linear-gradient(135deg,#140a4a 0%,#2a14a8 55%,#4a2cff 100%)}
+.hair{position:absolute;inset:0;background:repeating-linear-gradient(-62deg,rgba(255,255,255,.055) 0 1px,transparent 1px 11px)}
+.stat .eyebrow{position:absolute;left:28px;top:22px;display:flex;align-items:center;gap:10px;color:var(--cy)}
+.stat .eyebrow svg{width:18px;height:18px}
+.stat .min{position:absolute;right:28px;top:18px;font:800 26px var(--disp);letter-spacing:.06em;color:#fff;opacity:.9}
+.stat .hero{position:absolute;left:18px;top:56px;width:150px;height:170px}
+.stat .hero span{position:absolute;left:22px;top:0;font:900 136px/1 var(--disp);letter-spacing:-.02em}
+.stat .hero .ghost{color:transparent;-webkit-text-stroke:2px rgba(63,226,255,.55);transform:translate(7px,6px)}
+.stat .hero .fill{background:linear-gradient(180deg,#fff 30%,#c9c1ff 100%);-webkit-background-clip:text;color:transparent}
+.stat .txt{position:absolute;left:156px;right:26px;top:80px}
+.stat .txt b{display:block;font:800 52px/0.95 var(--disp);letter-spacing:.015em;text-transform:uppercase}
+.stat .txt span{display:block;margin-top:8px;font:700 20px var(--txt);letter-spacing:.08em;white-space:nowrap;text-transform:uppercase;color:var(--lav)}
+.stat .pill{position:absolute;left:172px;bottom:22px;display:flex;align-items:center;gap:10px;font:700 15px var(--txt);letter-spacing:.2em;text-transform:uppercase}
+.stat .pill i{font-style:normal;padding:5px 10px 4px;background:var(--crim);font:900 20px var(--disp);letter-spacing:.04em;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
+/* kit */
+.kitcard{height:430px;margin-top:10px;background:
+  radial-gradient(60% 46% at 50% 38%,rgba(255,255,255,.75),rgba(255,255,255,0) 70%),
+  linear-gradient(180deg,#c6f2ff 0%,#8ea4ff 40%,#5a3cf0 78%,#2a148f 100%)}
+.kitcard .num{position:absolute;left:50%;top:-34px;transform:translateX(-50%);font:900 470px/1 var(--disp);letter-spacing:-.04em;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.5)}
+.kitcard .stripes{position:absolute;left:-40px;right:-40px;top:250px;height:150px;transform:skewY(-14deg);
+  background:linear-gradient(90deg,transparent 0 6%,rgba(227,23,62,.85) 6% 9%,transparent 9% 12%,rgba(227,23,62,.55) 12% 13.5%,transparent 13.5% 86%,rgba(63,226,255,.6) 86% 87.5%,transparent 87.5% 90%,rgba(63,226,255,.9) 90% 93%,transparent 93%)}
+.kitcard .dots{position:absolute;left:0;right:0;bottom:0;height:160px;background-image:radial-gradient(rgba(255,255,255,.28) 1.4px,transparent 1.8px);background-size:10px 10px;mask-image:linear-gradient(0deg,#000,transparent)}
+.kitcard .floor{position:absolute;left:50%;bottom:22px;width:300px;height:34px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(10,4,40,.55),rgba(10,4,40,0))}
+.kitcard svg.kit{position:absolute;left:50%;top:42px;width:350px;transform:translateX(-50%);filter:drop-shadow(0 22px 22px rgba(18,6,70,.45))}
+.kitcard .tl,.kitcard .tr{position:absolute;top:22px;font:700 14px var(--txt);letter-spacing:.24em;color:#1b0f5c}
+.kitcard .tl{left:26px}.kitcard .tr{right:26px}
+/* name */
+.name{height:136px;margin-top:10px;display:flex;align-items:center;background:linear-gradient(135deg,#0e0838,#1d1170)}
+.name .no{position:relative;width:118px;height:100%;display:grid;place-items:center;font:900 76px/1 var(--disp);color:var(--cy)}
+.name .no::after{content:"";position:absolute;right:0;top:24px;bottom:24px;width:2px;background:rgba(255,255,255,.18);transform:skewX(-14deg)}
+.name .who{flex:1;padding-left:22px}
+.name .who small{display:block;font:700 20px var(--txt);letter-spacing:.3em;color:var(--lav);text-transform:uppercase}
+.name .who b{display:block;font:900 60px/0.92 var(--disp);letter-spacing:.02em;text-transform:uppercase;margin-top:4px}
+.name .who span{display:block;font:600 18px var(--txt);letter-spacing:.16em;color:rgba(255,255,255,.72);text-transform:uppercase;margin-top:6px}
+.name .crest{width:104px;height:104px;margin-right:16px;display:grid;place-items:center;background:linear-gradient(180deg,#fff,#e9e6ff)}
+.name .crest svg{width:62px;height:72px}
+
+/* ---------- pitch chips, mini-map */
+.chip{position:absolute;transform:translate(0,-50%);padding:4px 10px 3px;font:800 24px/1 var(--disp);letter-spacing:.04em;background:#0e0838;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%);box-shadow:0 4px 10px rgba(0,0,0,.4)}
+.map{position:absolute;left:50%;bottom:54px;transform:translateX(-50%);width:430px;background:linear-gradient(180deg,#120a44,#08051f)}
+.map .hd{display:flex;justify-content:space-between;align-items:center;height:38px;padding:0 16px;color:var(--lav)}
+.map .hd b{font:800 20px var(--disp);letter-spacing:.06em;color:#fff}
+.map svg{display:block;margin:0 8px 8px}
+.map .line{height:3px;background:var(--brand)}
+.tag{position:absolute;left:96px;bottom:54px;font:700 14px var(--txt);letter-spacing:.3em;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+:root[data-pos="bl"] .col{right:auto;left:96px;transform-origin:bottom left}
+:root[data-pos="bl"] .col .spine{left:auto;right:-10px}
+:root[data-pos="tr"] .col{bottom:auto;top:142px;transform-origin:top right}
+</style></head>
+<body><div id="stage"></div>
+<script src="out/scene.js"></script><script src="out/video_scene.js"></script><script src="common.js"></script>
+<script>document.documentElement.dataset.pos = (location.hash || "#br").slice(1);</script>
+<script>
+{
+const {S, svgEl, stage, html, mini} = DESIGN;
+const {root, svg, defs} = stage();
+root.querySelector("img.bg").remove();  // transparent overlay, composited onto the clip
+const crest = (a, b, mono, id) => `<svg viewBox="0 0 40 46"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".4"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+  <path d="M20 1 L38 6 V22 C38 34 30 41 20 45 C10 41 2 34 2 22 V6 Z" fill="${a}" stroke="#fff" stroke-width="2"/>
+  <path d="M2 18 L20 28 L38 18 V24 L20 34 L2 24 Z" fill="${b}"/>
+  <path d="M20 1 L38 6 V22 C38 34 30 41 20 45 C10 41 2 34 2 22 V6 Z" fill="url(#${id})"/>
+  <text x="20" y="19.5" text-anchor="middle" font-family="Big Shoulders Display" font-weight="900" font-size="12" fill="#fff">${mono}</text></svg>`;
+const lens = `<svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="9" cy="9" r="2.6" fill="currentColor"/></svg>`;
+// faceted star: each point split into a lit and a shaded half (reads as a bevel, not a flat sticker)
+const facetStar = (x, y, s, sy = 1, light = "#ff4d6a", dark = "#a50d2b", key = "#fff", kw = 3) => {
+  const P = (r, a) => [x + r * Math.cos(a), y + sy * r * Math.sin(a)];
+  let out = "", outline = "";
+  for (let i = 0; i < 5; i++) {
+    const a = -Math.PI / 2 + i * 2 * Math.PI / 5, t = P(s, a), l = P(s * .44, a - Math.PI / 5), r = P(s * .44, a + Math.PI / 5);
+    out += `<path d="M${x},${y} L${t} L${l} Z" fill="${light}"/><path d="M${x},${y} L${t} L${r} Z" fill="${dark}"/>`;
+    outline += (i ? "L" : "M") + l + " L" + t + " ";
+  }
+  const ring = []; for (let i = 0; i < 10; i++) ring.push(P(i % 2 ? s * .44 : s, -Math.PI / 2 + i * Math.PI / 5));
+  return `<path d="M${ring.join(" L")} Z" fill="none" stroke="${key}" stroke-width="${kw}" stroke-linejoin="round"/>` + out;
+};
+defs.innerHTML = `<filter id="ss" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="ds" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#08051f" flood-opacity=".55"/></filter>`;
+// ---------------------------------------------------------------- attacking third + symbol options (#a..#d)
+const V = "d";  // hex marks (chosen)
+
+defs.innerHTML += `
+  <linearGradient id="zoneG" gradientUnits="userSpaceOnUse" x1="240" y1="0" x2="1400" y2="0"><stop offset="0" stop-color="#e3173e" stop-opacity=".26"/><stop offset=".5" stop-color="#7a2cff" stop-opacity=".10"/><stop offset="1" stop-color="#3fe2ff" stop-opacity="0"/></linearGradient>
+  <linearGradient id="passG" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3fe2ff" stop-opacity=".2"/><stop offset="1" stop-color="#3fe2ff"/></linearGradient>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="bl" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
+  <marker id="tipC" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="3.6" markerHeight="3.6" orient="auto"><path d="M0,0 L10,5 L0,10 L2.5,5 Z" fill="#3fe2ff"/></marker>`;
+const P = S.player, R = S.ring;
+const chip = (x, y, t) => html(root, `<div class="chip" style="left:${x}px;top:${y}px">${t}</div>`);
+// keep raised badges off the featured player: slide left when they would land on the player's body
+const clearOfPlayer = (x, y, r) => (Math.abs(x - P.foot[0]) < r + 30 && y > P.box[1] - r - 20 && y < P.foot[1] + r) ? x - (r + 46) : x;
+// shared: attacking third tint, glowing edge line, label laid along the line
+const A = window.A = {hex: [], ripple: []};
+A.zone = svgEl("path", {d: S.zone, fill: "url(#zoneG)"}, svg);
+A.edgeGlow = svgEl("path", {d: S.zone_edge, fill: "none", stroke: "#ff3a5c", "stroke-width": 8, filter: "url(#bl)"}, svg);
+A.edge = svgEl("path", {d: S.zone_edge, fill: "none", stroke: "#fff", "stroke-width": 3}, svg);
+const player = (pointer = true) => {
+  if (!pointer) return;
+  const hx = P.foot[0], hy = P.box[1] - 12, cg = A.pointer = svgEl("g", {filter: "url(#ds)"}, svg);
+  cg.innerHTML = `<path d="M${hx - 13},${hy - 22} L${hx + 13},${hy - 22} L${hx},${hy} Z" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M${hx - 13},${hy - 22} L${hx},${hy - 22} L${hx},${hy} Z" fill="#ff4d6a"/><path d="M${hx},${hy - 22} L${hx + 13},${hy - 22} L${hx},${hy} Z" fill="#a50d2b"/>`;
+};
+{                           // flat hexagon marks painted on the turf (perspective-correct)
+  S.markers.forEach((m, i) => {
+    A.ripple.push(svgEl("path", {d: m.ring3, fill: "none", stroke: "#fff", "stroke-width": 3}, svg));
+    const g = svgEl("g", {}, svg); A.hex.push(g);
+    svgEl("path", {d: S.hexes[i], fill: "#08051f", "fill-opacity": .45, filter: "url(#ss)", transform: "translate(0,3)"}, g);
+    svgEl("path", {d: S.hexes[i], fill: "#e3173e", stroke: "#fff", "stroke-width": 3, "stroke-linejoin": "round", filter: "url(#glow)"}, g);
+    svgEl("path", {d: m.disc, fill: "#fff"}, g);
+  });
+  player();
+}
+// score bug
+html(root, `<div class="bug drop"><div class="seg">${crest("#e3173e", "#0c1b3f", "KB", "b1")}<span class="club">KBY</span></div>
+  <div class="sc"><b style="background:linear-gradient(180deg,#f0294d,#b80e2f)">${S.stat.score[0]}</b><b style="background:linear-gradient(180deg,#19c9b7,#0b8c80)">${S.stat.score[1]}</b></div>
+  <div class="seg"><span class="club">IRV</span>${crest("#11b3a3", "#ffffff", "IV", "b2")}</div>
+  <div class="clk"><small>2ND HALF</small><span>${S.stat.clock}</span></div><div class="line"></div></div>`);
+// the kit: lit product shot (folds, seams, rim light, curved hem, arched name)
+const kit = `<svg class="kit" viewBox="0 0 400 420">
+  <defs>
+    <linearGradient id="kf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f02447"/><stop offset=".55" stop-color="#c3102f"/><stop offset="1" stop-color="#8c0a22"/></linearGradient>
+    <linearGradient id="ksh" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".38"/><stop offset=".2" stop-color="#000" stop-opacity="0"/><stop offset=".55" stop-color="#fff" stop-opacity=".08"/><stop offset=".8" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".42"/></linearGradient>
+    <linearGradient id="khi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <pattern id="mesh" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r=".9" fill="#000" fill-opacity=".14"/></pattern>
+    <filter id="fold"><feGaussianBlur stdDeviation="7"/></filter><filter id="rim"><feGaussianBlur stdDeviation="2"/></filter>
+    <clipPath id="kc"><path id="kb" d="M128,40 C160,58 240,58 272,40 L352,78 L398,196 L344,220 L318,166 L324,396 Q200,418 76,396 L82,166 L56,220 L2,196 L48,78 Z"/></clipPath>
+    <path id="arc" d="M110,128 Q200,106 290,128"/>
+  </defs>
+  <use href="#kb" fill="url(#kf)"/>
+  <g clip-path="url(#kc)">
+    <rect width="400" height="420" fill="url(#mesh)"/>
+    <path d="M82,166 L98,410 L70,410 Z M318,166 L302,410 L330,410 Z" fill="#0c1b3f"/>
+    <path d="M330,96 L394,184 L378,192 L318,110 Z M70,96 L6,184 L22,192 L82,110 Z" fill="#0c1b3f"/>
+    <path d="M2,196 L56,220 L61,206 L8,182 Z M398,196 L344,220 L339,206 L392,182 Z" fill="#fff"/>
+    <path d="M6,188 L58,212 M394,188 L342,212" stroke="#0c1b3f" stroke-width="3"/>
+    <g filter="url(#fold)" opacity=".9">
+      <path d="M120,200 C150,260 140,330 150,400" stroke="#000" stroke-opacity=".22" stroke-width="16" fill="none"/>
+      <path d="M268,190 C252,260 262,330 248,402" stroke="#000" stroke-opacity=".2" stroke-width="14" fill="none"/>
+      <path d="M200,150 C210,220 196,300 205,400" stroke="#fff" stroke-opacity=".12" stroke-width="22" fill="none"/>
+      <path d="M100,330 C160,350 240,350 300,326" stroke="#000" stroke-opacity=".14" stroke-width="12" fill="none"/>
+    </g>
+    <path d="M48,78 L82,166 M352,78 L318,166" stroke="#000" stroke-opacity=".25" stroke-width="2" fill="none"/>
+    <rect width="400" height="420" fill="url(#ksh)"/><rect width="400" height="420" fill="url(#khi)"/>
+  </g>
+  <use href="#kb" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3" filter="url(#rim)"/>
+  <path d="M128,40 C160,58 240,58 272,40 L262,28 C232,45 168,45 138,28 Z" fill="#0c1b3f"/>
+  <path d="M138,28 C168,45 232,45 262,28" fill="none" stroke="#fff" stroke-width="3"/>
+  <path d="M142,33 C170,48 230,48 258,33" fill="none" stroke="#e3173e" stroke-width="1.5"/>
+  <text font-family="Big Shoulders Display" font-weight="800" font-size="40" letter-spacing="6" fill="#fff" text-anchor="middle"><textPath href="#arc" startOffset="50%">KESTANE</textPath></text>
+  <text x="200" y="318" text-anchor="middle" font-family="Big Shoulders Display" font-weight="900" font-size="220" fill="#fff" stroke="#0c1b3f" stroke-width="7" paint-order="stroke" letter-spacing="-4">7</text>
+  <text x="200" y="318" text-anchor="middle" font-family="Big Shoulders Display" font-weight="900" font-size="220" fill="none" stroke="#e3173e" stroke-width="1.2" letter-spacing="-4" transform="translate(0,0)" opacity=".0">7</text>
+</svg>`;
+A.col = html(root, `<div class="col"><div class="spine"></div>
+  <div class="card stat cut grain drop"><div class="hair"></div>
+    <div class="eyebrow">${lens}Match insight</div><div class="min">${S.stat.minute}</div>
+    <div class="hero"><span class="ghost">${S.stat.value}</span><span class="fill">${S.stat.value}</span></div>
+    <div class="txt"><b>Interceptions</b><span>in the attacking third</span></div>
+</div>
+  <div class="card kitcard cut grain drop"><div class="num">07</div><div class="stripes"></div><div class="dots"></div><div class="floor"></div>
+    ${kit}</div>
+  <div class="card name cut grain drop"><div class="no">07</div>
+    <div class="who"><small>${P.first}</small><b>${P.last}</b><span>Kestrel Bay FC</span></div>
+    <div class="crest cut">${crest("#e3173e", "#0c1b3f", "KB", "n1")}</div></div>
+</div>`);
+
+// ================================================================ animation: window.seek(t) renders time t (s)
+// Deterministic: every frame is a pure function of t, so the exporter can step it frame by frame.
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const ease = {out: (x) => 1 - Math.pow(1 - x, 3), inOut: (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2,
+  back: (x) => { const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); }, in: (x) => x * x * x};
+const ph = (t, a, d) => clamp((t - a) / d);           // phase 0..1 of a segment starting at a, lasting d
+const T = {zone: .2, edge: .3, stat: 1.0, hex: [1.6, 2.05, 2.5], pointer: 3.0, kit: 3.2, name: 3.6, out: 8.2, end: 9.3};
+const st = A.col.querySelector(".stat"), kitc = A.col.querySelector(".kitcard"), name = A.col.querySelector(".name");
+const spine = A.col.querySelector(".spine"), heroS = [...A.col.querySelectorAll(".hero span")], hero = A.col.querySelector(".hero");
+const jersey = kitc.querySelector("svg.kit"), wm = kitc.querySelector(".num"), stripes = kitc.querySelector(".stripes");
+const edgeLen = A.edge.getTotalLength();
+for (const e of [A.edge, A.edgeGlow]) e.setAttribute("stroke-dasharray", edgeLen);
+const card = (el, p, q, dx = 70) => {  // slide in from the right, slide out to the right
+  const v = ease.out(p) * (1 - ease.in(q));
+  el.style.opacity = v; el.style.transform = `translateX(${(1 - ease.out(p)) * dx + ease.in(q) * dx}px)`;
+};
+window.T = T;
+let UV = S.markers.map((m) => [m.u, m.v]), edgeL = edgeLen;
+window.applyFrame = (f) => {  // swap in this frame's projected geometry (camera pans/zooms under the graphics)
+  const g = VSCENE.frames[f];
+  A.zone.setAttribute("d", g.zone);
+  for (const e of [A.edge, A.edgeGlow]) e.setAttribute("d", g.edge);
+  edgeL = A.edge.getTotalLength();
+  for (const e of [A.edge, A.edgeGlow]) e.setAttribute("stroke-dasharray", edgeL);
+  g.marks.forEach((m, i) => {
+    const [sh, hx, disc] = A.hex[i].children;
+    sh.setAttribute("d", m.hex); hx.setAttribute("d", m.hex); disc.setAttribute("d", m.disc);
+    A.ripple[i].setAttribute("d", m.ripple);
+  });
+  UV = g.marks.map((m) => m.uv);
+  A.head = g.head ? [g.head[0] - P.foot[0], g.head[1] - P.box[1]] : null;
+};
+window.seekFrame = (f) => { applyFrame(f); seek(f / VSCENE.fps - VSCENE.t0); };
+window.seek = (t) => {
+  const out = (k) => ph(t, T.out + k, .45);
+  // panel
+  card(st, ph(t, T.stat, .55), out(.16));
+  spine.style.transformOrigin = "top"; spine.style.transform = `scaleY(${ease.inOut(ph(t, T.stat, T.name + .5 - T.stat)) * (1 - ease.in(out(0)))})`;
+  card(kitc, ph(t, T.kit, .6), out(.08));
+  jersey.style.transform = `translateX(-50%) translateY(${(1 - ease.out(ph(t, T.kit + .1, .7))) * 70}px)`;
+  wm.style.transform = `translateX(calc(-50% + ${(1 - ease.out(ph(t, T.kit, 1.1))) * -60}px))`;
+  stripes.style.transform = `skewY(-14deg) translateX(${(1 - ease.out(ph(t, T.kit + .05, .8))) * 120}px)`;
+  card(name, ph(t, T.name, .5), out(0));
+  // the number counts up as each piece of evidence lands
+  const n = T.hex.filter((h) => t >= h + .12).length;
+  for (const e of heroS) e.textContent = Math.max(n, 1);
+  hero.style.opacity = n ? 1 : 0;
+  const pop = Math.max(0, ...T.hex.map((h) => { const p = ph(t, h + .12, .35); return p > 0 && p < 1 ? 1 - p : 0; }));
+  hero.style.transform = `scale(${1 + .22 * ease.out(pop)})`; hero.style.transformOrigin = "40% 60%";
+  // pitch: zone, line, hexes, pointer
+  const pOut = ph(t, T.out + .25, .6);
+  A.zone.style.opacity = ease.inOut(ph(t, T.zone, .7)) * (1 - pOut);
+  const d = edgeL * (1 - ease.inOut(ph(t, T.edge, .8)));
+  for (const e of [A.edge, A.edgeGlow]) { e.setAttribute("stroke-dashoffset", d); e.style.opacity = 1 - pOut; }
+  UV.forEach(([u, v], i) => {
+    const p = ph(t, T.hex[i], .38), k = 1.9 - .9 * ease.back(p);
+    A.hex[i].setAttribute("transform", `translate(${u} ${v}) scale(${k}) translate(${-u} ${-v})`);
+    A.hex[i].style.opacity = clamp(p * 2.5) * (1 - pOut);
+    const r = ph(t, T.hex[i] + .25, .7);
+    A.ripple[i].setAttribute("transform", `translate(${u} ${v}) scale(${.5 + .9 * ease.out(r)}) translate(${-u} ${-v})`);
+    A.ripple[i].style.opacity = r > 0 && r < 1 ? .9 * (1 - r) : 0;
+  });
+  const pp = ph(t, T.pointer, .45);
+  const off = A.head || [0, 0];
+  A.pointer.setAttribute("transform", `translate(${off[0]} ${off[1] + (1 - ease.back(pp)) * -46})`);
+  A.pointer.style.opacity = A.head ? clamp(pp * 3) * (1 - pOut) : 0;
+};
+seekFrame(VSCENE.f0 + Math.round((T.out - .5) * VSCENE.fps));
+}
+</script></body></html>
