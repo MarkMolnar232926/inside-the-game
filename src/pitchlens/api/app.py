@@ -10,6 +10,16 @@ REST
   GET  /api/evidence/{insight_id}       events behind an overlay (for the evidence drawer)
   GET  /api/recap                       post-match recap (all languages)
   GET  /api/metrics                     events/s, insights proposed/shown/rejected, latency
+Producer (human-in-the-loop, event data only)
+  GET  /producer                        producer console: agent proposals pop up for approval
+  GET  /onair                           on-air output (transparent 1920x1080 browser source)
+  GET  /api/session                     clock, score, pending proposals, history
+  POST /api/session/start?speed=&start= (re)start the live event feed
+  POST /api/session/pause | resume | speed?x=
+  POST /api/proposals/{id}/approve      body {headline?, why?}; edits are re-verified against the evidence
+  POST /api/proposals/{id}/reject
+  POST /api/proposals/{id}/check        verify an edit without approving
+  WS   /ws/producer | /ws/onair         live channels
 WebSocket
   /ws/live?profile=casual&speed=20&start=4800
       Simulated live feed: synthetic events are paced in accelerated real time,
@@ -26,7 +36,7 @@ import time
 from functools import lru_cache
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnect
+from fastapi import Body, FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -34,6 +44,7 @@ from pitchlens.agents.orchestrator import PitchLensEngine
 from pitchlens.ingest.sources import LiveSource, ReplaySource, Tick
 from pitchlens.narrative.templates import SUPPORTED, locale
 from pitchlens.personalize.profiles import builtin_profiles
+from pitchlens.producer import LiveSession
 from pitchlens.render.assets import TOKENS_PATH
 from pitchlens.schema import Event
 
@@ -196,6 +207,124 @@ async def live(ws: WebSocket, profile: str = Query("casual"), speed: float = Que
         return
 
 
+# ---------------------------------------------------------------------- producer (human in the loop)
+SESSION: LiveSession | None = None
+
+
+def session() -> LiveSession:
+    global SESSION
+    if SESSION is None:
+        m = match()
+        SESSION = LiveSession(m.meta, m.events, speed=float(os.getenv("PITCHLENS_SPEED", "20")),
+                              start=float(os.getenv("PITCHLENS_START", "0")))
+        SESSION.launch()
+    return SESSION
+
+
+@app.get("/api/session")
+async def session_state():
+    return session().snapshot()
+
+
+@app.post("/api/session/start")
+async def session_start(speed: float = 20.0, start: float = 0.0):
+    global SESSION
+    if SESSION is not None:
+        await SESSION.stop()
+        old = SESSION.subs
+    else:
+        old = None
+    m = match()
+    SESSION = LiveSession(m.meta, m.events, speed=speed, start=start)
+    if old:  # keep connected consoles and outputs attached across a restart
+        SESSION.subs = old
+    SESSION.launch()
+    SESSION.publish("producer", SESSION.snapshot())
+    return {"ok": True}
+
+
+@app.post("/api/session/{action}")
+async def session_control(action: str, x: float = 20.0):
+    s = session()
+    if action == "pause":
+        s.set_running(False)
+    elif action == "resume":
+        s.set_running(True)
+    elif action == "speed":
+        s.set_speed(x)
+    else:
+        raise HTTPException(404, "unknown action")
+    return s.clock_msg()
+
+
+def _decide(pid: str, approve: bool, edit: dict | None):
+    s = session()
+    edit = edit or {}
+    try:
+        p = s.decide(pid, approve, edit.get("headline"), edit.get("why"))
+    except KeyError:
+        raise HTTPException(404, "unknown proposal") from None
+    except ValueError as e:
+        raise HTTPException(409, str(e)) from None
+    return p.model_dump()
+
+
+@app.post("/api/proposals/{pid}/approve")
+async def approve(pid: str, edit: dict | None = Body(None)):
+    return _decide(pid, True, edit)
+
+
+@app.post("/api/proposals/{pid}/reject")
+async def reject(pid: str):
+    return _decide(pid, False, None)
+
+
+@app.post("/api/proposals/{pid}/check")
+async def check_edit(pid: str, edit: dict = Body(...)):
+    s = session()
+    try:
+        p = s.queue.get(pid)
+    except KeyError:
+        raise HTTPException(404, "unknown proposal") from None
+    ok, failures = s.analyst.reverify(p, edit.get("headline", p.headline), edit.get("why", p.why))
+    return {"verified": ok, "failures": failures}
+
+
+async def _pump(ws: WebSocket, channel: str):
+    await ws.accept()
+    s = session()
+    q = s.subscribe(channel)
+    try:
+        await ws.send_json(s.snapshot() if channel == "producer" else {**s.clock_msg(), "type": "clock",
+                                                                        "teams": s.snapshot()["teams"]})
+        while True:
+            await ws.send_json(await q.get())
+    except (WebSocketDisconnect, asyncio.CancelledError, RuntimeError):
+        pass
+    finally:
+        session().unsubscribe(channel, q)
+
+
+@app.websocket("/ws/producer")
+async def ws_producer(ws: WebSocket):
+    await _pump(ws, "producer")
+
+
+@app.websocket("/ws/onair")
+async def ws_onair(ws: WebSocket):
+    await _pump(ws, "onair")
+
+
+@app.get("/producer")
+def producer_page():
+    return FileResponse(WEB_DIR / "producer.html")
+
+
+@app.get("/onair")
+def onair_page():
+    return FileResponse(WEB_DIR / "onair.html")
+
+
 if (DEMO_DIR / "media").exists():
     app.mount("/media", StaticFiles(directory=DEMO_DIR / "media"), name="media")
 if (ROOT / "assets").exists():
@@ -206,6 +335,4 @@ if WEB_DIR.exists():
 
 @app.get("/")
 def index():
-    if (WEB_DIR / "index.html").exists():
-        return FileResponse(WEB_DIR / "index.html")
-    return RedirectResponse("/docs")
+    return RedirectResponse("/producer")

@@ -1,0 +1,19 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>PitchLens On Air</title>
+<meta name="viewport" content="width=1920,height=1080">
+<link rel="stylesheet" href="/web/broadcast/card.css">
+<style>
+/* Browser source for the vision mixer (OBS / vMix / CasparCG): 1920x1080, transparent background.
+   Plays only what the producer approved. ?bg=1 shows a dark checkerboard for previewing. */
+html,body{margin:0;background:transparent;overflow:hidden}
+body.preview{background:repeating-conic-gradient(#1a1a22 0 25%,#22222c 0 50%) 0 0/40px 40px}
+#stage{transform-origin:0 0}
+.status{position:fixed;left:12px;bottom:10px;font:600 13px Manrope,sans-serif;color:#9a8fb0;display:none}
+body.preview .status{display:block}
+</style></head>
+<body>
+<div id="stage" class="pl-stage"></div>
+<div class="status" id="status">connecting...</div>
+<script src="/web/broadcast/card.js"></script>
+<script src="/web/onair.js"></script>
+</body></html>

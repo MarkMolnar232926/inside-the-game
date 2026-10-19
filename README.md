@@ -4,6 +4,28 @@
 
 PitchLens watches a match's event stream, decides **which stat is worth showing right now**, explains **why it matters**, and draws the evidence **on the pitch inside the video**, glued to the grass while the camera pans. The same intelligence becomes six different viewer experiences in seven languages, and every number on screen can be traced back to the events behind it.
 
+## The producer workflow (start here)
+
+**Event data in, an AI analyst watches it, a human approves, the graphic airs.**
+
+1. The live **event feed** (passes, tackles, interceptions, shots...) streams in. No video is needed.
+2. The **analyst agent** keeps a rolling match state and flags only *outstanding* player moments: someone who leads the match in a stat, owns most of the team's total, or produced a genuinely big chance or pass. That is about 7 proposals in 90 minutes, not 100.
+3. Each proposal **pops up in the producer console** with a preview of the exact on-air graphic, why the agent flagged it, the verified explanation for commentary, and the events behind it on a mini pitch.
+4. The producer presses **A** (approve), **R** (reject) or **E** (edit). Edited text is re-checked by the Verifier while typing. Stale proposals expire on their own.
+5. Approved graphics play on the **on-air output**, a transparent 1920x1080 page that any vision mixer can use as a browser source.
+
+```bash
+uvicorn pitchlens.api.app:app --port 8000
+# producer console:  http://localhost:8000/producer
+# on-air output:     http://localhost:8000/onair        (?bg=1 for a preview background)
+```
+
+| Producer console | On-air output (approved card) |
+|---|---|
+| ![](docs/assets/producer_console.png) | ![](docs/assets/onair_output.png) |
+
+The rest of this README describes the R&D track: the same agents driving fully automatic, pitch-anchored overlays on video.
+
 ![PitchLens overlay on synthetic broadcast footage](docs/assets/hero.jpg)
 
 | Casual fan | Data analyst | Hungarian, young fan |
@@ -23,8 +45,8 @@ python -m pitchlens.synth.generate --seed 6 --narrative late_comeback --out data
 python scripts/build_demo.py
 
 # 3. Run the app
-uvicorn pitchlens.api.app:app --port 8000      # open http://localhost:8000
-pytest                                          # 52 tests incl. grounding eval, golden images, latency budget
+uvicorn pitchlens.api.app:app --port 8000      # open http://localhost:8000/producer
+pytest                                          # 58 tests incl. grounding eval, golden images, latency budget
 ```
 
 No API keys needed: everything runs in **mock mode** with deterministic, grounded fallbacks. To use Azure, copy `.env.example` to `.env`, set `PITCHLENS_MODE=azure` and fill in the services you want. Missing ones fall back silently. Docker: `docker compose up --build`. Azure: `azd up` (see [docs/AZURE_DEPLOY.md](docs/AZURE_DEPLOY.md)).
@@ -140,7 +162,7 @@ infra/         Bicep for Azure Container Apps + AI services (azure.yaml for azd)
 
 ## Compliance
 
-* All clubs, players, venues, competitions, crests and portraits are fictional and generated in this repo. Fonts are Inter (SIL OFL, `assets/fonts/OFL.txt`).
+* All clubs, players, venues, competitions, crests and portraits are fictional and generated in this repo. Fonts are Inter, Manrope and Big Shoulders Display (SIL OFL, `assets/fonts/OFL.txt`, `web/broadcast/fonts/OFL-*.txt`). The broadcast theme is an original identity, not a copy of any real league's.
 * Real broadcast clips may be used **locally** for development (`docs/REAL_CLIPS.md`). They are git-ignored, blocked by a pre-commit hook, and never used in the demo video.
 * No secrets in the repo: see `.env.example`.
 

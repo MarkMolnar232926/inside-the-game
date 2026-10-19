@@ -45,7 +45,7 @@ class Grounding(BaseModel):
     verified: bool = False
     checks: list[str] = Field(default_factory=list, description="Human-readable checks that passed")
     failures: list[str] = Field(default_factory=list)
-    generator: Literal["template", "llm"] = "template"
+    generator: Literal["template", "llm", "operator"] = "template"
 
 
 class PitchPoint(BaseModel):

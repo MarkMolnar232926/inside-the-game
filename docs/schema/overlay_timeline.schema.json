@@ -54,7 +54,8 @@
           "default": "template",
           "enum": [
             "template",
-            "llm"
+            "llm",
+            "operator"
           ],
           "title": "Generator",
           "type": "string"
