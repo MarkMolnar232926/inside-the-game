@@ -1,0 +1,124 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>League Pro</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* League-style package (after the reference frame's layout language, all-fictional content):
+   stacked right-hand insight column (stat / portrait / name + crest), flat team-colour stars on the
+   grass, compact colour-block score bug, tactical mini-map. Sized for TV at 1080p, title-safe. */
+:root{
+  --ind-0:#120a3a;--ind-1:#24117a;--ind-2:#3b2bd1;--blu:#2f6cf6;--cy:#9fe6ff;
+  --kby:#c8102e;--kby-d:#7d0a1d;--irv:#0f9d8f;--ink:#fff;
+  --deep:linear-gradient(135deg,#1b0d55 0%,#2a1690 52%,#3a3ad8 100%);
+}
+*{box-sizing:border-box;margin:0}
+body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:'Inter Tight',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:1920px;height:1080px}
+.bg,.pitch{position:absolute;inset:0}
+.up{text-transform:uppercase}
+.sh{box-shadow:0 14px 34px rgba(8,4,30,.45),0 2px 6px rgba(8,4,30,.35)}
+
+/* score bug */
+.bug{position:absolute;left:96px;top:54px;display:flex;align-items:stretch;height:60px;font-weight:700;font-size:30px;letter-spacing:.01em}
+.bug > div{display:flex;align-items:center}
+.bug .tm{gap:12px;padding:0 18px;background:linear-gradient(180deg,#26135f,#170a45)}
+.bug .tm svg{width:30px;height:34px}
+.bug .n{width:52px;justify-content:center;font-weight:800;font-size:34px;font-variant-numeric:tabular-nums}
+.bug .clk{padding:0 20px;background:#0d0630;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+
+/* right column */
+.col{position:absolute;right:96px;top:150px;width:480px;display:flex;flex-direction:column;gap:10px}
+.stat{display:flex;align-items:center;gap:22px;height:150px;padding:0 30px;background:var(--deep);position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;inset:0;background:radial-gradient(90% 120% at 100% 0%,rgba(159,230,255,.35),rgba(159,230,255,0) 60%)}
+.stat b{position:relative;font-weight:800;font-size:118px;line-height:1;letter-spacing:-.04em;font-variant-numeric:lining-nums}
+.stat span{position:relative;font-weight:800;font-size:29px;line-height:1.08;letter-spacing:.005em}
+.portrait{position:relative;height:420px;overflow:hidden;background:linear-gradient(180deg,#bfeeff 0%,#8ab4ff 38%,#6a5cf0 74%,#4b2fc4 100%)}
+.portrait .wm{position:absolute;right:-14px;top:-30px;font-family:'Barlow Condensed';font-weight:700;font-size:330px;line-height:1;color:rgba(255,255,255,.22);letter-spacing:-.02em}
+.portrait .lines{position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.10) 0 2px,rgba(255,255,255,0) 2px 18px);mask-image:linear-gradient(200deg,#000,transparent 70%)}
+.portrait svg.kit{position:absolute;left:50%;bottom:-6px;width:380px;transform:translateX(-50%);filter:drop-shadow(0 18px 24px rgba(20,8,70,.45))}
+.name{display:flex;align-items:center;justify-content:space-between;height:118px;padding:0 14px 0 28px;background:var(--deep)}
+.name .t b{display:block;font-size:34px;font-weight:800;letter-spacing:.005em;line-height:1.1}
+.name .t b i{font-style:normal;font-weight:500;opacity:.9}
+.name .t span{display:block;font-size:24px;font-weight:700;letter-spacing:.04em;opacity:.92;margin-top:4px}
+.name .cr{width:92px;height:92px;background:#fff;display:grid;place-items:center}
+.name .cr svg{width:60px;height:70px}
+
+/* mini-map */
+.map{position:absolute;left:50%;bottom:54px;transform:translateX(-50%);width:400px;height:250px;padding:8px;background:rgba(12,40,24,.78);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.35)}
+.map svg{display:block}
+.tag{position:absolute;left:96px;bottom:54px;font:700 15px 'Inter Tight';letter-spacing:.3em;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+</style></head>
+<body><div id="stage"></div>
+<script src="out/scene.js"></script><script src="common.js"></script>
+<script>
+{
+const {S, svgEl, stage, html, mini} = DESIGN;
+const {root, svg, defs} = stage();
+const crest = (a, b, mono, id) => `<svg viewBox="0 0 40 46"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+  <path d="M20 1 L38 6 V22 C38 34 30 41 20 45 C10 41 2 34 2 22 V6 Z" fill="${a}" stroke="#fff" stroke-width="2"/>
+  <path d="M2 18 L20 28 L38 18 V24 L20 34 L2 24 Z" fill="${b}"/>
+  <path d="M20 1 L38 6 V22 C38 34 30 41 20 45 C10 41 2 34 2 22 V6 Z" fill="url(#${id})"/>
+  <text x="20" y="20" text-anchor="middle" font-family="Inter Tight" font-weight="800" font-size="11" fill="#fff">${mono}</text></svg>`;
+defs.innerHTML = `<filter id="ss" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter><filter id="ls" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="2.5" flood-color="#08041e" flood-opacity=".5"/></filter>`;
+// flat team-colour stars on the grass: soft contact shadow, white keyline, crimson fill
+// screen-facing (upright) so they read at any camera tilt; size follows the local pitch scale
+const starD = (x, y, s, sy = 1) => { let d = ""; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, q = i % 2 ? s * .44 : s; d += (i ? "L" : "M") + (x + q * Math.cos(a)).toFixed(1) + "," + (y + sy * q * Math.sin(a)).toFixed(1); } return d + "Z"; };
+S.markers.forEach((m) => {
+  const s = Math.max(24, 0.95 * m.scale), cy = m.v - s * .55;
+  svgEl("ellipse", {cx: m.u, cy: m.v + 2, rx: s * .8, ry: s * .22, fill: "#08041e", "fill-opacity": .45, filter: "url(#ss)"}, svg);
+  svgEl("path", {d: starD(m.u, cy, s, .92), fill: "#c8102e", stroke: "#fff", "stroke-width": 3, "stroke-linejoin": "round", filter: "url(#ls)"}, svg);
+});
+// player: crimson arc on the grass + pointer above the head
+const P = S.player, R = S.ring;
+svgEl("path", {d: R.arc, fill: "none", stroke: "#fff", "stroke-width": 9, "stroke-linecap": "round"}, svg);
+svgEl("path", {d: R.arc, fill: "none", stroke: "#c8102e", "stroke-width": 5.5, "stroke-linecap": "round"}, svg);
+const hx = P.foot[0], hy = P.box[1] - 12;
+svgEl("path", {d: `M${hx - 11},${hy - 18} L${hx + 11},${hy - 18} L${hx},${hy} Z`, fill: "#c8102e", stroke: "#fff", "stroke-width": 2.5, "stroke-linejoin": "round"}, svg);
+// score bug
+html(root, `<div class="bug sh"><div class="tm">${crest("#c8102e", "#0c1b3f", "KB", "c1")}KBY</div>
+  <div class="n" style="background:#c8102e">${S.stat.score[0]}</div><div class="n" style="background:#0f9d8f">${S.stat.score[1]}</div>
+  <div class="tm">IRV${crest("#0f9d8f", "#ffffff", "IV", "c2")}</div><div class="clk">${S.stat.clock}</div></div>`);
+// illustrated kit (back view): fictional Kestrel Bay home shirt, #7 KESTANE
+const kit = `<svg class="kit" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="kf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e01a3a"/><stop offset=".6" stop-color="#b40e2a"/><stop offset="1" stop-color="#8a0a20"/></linearGradient>
+    <linearGradient id="kshade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset=".22" stop-color="#000" stop-opacity="0"/><stop offset=".78" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".3"/></linearGradient>
+    <linearGradient id="khi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <pattern id="kweave" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="3" height="6" fill="#fff" fill-opacity=".05"/></pattern>
+    <clipPath id="kclip"><path id="kbody" d="M128,40 C160,58 240,58 272,40 L352,78 L398,196 L344,220 L318,166 L326,404 L74,404 L82,166 L56,220 L2,196 L48,78 Z"/></clipPath>
+  </defs>
+  <use href="#kbody" fill="url(#kf)"/>
+  <g clip-path="url(#kclip)">
+    <rect width="400" height="404" fill="url(#kweave)"/>
+    <path d="M82,166 L96,404 L74,404 Z M318,166 L304,404 L326,404 Z" fill="#0c1b3f"/>
+    <path d="M330,96 L392,182 L376,190 L318,108 Z M70,96 L8,182 L24,190 L82,108 Z" fill="#0c1b3f" opacity=".9"/>
+    <path d="M2,196 L56,220 L60,208 L8,184 Z M398,196 L344,220 L340,208 L392,184 Z" fill="#fff"/>
+    <rect width="400" height="404" fill="url(#kshade)"/><rect width="400" height="404" fill="url(#khi)"/>
+    <path d="M150,230 C180,250 220,250 250,232" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="10"/>
+  </g>
+  <path d="M128,40 C160,58 240,58 272,40 L262,30 C232,46 168,46 138,30 Z" fill="#0c1b3f"/>
+  <path d="M138,30 C168,46 232,46 262,30" fill="none" stroke="#fff" stroke-width="3"/>
+  <text x="200" y="118" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="40" letter-spacing="5" fill="#fff">KESTANE</text>
+  <text x="200" y="300" text-anchor="middle" font-family="Barlow Condensed" font-weight="700" font-size="196" fill="#fff" stroke="#0c1b3f" stroke-width="6" paint-order="stroke">7</text>
+</svg>`;
+html(root, `<div class="col">
+  <div class="stat sh"><b>${S.stat.value}</b><span class="up">Interceptions<br>in attacking third</span></div>
+  <div class="portrait sh"><div class="lines"></div><div class="wm">07</div>${kit}</div>
+  <div class="name sh"><div class="t"><b class="up"><i>#7</i> Jory Kestane</b><span class="up">Kestrel Bay FC</span></div><div class="cr">${crest("#c8102e", "#0c1b3f", "KB", "c3")}</div></div>
+</div>`);
+// mini-map: pitch lines, players (KBY circles, IRV triangles), evidence stars
+const W = 384, H = 234, pad = 6, Pm = (x, y) => mini(x, y, W, H, pad);
+const rect = (x0, y0, x1, y1) => { const a = Pm(x0, y0), b = Pm(x1, y1); return `<rect x="${Math.min(a[0], b[0])}" y="${Math.min(a[1], b[1])}" width="${Math.abs(b[0] - a[0])}" height="${Math.abs(b[1] - a[1])}"/>`; };
+const c = Pm(52.5, 34), r = (9.15 / 105) * (W - 2 * pad);
+const star = (x, y, s) => { let d = ""; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, q = i % 2 ? s * .45 : s; d += (i ? "L" : "M") + (x + q * Math.cos(a)).toFixed(1) + "," + (y + q * Math.sin(a)).toFixed(1); } return d + "Z"; };
+let m = `<svg width="${W}" height="${H}"><g fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1.5">${rect(0, 0, 105, 68)}<line x1="${c[0]}" y1="${pad}" x2="${c[0]}" y2="${H - pad}"/><circle cx="${c[0]}" cy="${c[1]}" r="${r}"/>${rect(0, 13.84, 16.5, 54.16)}${rect(88.5, 13.84, 105, 54.16)}${rect(0, 24.84, 5.5, 43.16)}${rect(99.5, 24.84, 105, 43.16)}</g>`;
+for (const d of S.dots) {
+  const [x, y] = Pm(d.x, d.y);
+  const hero = Math.abs(d.x - P.pitch[0]) < .05 && Math.abs(d.y - P.pitch[1]) < .05;
+  m += d.team === 1 ? `<circle cx="${x}" cy="${y}" r="${hero ? 6 : 4.5}" fill="#c8102e" stroke="#fff" stroke-width="${hero ? 2.5 : 1.2}"/>`
+    : `<path d="M${x},${y - 5.5} L${x + 5},${y + 4} L${x - 5},${y + 4} Z" fill="#dff" stroke="#0f9d8f" stroke-width="1"/>`;
+}
+for (const s of S.markers) { const [x, y] = Pm(s.x, s.y); m += `<path d="${star(x, y, 9)}" fill="#c8102e" stroke="#fff" stroke-width="1.4"/>`; }
+html(root, `<div class="map sh">${m}</svg></div>`);
+html(root, `<div class="tag">H · LEAGUE PRO</div>`);
+}
+</script></body></html>

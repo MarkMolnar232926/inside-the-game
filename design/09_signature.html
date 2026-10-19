@@ -1,0 +1,204 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Signature</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* PitchLens Signature: one graphic language used everywhere
+   - chamfered cut corners (14 px), the brand line (crimson > violet > cyan), film grain
+   - display: Big Shoulders Display (numerals, names); text: Instrument Sans (labels, tracked caps)
+   - faceted stars + chevron, lit "product shot" kit card. Fictional clubs only. */
+:root{
+  --night:#08051f;--ind:#170c52;--vio:#4a2cff;--cy:#3fe2ff;--lav:#cdc6ff;--crim:#e3173e;--crim-d:#8f0b25;--teal:#11b3a3;
+  --brand:linear-gradient(90deg,#e3173e 0%,#7a2cff 55%,#3fe2ff 100%);
+  --cut:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
+  --disp:'Big Shoulders Display',sans-serif;--txt:'Instrument Sans',sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:var(--txt);color:#fff;-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:1920px;height:1080px}
+.bg,.pitch{position:absolute;inset:0}
+.cut{clip-path:var(--cut)}
+.grain{position:relative;isolation:isolate}
+.grain::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;opacity:.16;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.4 -.2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.eyebrow{font:700 15px var(--txt);letter-spacing:.26em;text-transform:uppercase}
+.drop{filter:drop-shadow(0 16px 26px rgba(6,3,26,.5)) drop-shadow(0 3px 6px rgba(6,3,26,.35))}
+
+/* ---------- score bug */
+.bug{position:absolute;left:96px;top:54px;height:66px;display:flex;align-items:stretch}
+.bug .seg{display:flex;align-items:center;gap:12px;padding:0 18px;background:linear-gradient(180deg,#1d1160,#0e0838)}
+.bug .seg svg{width:30px;height:35px}
+.bug .club{font:800 36px var(--disp);letter-spacing:.04em}
+.bug .sc{display:flex}
+.bug .sc b{width:50px;display:grid;place-items:center;font:900 44px var(--disp)}
+.bug .clk{display:flex;flex-direction:column;justify-content:center;padding:0 22px 0 18px;background:#08051f;line-height:1}
+.bug .clk small{font:700 11px var(--txt);letter-spacing:.24em;color:var(--cy)}
+.bug .clk span{font:600 30px var(--txt);font-variant-numeric:tabular-nums;margin-top:3px}
+.bug .line{position:absolute;left:0;right:0;bottom:-4px;height:4px;background:var(--brand)}
+
+/* ---------- column */
+.col{position:absolute;right:96px;top:142px;width:500px}
+.col .spine{position:absolute;left:-10px;top:14px;bottom:0;width:4px;background:linear-gradient(180deg,#e3173e,#7a2cff 60%,#3fe2ff)}
+.card{position:relative;overflow:hidden}
+/* stat */
+.stat{height:206px;background:
+  radial-gradient(70% 90% at 100% 0%,rgba(63,226,255,.40),rgba(63,226,255,0) 62%),
+  radial-gradient(60% 80% at 0% 100%,rgba(227,23,62,.35),rgba(227,23,62,0) 60%),
+  linear-gradient(135deg,#140a4a 0%,#2a14a8 55%,#4a2cff 100%)}
+.hair{position:absolute;inset:0;background:repeating-linear-gradient(-62deg,rgba(255,255,255,.055) 0 1px,transparent 1px 11px)}
+.stat .eyebrow{position:absolute;left:28px;top:22px;display:flex;align-items:center;gap:10px;color:var(--cy)}
+.stat .eyebrow svg{width:18px;height:18px}
+.stat .min{position:absolute;right:28px;top:20px;font:800 22px var(--disp);letter-spacing:.06em;color:#fff;opacity:.9}
+.stat .hero{position:absolute;left:18px;top:30px;width:150px;height:170px}
+.stat .hero span{position:absolute;left:14px;top:0;font:900 172px/1 var(--disp);letter-spacing:-.02em}
+.stat .hero .ghost{color:transparent;-webkit-text-stroke:2px rgba(63,226,255,.55);transform:translate(9px,8px)}
+.stat .hero .fill{background:linear-gradient(180deg,#fff 30%,#c9c1ff 100%);-webkit-background-clip:text;color:transparent}
+.stat .txt{position:absolute;left:172px;right:26px;top:68px}
+.stat .txt b{display:block;font:800 52px/0.95 var(--disp);letter-spacing:.015em;text-transform:uppercase}
+.stat .txt span{display:block;margin-top:8px;font:700 18px var(--txt);letter-spacing:.11em;white-space:nowrap;text-transform:uppercase;color:var(--lav)}
+.stat .pill{position:absolute;left:172px;bottom:22px;display:flex;align-items:center;gap:10px;font:700 15px var(--txt);letter-spacing:.2em;text-transform:uppercase}
+.stat .pill i{font-style:normal;padding:5px 10px 4px;background:var(--crim);font:900 20px var(--disp);letter-spacing:.04em;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
+/* kit */
+.kitcard{height:430px;margin-top:10px;background:
+  radial-gradient(60% 46% at 50% 38%,rgba(255,255,255,.75),rgba(255,255,255,0) 70%),
+  linear-gradient(180deg,#c6f2ff 0%,#8ea4ff 40%,#5a3cf0 78%,#2a148f 100%)}
+.kitcard .num{position:absolute;left:50%;top:-34px;transform:translateX(-50%);font:900 470px/1 var(--disp);letter-spacing:-.04em;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.5)}
+.kitcard .stripes{position:absolute;left:-40px;right:-40px;top:250px;height:150px;transform:skewY(-14deg);
+  background:linear-gradient(90deg,transparent 0 6%,rgba(227,23,62,.85) 6% 9%,transparent 9% 12%,rgba(227,23,62,.55) 12% 13.5%,transparent 13.5% 86%,rgba(63,226,255,.6) 86% 87.5%,transparent 87.5% 90%,rgba(63,226,255,.9) 90% 93%,transparent 93%)}
+.kitcard .dots{position:absolute;left:0;right:0;bottom:0;height:160px;background-image:radial-gradient(rgba(255,255,255,.28) 1.4px,transparent 1.8px);background-size:10px 10px;mask-image:linear-gradient(0deg,#000,transparent)}
+.kitcard .floor{position:absolute;left:50%;bottom:22px;width:300px;height:34px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(10,4,40,.55),rgba(10,4,40,0))}
+.kitcard svg.kit{position:absolute;left:50%;top:42px;width:350px;transform:translateX(-50%);filter:drop-shadow(0 22px 22px rgba(18,6,70,.45))}
+.kitcard .tl,.kitcard .tr{position:absolute;top:22px;font:700 14px var(--txt);letter-spacing:.24em;color:#1b0f5c}
+.kitcard .tl{left:26px}.kitcard .tr{right:26px}
+/* name */
+.name{height:136px;margin-top:10px;display:flex;align-items:center;background:linear-gradient(135deg,#0e0838,#1d1170)}
+.name .no{position:relative;width:118px;height:100%;display:grid;place-items:center;font:900 76px/1 var(--disp);color:var(--cy)}
+.name .no::after{content:"";position:absolute;right:0;top:24px;bottom:24px;width:2px;background:rgba(255,255,255,.18);transform:skewX(-14deg)}
+.name .who{flex:1;padding-left:22px}
+.name .who small{display:block;font:700 17px var(--txt);letter-spacing:.3em;color:var(--lav);text-transform:uppercase}
+.name .who b{display:block;font:900 60px/0.92 var(--disp);letter-spacing:.02em;text-transform:uppercase;margin-top:4px}
+.name .who span{display:block;font:600 15px var(--txt);letter-spacing:.22em;color:rgba(255,255,255,.72);text-transform:uppercase;margin-top:6px}
+.name .crest{width:104px;height:104px;margin-right:16px;display:grid;place-items:center;background:linear-gradient(180deg,#fff,#e9e6ff)}
+.name .crest svg{width:62px;height:72px}
+
+/* ---------- pitch chips, mini-map */
+.chip{position:absolute;transform:translate(0,-50%);padding:4px 10px 3px;font:800 24px/1 var(--disp);letter-spacing:.04em;background:#0e0838;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%);box-shadow:0 4px 10px rgba(0,0,0,.4)}
+.map{position:absolute;left:50%;bottom:54px;transform:translateX(-50%);width:430px;background:linear-gradient(180deg,#120a44,#08051f)}
+.map .hd{display:flex;justify-content:space-between;align-items:center;height:38px;padding:0 16px;color:var(--lav)}
+.map .hd b{font:800 20px var(--disp);letter-spacing:.06em;color:#fff}
+.map svg{display:block;margin:0 8px 8px}
+.map .line{height:3px;background:var(--brand)}
+.tag{position:absolute;left:96px;bottom:54px;font:700 14px var(--txt);letter-spacing:.3em;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+</style></head>
+<body><div id="stage"></div>
+<script src="out/scene.js"></script><script src="common.js"></script>
+<script>
+{
+const {S, svgEl, stage, html, mini} = DESIGN;
+const {root, svg, defs} = stage();
+const crest = (a, b, mono, id) => `<svg viewBox="0 0 40 46"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".4"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+  <path d="M20 1 L38 6 V22 C38 34 30 41 20 45 C10 41 2 34 2 22 V6 Z" fill="${a}" stroke="#fff" stroke-width="2"/>
+  <path d="M2 18 L20 28 L38 18 V24 L20 34 L2 24 Z" fill="${b}"/>
+  <path d="M20 1 L38 6 V22 C38 34 30 41 20 45 C10 41 2 34 2 22 V6 Z" fill="url(#${id})"/>
+  <text x="20" y="19.5" text-anchor="middle" font-family="Big Shoulders Display" font-weight="900" font-size="12" fill="#fff">${mono}</text></svg>`;
+const lens = `<svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="9" cy="9" r="2.6" fill="currentColor"/></svg>`;
+// faceted star: each point split into a lit and a shaded half (reads as a bevel, not a flat sticker)
+const facetStar = (x, y, s, sy = 1, light = "#ff4d6a", dark = "#a50d2b", key = "#fff", kw = 3) => {
+  const P = (r, a) => [x + r * Math.cos(a), y + sy * r * Math.sin(a)];
+  let out = "", outline = "";
+  for (let i = 0; i < 5; i++) {
+    const a = -Math.PI / 2 + i * 2 * Math.PI / 5, t = P(s, a), l = P(s * .44, a - Math.PI / 5), r = P(s * .44, a + Math.PI / 5);
+    out += `<path d="M${x},${y} L${t} L${l} Z" fill="${light}"/><path d="M${x},${y} L${t} L${r} Z" fill="${dark}"/>`;
+    outline += (i ? "L" : "M") + l + " L" + t + " ";
+  }
+  const ring = []; for (let i = 0; i < 10; i++) ring.push(P(i % 2 ? s * .44 : s, -Math.PI / 2 + i * Math.PI / 5));
+  return `<path d="M${ring.join(" L")} Z" fill="none" stroke="${key}" stroke-width="${kw}" stroke-linejoin="round"/>` + out;
+};
+defs.innerHTML = `<filter id="ss" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="ds" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#08051f" flood-opacity=".55"/></filter>`;
+// on-pitch evidence: ground ring (glues it to the turf) + upright faceted star + minute chip
+S.markers.forEach((m) => {
+  const s = Math.max(26, 1.0 * m.scale), cy = m.v - s * .62;
+  svgEl("path", {d: m.ring2, fill: "rgba(8,5,31,.28)", stroke: "#fff", "stroke-opacity": .75, "stroke-width": 2}, svg);
+  svgEl("ellipse", {cx: m.u, cy: m.v + 1, rx: s * .7, ry: s * .2, fill: "#08051f", "fill-opacity": .5, filter: "url(#ss)"}, svg);
+  const g = svgEl("g", {filter: "url(#ds)"}, svg); g.innerHTML = facetStar(m.u, cy, s, .94);
+  html(root, `<div class="chip" style="left:${m.u + s * .95}px;top:${cy - s * .5}px">${m.minute}</div>`);
+});
+// player: crimson arc with white keyline + faceted chevron above the head
+const P = S.player, R = S.ring;
+svgEl("path", {d: R.arc, fill: "none", stroke: "#fff", "stroke-width": 9, "stroke-linecap": "round"}, svg);
+svgEl("path", {d: R.arc, fill: "none", stroke: "#e3173e", "stroke-width": 5.5, "stroke-linecap": "round"}, svg);
+const hx = P.foot[0], hy = P.box[1] - 12, cg = svgEl("g", {filter: "url(#ds)"}, svg);
+cg.innerHTML = `<path d="M${hx - 13},${hy - 22} L${hx + 13},${hy - 22} L${hx},${hy} Z" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M${hx - 13},${hy - 22} L${hx},${hy - 22} L${hx},${hy} Z" fill="#ff4d6a"/><path d="M${hx},${hy - 22} L${hx + 13},${hy - 22} L${hx},${hy} Z" fill="#a50d2b"/>`;
+// score bug
+html(root, `<div class="bug drop"><div class="seg">${crest("#e3173e", "#0c1b3f", "KB", "b1")}<span class="club">KBY</span></div>
+  <div class="sc"><b style="background:linear-gradient(180deg,#f0294d,#b80e2f)">${S.stat.score[0]}</b><b style="background:linear-gradient(180deg,#19c9b7,#0b8c80)">${S.stat.score[1]}</b></div>
+  <div class="seg"><span class="club">IRV</span>${crest("#11b3a3", "#ffffff", "IV", "b2")}</div>
+  <div class="clk"><small>2ND HALF</small><span>${S.stat.clock}</span></div><div class="line"></div></div>`);
+// the kit: lit product shot (folds, seams, rim light, curved hem, arched name)
+const kit = `<svg class="kit" viewBox="0 0 400 420">
+  <defs>
+    <linearGradient id="kf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f02447"/><stop offset=".55" stop-color="#c3102f"/><stop offset="1" stop-color="#8c0a22"/></linearGradient>
+    <linearGradient id="ksh" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".38"/><stop offset=".2" stop-color="#000" stop-opacity="0"/><stop offset=".55" stop-color="#fff" stop-opacity=".08"/><stop offset=".8" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".42"/></linearGradient>
+    <linearGradient id="khi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <pattern id="mesh" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r=".9" fill="#000" fill-opacity=".14"/></pattern>
+    <filter id="fold"><feGaussianBlur stdDeviation="7"/></filter><filter id="rim"><feGaussianBlur stdDeviation="2"/></filter>
+    <clipPath id="kc"><path id="kb" d="M128,40 C160,58 240,58 272,40 L352,78 L398,196 L344,220 L318,166 L324,396 Q200,418 76,396 L82,166 L56,220 L2,196 L48,78 Z"/></clipPath>
+    <path id="arc" d="M110,128 Q200,106 290,128"/>
+  </defs>
+  <use href="#kb" fill="url(#kf)"/>
+  <g clip-path="url(#kc)">
+    <rect width="400" height="420" fill="url(#mesh)"/>
+    <path d="M82,166 L98,410 L70,410 Z M318,166 L302,410 L330,410 Z" fill="#0c1b3f"/>
+    <path d="M330,96 L394,184 L378,192 L318,110 Z M70,96 L6,184 L22,192 L82,110 Z" fill="#0c1b3f"/>
+    <path d="M2,196 L56,220 L61,206 L8,182 Z M398,196 L344,220 L339,206 L392,182 Z" fill="#fff"/>
+    <path d="M6,188 L58,212 M394,188 L342,212" stroke="#0c1b3f" stroke-width="3"/>
+    <g filter="url(#fold)" opacity=".9">
+      <path d="M120,200 C150,260 140,330 150,400" stroke="#000" stroke-opacity=".22" stroke-width="16" fill="none"/>
+      <path d="M268,190 C252,260 262,330 248,402" stroke="#000" stroke-opacity=".2" stroke-width="14" fill="none"/>
+      <path d="M200,150 C210,220 196,300 205,400" stroke="#fff" stroke-opacity=".12" stroke-width="22" fill="none"/>
+      <path d="M100,330 C160,350 240,350 300,326" stroke="#000" stroke-opacity=".14" stroke-width="12" fill="none"/>
+    </g>
+    <path d="M48,78 L82,166 M352,78 L318,166" stroke="#000" stroke-opacity=".25" stroke-width="2" fill="none"/>
+    <rect width="400" height="420" fill="url(#ksh)"/><rect width="400" height="420" fill="url(#khi)"/>
+  </g>
+  <use href="#kb" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3" filter="url(#rim)"/>
+  <path d="M128,40 C160,58 240,58 272,40 L262,28 C232,45 168,45 138,28 Z" fill="#0c1b3f"/>
+  <path d="M138,28 C168,45 232,45 262,28" fill="none" stroke="#fff" stroke-width="3"/>
+  <path d="M142,33 C170,48 230,48 258,33" fill="none" stroke="#e3173e" stroke-width="1.5"/>
+  <text font-family="Big Shoulders Display" font-weight="800" font-size="40" letter-spacing="6" fill="#fff" text-anchor="middle"><textPath href="#arc" startOffset="50%">KESTANE</textPath></text>
+  <text x="200" y="318" text-anchor="middle" font-family="Big Shoulders Display" font-weight="900" font-size="220" fill="#fff" stroke="#0c1b3f" stroke-width="7" paint-order="stroke" letter-spacing="-4">7</text>
+  <text x="200" y="318" text-anchor="middle" font-family="Big Shoulders Display" font-weight="900" font-size="220" fill="none" stroke="#e3173e" stroke-width="1.2" letter-spacing="-4" transform="translate(0,0)" opacity=".0">7</text>
+</svg>`;
+html(root, `<div class="col"><div class="spine"></div>
+  <div class="card stat cut grain drop"><div class="hair"></div>
+    <div class="eyebrow">${lens}Match insight</div><div class="min">${S.stat.minute}</div>
+    <div class="hero"><span class="ghost">${S.stat.value}</span><span class="fill">${S.stat.value}</span></div>
+    <div class="txt"><b>Interceptions</b><span>in the attacking third</span></div>
+    <div class="pill"><i>#1</i>in the match</div></div>
+  <div class="card kitcard cut grain drop"><div class="num">07</div><div class="stripes"></div><div class="dots"></div><div class="floor"></div>
+    <div class="tl">NO. 07 · FORWARD</div><div class="tr">HOME</div>${kit}</div>
+  <div class="card name cut grain drop"><div class="no">07</div>
+    <div class="who"><small>${P.first}</small><b>${P.last}</b><span>Kestrel Bay FC</span></div>
+    <div class="crest cut">${crest("#e3173e", "#0c1b3f", "KB", "n1")}</div></div>
+</div>`);
+// mini-map: striped turf, attacking-third hatch, camera view, players, faceted stars
+const W = 414, H = 252, pad = 6, Pm = (x, y) => mini(x, y, W, H, pad);
+const rect = (x0, y0, x1, y1, extra = "") => { const a = Pm(x0, y0), b = Pm(x1, y1); return `<rect x="${Math.min(a[0], b[0])}" y="${Math.min(a[1], b[1])}" width="${Math.abs(b[0] - a[0])}" height="${Math.abs(b[1] - a[1])}" ${extra}/>`; };
+const c = Pm(52.5, 34), rr = (9.15 / 105) * (W - 2 * pad);
+let m = `<svg width="${W}" height="${H}"><defs><pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="2" height="8" fill="#3fe2ff" fill-opacity=".22"/></pattern></defs>
+  <rect x="${pad}" y="${pad}" width="${W - 2 * pad}" height="${H - 2 * pad}" fill="#1b5a34"/>`;
+for (let k = 0; k < 12; k++) if (k % 2) { const a = Pm(k * 105 / 12, 68), b = Pm((k + 1) * 105 / 12, 0); m += `<rect x="${a[0]}" y="${a[1]}" width="${b[0] - a[0]}" height="${b[1] - a[1]}" fill="#1f6a3c"/>`; }
+m += rect(70, 0, 105, 68, 'fill="url(#hatch)"');
+m += `<path d="M${S.frustum.map(([x, y]) => Pm(Math.max(-2, Math.min(107, x)), Math.max(-2, Math.min(70, y))).join(",")).join(" L")} Z" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.45)" stroke-dasharray="4 4"/>`;
+m += `<g fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.5">${rect(0, 0, 105, 68)}<line x1="${c[0]}" y1="${pad}" x2="${c[0]}" y2="${H - pad}"/><circle cx="${c[0]}" cy="${c[1]}" r="${rr}"/>${rect(0, 13.84, 16.5, 54.16)}${rect(88.5, 13.84, 105, 54.16)}${rect(0, 24.84, 5.5, 43.16)}${rect(99.5, 24.84, 105, 43.16)}</g>`;
+for (const d of S.dots) {
+  const [x, y] = Pm(d.x, d.y), hero = Math.abs(d.x - P.pitch[0]) < .05 && Math.abs(d.y - P.pitch[1]) < .05;
+  m += d.team === 1 ? `<circle cx="${x}" cy="${y}" r="${hero ? 6.5 : 4.6}" fill="#e3173e" stroke="#fff" stroke-width="${hero ? 2.6 : 1.3}"/>`
+    : `<path d="M${x},${y - 5.6} L${x + 5.2},${y + 4} L${x - 5.2},${y + 4} Z" fill="#3fe2ff" stroke="#08051f" stroke-width="1"/>`;
+}
+for (const s of S.markers) { const [x, y] = Pm(s.x, s.y); m += facetStar(x, y, 10, 1, "#ff4d6a", "#a50d2b", "#fff", 1.6); }
+html(root, `<div class="map cut grain drop"><div class="hd"><span class="eyebrow" style="font-size:13px">Where it happened</span><b>3 × ★</b></div>${m}</svg><div class="line"></div></div>`);
+html(root, `<div class="tag">I · SIGNATURE</div>`);
+}
+</script></body></html>

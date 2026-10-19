@@ -1,0 +1,143 @@
+{
+  "lang": "fr",
+  "name": "Français",
+  "decimal": ",",
+  "labels": {
+    "why_it_matters": "Pourquoi c'est important",
+    "speed": "Vitesse",
+    "top_speed": "Vitesse max",
+    "ball": "Ballon",
+    "shot": "Frappe",
+    "distance": "Distance",
+    "sprints": "Sprints",
+    "estimated": "estimé",
+    "key_moments": "Moments clés",
+    "player_of_the_match": "Homme du match",
+    "full_time": "Fin du match",
+    "tactical_summary": "Lecture tactique",
+    "milestone": "Cap franchi",
+    "orientation_note": "tout est affiché dans le sens d'attaque de cette mi-temps",
+    "xg": "xG",
+    "ppda": "PPDA",
+    "share": "Part de l'équipe",
+    "rank": "Rang",
+    "avg_dist_goal": "Dist. moy. au but",
+    "difficulty": "Difficulté",
+    "completion": "Réussite attendue",
+    "progression": "Progression",
+    "field_tilt": "Domination territoriale",
+    "chaos_index": "Indice de chaos",
+    "team_xg": "xG équipe",
+    "passes": "Passes",
+    "duration": "Durée"
+  },
+  "templates": {
+    "interceptions_attacking_third": {
+      "headline": "Interceptions dans le dernier tiers",
+      "casual": "{player_short} récupère sans cesse le ballon très haut : déjà {value} interceptions dans le dernier tiers.",
+      "casual_top": "{player_short} récupère sans cesse le ballon très haut : déjà {value} interceptions dans le dernier tiers, plus que quiconque ce soir.",
+      "analyst": "{value} interceptions dans le dernier tiers ({share_pct} % du total de {team_short}), en moyenne à {avg_dist_goal_m} m du but : le pressing récupère le ballon là où ça fait le plus mal.",
+      "kids": "Quel voleur de ballon ! {player_short} a pris le ballon {value} fois tout près du but adverse !"
+    },
+    "tackles_won_attacking_third": {
+      "headline": "Tacles gagnés dans le dernier tiers",
+      "casual": "{player_short} gagne ses duels très haut : {value} tacles réussis dans le dernier tiers.",
+      "casual_top": "{player_short} gagne ses duels très haut : {value} tacles réussis dans le dernier tiers, le plus grand nombre sur le terrain.",
+      "analyst": "{value} tacles gagnés dans le dernier tiers ({share_pct} % de {team_short}), en moyenne à {avg_dist_goal_m} m du but : une défense avancée qui étouffe l'adversaire.",
+      "kids": "Tacle ! {player_short} a gagné le ballon {value} fois près du but !"
+    },
+    "recoveries_attacking_third": {
+      "headline": "Récupérations dans le dernier tiers",
+      "casual": "{player_short} ramasse tous les ballons qui traînent devant : {value} récupérations dans le dernier tiers.",
+      "casual_top": "{player_short} ramasse tous les ballons qui traînent devant : {value} récupérations dans le dernier tiers, plus que tout le monde.",
+      "analyst": "{value} récupérations dans le dernier tiers ({share_pct} % de {team_short}), en moyenne à {avg_dist_goal_m} m du but : les seconds ballons tombent pour {team_short}.",
+      "kids": "{player_short} a trouvé le ballon {value} fois près du but. Bien joué !"
+    },
+    "interceptions_defensive_third": {
+      "headline": "Interceptions dans son propre tiers",
+      "casual": "{player_short} sent le danger derrière : {value} interceptions dans le tiers défensif de {team_short}.",
+      "casual_top": "{player_short} sent le danger derrière : {value} interceptions dans le tiers défensif de {team_short}, le plus haut total ce soir.",
+      "analyst": "{value} interceptions dans le tiers défensif ({share_pct} % de {team_short}) : {team_short} absorbe la pression bas plutôt que de presser haut.",
+      "kids": "{player_short} a stoppé {value} attaques devant son but. Quel défenseur !"
+    },
+    "quality_pass": {
+      "headline": "Qualité de passe",
+      "casual": "Quel ballon de {player_short} ! Une passe de {distance_m} m pour {recipient_short}, réussie seulement {completion_pct} % du temps.",
+      "analyst": "Passe de {distance_m} m, +{progressive_m} m de progression, difficulté {difficulty_10}/10 (réussite attendue {completion_pct} %), vitesse du ballon {ball_speed_kmh} km/h.",
+      "kids": "Super passe ! {player_short} a envoyé le ballon à {distance_m} mètres, pile sur {recipient_short} !"
+    },
+    "big_chance": {
+      "headline": "Buts attendus (xG)",
+      "casual": "Grosse occasion pour {player_short} ! Ce genre de frappe finit au fond environ {xg_pct} % du temps.",
+      "analyst": "{xg} xG à {distance_m} m, frappe à {shot_speed_kmh} km/h. {team_short} en est à {team_xg} xG.",
+      "kids": "Presque ! {player_short} a frappé à {shot_speed_kmh} km/h !"
+    },
+    "goal": {
+      "headline": "But : qualité de l'occasion (xG)",
+      "casual": "{player_short} marque ! Une frappe à {shot_speed_kmh} km/h de {distance_m} m.",
+      "analyst": "But sur une occasion à {xg} xG ({distance_m} m, {shot_speed_kmh} km/h). Total {team_short} : {team_xg} xG.",
+      "kids": "BUT ! {player_short} a tiré à {shot_speed_kmh} km/h !"
+    },
+    "control_spell": {
+      "headline": "Passes dans une action",
+      "casual": "{team_short} confisque le ballon : {value} passes d'affilée et {opponent_short} ne le touche pas.",
+      "analyst": "Séquence de {value} passes en {duration_s} s alors que la moyenne sur 5 min est de {avg_passes_per_possession} passes par possession : une phase de contrôle (indice de chaos {chaos_index}).",
+      "kids": "{team_short} a fait {value} passes de suite ! Quel travail d'équipe !"
+    },
+    "chaos_spike": {
+      "headline": "Pertes de balle en {window_min} minutes",
+      "casual": "Ça va d'un but à l'autre ! Le ballon a changé de camp {value} fois en {window_min} minutes.",
+      "analyst": "{value} pertes de balle en {window_min} min avec seulement {avg_passes_per_possession} passes par possession (indice de chaos {chaos_index}) : aucune équipe ne parvient à poser le jeu.",
+      "kids": "Fou ! Le ballon a changé d'équipe {value} fois en {window_min} minutes !"
+    },
+    "pressing_surge": {
+      "headline": "PPDA, 10 dernières minutes",
+      "casual": "{team_short} chasse le ballon : {opponent_short} ne réussit qu'environ {value} passes avant de le perdre.",
+      "analyst": "PPDA de {ppda_recent} sur les {window_min} dernières minutes contre {ppda_match} sur le match : forte hausse de l'intensité du pressing, avec {actions} récupérations dans la moitié adverse.",
+      "kids": "{team_short} court après le ballon partout !"
+    },
+    "momentum_swing": {
+      "headline": "xG, 10 dernières minutes",
+      "casual": "Le momentum a basculé vers {team_short} : {xg_for} buts attendus sur les 10 dernières minutes contre {xg_against}.",
+      "analyst": "{team_short} {xg_for} xG contre {xg_against} sur les {window_min} dernières minutes : l'équilibre des occasions s'est inversé.",
+      "kids": "{team_short} domine maintenant et se crée plein d'occasions !"
+    },
+    "top_speed": {
+      "headline": "Vitesse max (km/h)",
+      "casual": "{player_short} s'envole : {speed_kmh} km/h, la course la plus rapide du match jusqu'ici.",
+      "analyst": "Record du match : {speed_kmh} km/h ; {distance_km} km parcourus jusqu'ici.",
+      "kids": "Zoum ! {player_short} a couru à {speed_kmh} km/h !"
+    },
+    "sprints": {
+      "headline": "Sprints",
+      "casual": "{player_short} ne s'arrête jamais : déjà {value} sprints.",
+      "analyst": "{value} sprints au-dessus de 25 km/h et {distance_km} km parcourus.",
+      "kids": "{player_short} a déjà sprinté {value} fois. Quelle énergie !"
+    },
+    "passing_milestone": {
+      "headline": "Passes réussies",
+      "casual": "{player_short} tire les ficelles : {value} passes réussies.",
+      "analyst": "{value}/{attempted} passes réussies ({completion_pct} %), dont {progressive} vers l'avant.",
+      "kids": "{player_short} a déjà fait {value} bonnes passes !"
+    }
+  },
+  "context": {
+    "control": "{ctx_team_short} dicte le rythme ({ctx_avg_passes} passes par possession).",
+    "chaos": "Le match est fou : {ctx_turnovers_per_min} pertes de balle par minute.",
+    "tempo": "Le rythme est élevé : {ctx_passes_per_min} passes par minute."
+  },
+  "recap": {
+    "headline_comeback": "{winner} renverse {loser} et s'impose {score}",
+    "headline_win": "{winner} bat {loser} {score}",
+    "headline_draw": "{home} et {away} se neutralisent, {score}",
+    "summary": "{winner_short} s'est créé {xg_w} xG contre {xg_l}. {tactical}",
+    "summary_draw": "Occasions partagées : {xg_h} xG contre {xg_a}. {tactical}",
+    "tactical_press": "{press_team} a pressé plus fort (PPDA {ppda_press} contre {ppda_other}) et récupéré {press_regains} ballons dans la moitié adverse.",
+    "moment_goal": "BUT {player_short} ({team_short}), {xg} xG",
+    "moment_chance": "Grosse occasion {player_short}, {xg} xG",
+    "moment_insight": "{headline} : {value} ({player_short})",
+    "moment_team_insight": "{headline} : {value} ({team_short})",
+    "potm": "{player_name} ({team_short}) : {reason}",
+    "potm_reason": "{goals} buts, {interceptions} interceptions, {passes_completed} passes réussies"
+  }
+}

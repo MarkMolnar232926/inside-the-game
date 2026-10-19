@@ -1,0 +1,721 @@
+{
+  "match_id": "SYN-0006-LATE",
+  "competition": "Synthetic Premier Showcase",
+  "venue": "Harbourlight Arena (fictional)",
+  "kickoff_utc": "2026-10-17T15:00:00Z",
+  "seed": 6,
+  "narrative": "late_comeback",
+  "duration_s": 5400.0,
+  "home": {
+    "id": "KBY",
+    "name": "Kestrel Bay FC",
+    "short": "KBY",
+    "city": "Kestrel Bay",
+    "formation": "4-3-3",
+    "kit": {
+      "shirt": "#c8233a",
+      "shorts": "#14183d",
+      "socks": "#c8233a",
+      "number": "#ffffff",
+      "gk_shirt": "#f2c230"
+    },
+    "primary": "#c8233a",
+    "secondary": "#14183d",
+    "style": "high press",
+    "players": [
+      {
+        "id": "KBY-01",
+        "team_id": "KBY",
+        "name": "Pell Ravensby",
+        "short_name": "RAVENSBY",
+        "number": 1,
+        "position": "GK",
+        "role": "sweeper keeper",
+        "starter": true,
+        "attributes": {
+          "passing": 0.7276491303816993,
+          "vision": 0.2946708161542987,
+          "pressing": 0.5362034938621593,
+          "tackling": 0.6513719409053277,
+          "pace": 0.3,
+          "stamina": 0.6153788384416206,
+          "finishing": 0.6997117852587839,
+          "dribbling": 0.5789957591366348
+        },
+        "skin_tone": 5
+      },
+      {
+        "id": "KBY-02",
+        "team_id": "KBY",
+        "name": "Hollis Drumond",
+        "short_name": "DRUMOND",
+        "number": 2,
+        "position": "RB",
+        "role": "overlapping full-back",
+        "starter": true,
+        "attributes": {
+          "passing": 0.4426141298524631,
+          "vision": 0.4653371033761729,
+          "pressing": 0.587958424600773,
+          "tackling": 0.49198047983943,
+          "pace": 0.8271551376458388,
+          "stamina": 0.8292386593403313,
+          "finishing": 0.729878633849038,
+          "dribbling": 0.547392616245543
+        },
+        "skin_tone": 0
+      },
+      {
+        "id": "KBY-04",
+        "team_id": "KBY",
+        "name": "Corin Brisquet",
+        "short_name": "BRISQUET",
+        "number": 4,
+        "position": "CB",
+        "role": "ball-playing centre-back",
+        "starter": true,
+        "attributes": {
+          "passing": 0.5594156859177591,
+          "vision": 0.4683685270309093,
+          "pressing": 0.5581303056294035,
+          "tackling": 0.7781430836508143,
+          "pace": 0.3901011674128513,
+          "stamina": 0.3769275810423616,
+          "finishing": 0.5855078403157935,
+          "dribbling": 0.4637811927173129
+        },
+        "skin_tone": 0
+      },
+      {
+        "id": "KBY-05",
+        "team_id": "KBY",
+        "name": "Rafe Ilunga-Reyes",
+        "short_name": "ILUNGA-REYES",
+        "number": 5,
+        "position": "CB",
+        "role": "stopper",
+        "starter": true,
+        "attributes": {
+          "passing": 0.5807184609277797,
+          "vision": 0.5708442628189728,
+          "pressing": 0.6395475092262402,
+          "tackling": 0.7846953854567602,
+          "pace": 0.658563098959334,
+          "stamina": 0.4974085680444236,
+          "finishing": 0.5275002282676347,
+          "dribbling": 0.48194948047284114
+        },
+        "skin_tone": 1
+      },
+      {
+        "id": "KBY-03",
+        "team_id": "KBY",
+        "name": "Arvo Esterhal",
+        "short_name": "ESTERHAL",
+        "number": 3,
+        "position": "LB",
+        "role": "inverted full-back",
+        "starter": true,
+        "attributes": {
+          "passing": 0.5637732943071632,
+          "vision": 0.7501879942711708,
+          "pressing": 0.5136285971260609,
+          "tackling": 0.5383700226375949,
+          "pace": 0.5894164772460663,
+          "stamina": 0.8247650911777993,
+          "finishing": 0.535161636658291,
+          "dribbling": 0.6203183247009671
+        },
+        "skin_tone": 3
+      },
+      {
+        "id": "KBY-06",
+        "team_id": "KBY",
+        "name": "Jory Fairbourne",
+        "short_name": "FAIRBOURNE",
+        "number": 6,
+        "position": "DM",
+        "role": "anchor",
+        "starter": true,
+        "attributes": {
+          "passing": 0.629197725986526,
+          "vision": 0.7520639282853742,
+          "pressing": 0.5260013724644477,
+          "tackling": 0.7484563662682353,
+          "pace": 0.39986838660604795,
+          "stamina": 0.397704802950237,
+          "finishing": 0.5108480058219897,
+          "dribbling": 0.6125933376459348
+        },
+        "skin_tone": 4
+      },
+      {
+        "id": "KBY-08",
+        "team_id": "KBY",
+        "name": "Ruan Marquand",
+        "short_name": "MARQUAND",
+        "number": 8,
+        "position": "CM",
+        "role": "box-to-box",
+        "starter": true,
+        "attributes": {
+          "passing": 0.5792022877724343,
+          "vision": 0.6467767349720965,
+          "pressing": 0.6595762394365488,
+          "tackling": 0.6074468355997877,
+          "pace": 0.6947873507557578,
+          "stamina": 0.675397188011255,
+          "finishing": 0.6244075074901829,
+          "dribbling": 0.36153153975416996
+        },
+        "skin_tone": 1
+      },
+      {
+        "id": "KBY-07",
+        "team_id": "KBY",
+        "name": "Jory Kestane",
+        "short_name": "KESTANE",
+        "number": 7,
+        "position": "AM",
+        "role": "pressing playmaker",
+        "starter": true,
+        "attributes": {
+          "passing": 0.6456665234541741,
+          "vision": 0.6922686952791977,
+          "pressing": 0.8438168942204607,
+          "tackling": 0.5089761340319234,
+          "pace": 0.5597621596389044,
+          "stamina": 0.45921982571677034,
+          "finishing": 0.6045527335122948,
+          "dribbling": 0.446414975356159
+        },
+        "skin_tone": 4
+      },
+      {
+        "id": "KBY-11",
+        "team_id": "KBY",
+        "name": "Femi Brightwell",
+        "short_name": "BRIGHTWELL",
+        "number": 11,
+        "position": "RW",
+        "role": "inside forward",
+        "starter": true,
+        "attributes": {
+          "passing": 0.510801194472883,
+          "vision": 0.6767887491789571,
+          "pressing": 0.4004306193777376,
+          "tackling": 0.5085976171742989,
+          "pace": 0.9182460663906354,
+          "stamina": 0.48416587619750284,
+          "finishing": 0.42605288707049926,
+          "dribbling": 0.8282841488500713
+        },
+        "skin_tone": 2
+      },
+      {
+        "id": "KBY-17",
+        "team_id": "KBY",
+        "name": "Lazlo Castellane",
+        "short_name": "CASTELLANE",
+        "number": 17,
+        "position": "LW",
+        "role": "wide creator",
+        "starter": true,
+        "attributes": {
+          "passing": 0.4579609849295674,
+          "vision": 0.6690919215389997,
+          "pressing": 0.6166127318168495,
+          "tackling": 0.6535721840408728,
+          "pace": 0.639385476002603,
+          "stamina": 0.6923788764677248,
+          "finishing": 0.45993033466252675,
+          "dribbling": 0.5987449451503822
+        },
+        "skin_tone": 5
+      },
+      {
+        "id": "KBY-09",
+        "team_id": "KBY",
+        "name": "Yannick Holtzmeyer",
+        "short_name": "HOLTZMEYER",
+        "number": 9,
+        "position": "ST",
+        "role": "pressing forward",
+        "starter": true,
+        "attributes": {
+          "passing": 0.5654849284377064,
+          "vision": 0.517821590115705,
+          "pressing": 0.7940455618805691,
+          "tackling": 0.599560327678003,
+          "pace": 0.5818144501103624,
+          "stamina": 0.5245472095492767,
+          "finishing": 0.98,
+          "dribbling": 0.32839664592112705
+        },
+        "skin_tone": 3
+      },
+      {
+        "id": "KBY-13",
+        "team_id": "KBY",
+        "name": "Caius Kelderman",
+        "short_name": "KELDERMAN",
+        "number": 13,
+        "position": "GK",
+        "role": "reserve keeper",
+        "starter": false,
+        "attributes": {
+          "passing": 0.37656509563801077,
+          "vision": 0.49931140477154523,
+          "pressing": 0.4244782728829284,
+          "tackling": 0.294407464763165,
+          "pace": 0.3,
+          "stamina": 0.4750738912191447,
+          "finishing": 0.3051450669021577,
+          "dribbling": 0.6358692938962526
+        },
+        "skin_tone": 3
+      },
+      {
+        "id": "KBY-15",
+        "team_id": "KBY",
+        "name": "Pell Yardane",
+        "short_name": "YARDANE",
+        "number": 15,
+        "position": "CB",
+        "role": "defensive cover",
+        "starter": false,
+        "attributes": {
+          "passing": 0.4991659312878236,
+          "vision": 0.5647612166672904,
+          "pressing": 0.4379189763861299,
+          "tackling": 0.7706437310673777,
+          "pace": 0.48258246442984143,
+          "stamina": 0.590988321688939,
+          "finishing": 0.5157027711586566,
+          "dribbling": 0.6533757429350039
+        },
+        "skin_tone": 3
+      },
+      {
+        "id": "KBY-14",
+        "team_id": "KBY",
+        "name": "Ismo Lisowane",
+        "short_name": "LISOWANE",
+        "number": 14,
+        "position": "CM",
+        "role": "tempo setter",
+        "starter": false,
+        "attributes": {
+          "passing": 0.5394704253653895,
+          "vision": 0.36803927854338997,
+          "pressing": 0.5904742322679246,
+          "tackling": 0.4922839822206709,
+          "pace": 0.589782890910248,
+          "stamina": 0.5798880859063078,
+          "finishing": 0.568021493482187,
+          "dribbling": 0.6419253535514812
+        },
+        "skin_tone": 0
+      },
+      {
+        "id": "KBY-19",
+        "team_id": "KBY",
+        "name": "Kasim Javorek",
+        "short_name": "JAVOREK",
+        "number": 19,
+        "position": "RW",
+        "role": "impact winger",
+        "starter": false,
+        "attributes": {
+          "passing": 0.46061801324050744,
+          "vision": 0.722466529039953,
+          "pressing": 0.5626613605512176,
+          "tackling": 0.6607049297357303,
+          "pace": 0.8827067124543151,
+          "stamina": 0.6769365442389994,
+          "finishing": 0.5653535328363246,
+          "dribbling": 0.571761066540616
+        },
+        "skin_tone": 1
+      },
+      {
+        "id": "KBY-20",
+        "team_id": "KBY",
+        "name": "Sorin Fennimore",
+        "short_name": "FENNIMORE",
+        "number": 20,
+        "position": "ST",
+        "role": "target forward",
+        "starter": false,
+        "attributes": {
+          "passing": 0.4927983525635571,
+          "vision": 0.535305116685195,
+          "pressing": 0.5383018565189401,
+          "tackling": 0.4517305686346465,
+          "pace": 0.7856566943505155,
+          "stamina": 0.4518629594141852,
+          "finishing": 0.7694001380507065,
+          "dribbling": 0.7945287314867693
+        },
+        "skin_tone": 1
+      }
+    ]
+  },
+  "away": {
+    "id": "IRV",
+    "name": "Ironvale Athletic",
+    "short": "IRV",
+    "city": "Ironvale",
+    "formation": "4-3-3",
+    "kit": {
+      "shirt": "#f2f4f7",
+      "shorts": "#17a398",
+      "socks": "#f2f4f7",
+      "number": "#14183d",
+      "gk_shirt": "#7a3cf0"
+    },
+    "primary": "#17a398",
+    "secondary": "#f2f4f7",
+    "style": "possession",
+    "players": [
+      {
+        "id": "IRV-01",
+        "team_id": "IRV",
+        "name": "Aurel Gravino",
+        "short_name": "GRAVINO",
+        "number": 1,
+        "position": "GK",
+        "role": "sweeper keeper",
+        "starter": true,
+        "attributes": {
+          "passing": 0.6265938261104137,
+          "vision": 0.616088382292839,
+          "pressing": 0.5291979361061585,
+          "tackling": 0.4071070972296158,
+          "pace": 0.3,
+          "stamina": 0.549208278301461,
+          "finishing": 0.5920816080820221,
+          "dribbling": 0.3343880532238401
+        },
+        "skin_tone": 5
+      },
+      {
+        "id": "IRV-02",
+        "team_id": "IRV",
+        "name": "Ivo Uwazurike",
+        "short_name": "UWAZURIKE",
+        "number": 2,
+        "position": "RB",
+        "role": "overlapping full-back",
+        "starter": true,
+        "attributes": {
+          "passing": 0.6395203956560891,
+          "vision": 0.5676361716539631,
+          "pressing": 0.46985691674766833,
+          "tackling": 0.5076464791623919,
+          "pace": 0.7048485129868842,
+          "stamina": 0.8349816415581547,
+          "finishing": 0.8550979726276049,
+          "dribbling": 0.586641549199809
+        },
+        "skin_tone": 5
+      },
+      {
+        "id": "IRV-04",
+        "team_id": "IRV",
+        "name": "Sorin Delacrow",
+        "short_name": "DELACROW",
+        "number": 4,
+        "position": "CB",
+        "role": "ball-playing centre-back",
+        "starter": true,
+        "attributes": {
+          "passing": 0.6545923636504026,
+          "vision": 0.6210427916160233,
+          "pressing": 0.5969049123586706,
+          "tackling": 0.7587456287901715,
+          "pace": 0.47935303415184555,
+          "stamina": 0.5749714349123894,
+          "finishing": 0.6494346012594607,
+          "dribbling": 0.566790692650199
+        },
+        "skin_tone": 4
+      },
+      {
+        "id": "IRV-05",
+        "team_id": "IRV",
+        "name": "Caius Ingersol",
+        "short_name": "INGERSOL",
+        "number": 5,
+        "position": "CB",
+        "role": "stopper",
+        "starter": true,
+        "attributes": {
+          "passing": 0.5465257116807426,
+          "vision": 0.7335798136237537,
+          "pressing": 0.44738080661463414,
+          "tackling": 0.9270900497394499,
+          "pace": 0.7457434125775232,
+          "stamina": 0.53490859036832,
+          "finishing": 0.5501805128983291,
+          "dribbling": 0.6543982051876115
+        },
+        "skin_tone": 3
+      },
+      {
+        "id": "IRV-03",
+        "team_id": "IRV",
+        "name": "Tobin Zubrovin",
+        "short_name": "ZUBROVIN",
+        "number": 3,
+        "position": "LB",
+        "role": "inverted full-back",
+        "starter": true,
+        "attributes": {
+          "passing": 0.7052835640368803,
+          "vision": 0.5855068340719138,
+          "pressing": 0.6533794590662756,
+          "tackling": 0.5878195843638989,
+          "pace": 0.44104430883022283,
+          "stamina": 0.6430991754188266,
+          "finishing": 0.5604211236097931,
+          "dribbling": 0.41193284185169876
+        },
+        "skin_tone": 2
+      },
+      {
+        "id": "IRV-06",
+        "team_id": "IRV",
+        "name": "Nilo Vantrell",
+        "short_name": "VANTRELL",
+        "number": 6,
+        "position": "DM",
+        "role": "anchor",
+        "starter": true,
+        "attributes": {
+          "passing": 0.6361382807467876,
+          "vision": 0.5128997956722842,
+          "pressing": 0.4706238963135387,
+          "tackling": 0.616031149872843,
+          "pace": 0.690222696469814,
+          "stamina": 0.6891774983582268,
+          "finishing": 0.7086215365209048,
+          "dribbling": 0.7093233892592458
+        },
+        "skin_tone": 2
+      },
+      {
+        "id": "IRV-08",
+        "team_id": "IRV",
+        "name": "Ilo Thornquist",
+        "short_name": "THORNQUIST",
+        "number": 8,
+        "position": "CM",
+        "role": "box-to-box",
+        "starter": true,
+        "attributes": {
+          "passing": 0.3919019603493624,
+          "vision": 0.5946624797693969,
+          "pressing": 0.6117832696891196,
+          "tackling": 0.5296722703077876,
+          "pace": 0.4389578507884456,
+          "stamina": 0.9431710915085334,
+          "finishing": 0.5777147191503813,
+          "dribbling": 0.4132168311186729
+        },
+        "skin_tone": 0
+      },
+      {
+        "id": "IRV-07",
+        "team_id": "IRV",
+        "name": "Sorin Sulejmani-Hart",
+        "short_name": "SULEJMANI-HART",
+        "number": 7,
+        "position": "AM",
+        "role": "pressing playmaker",
+        "starter": true,
+        "attributes": {
+          "passing": 0.6785364379699971,
+          "vision": 0.7299425456867319,
+          "pressing": 0.6267447708438825,
+          "tackling": 0.4026417693049228,
+          "pace": 0.6046150985903175,
+          "stamina": 0.5872960659381874,
+          "finishing": 0.5789579083274197,
+          "dribbling": 0.4333240052455285
+        },
+        "skin_tone": 5
+      },
+      {
+        "id": "IRV-11",
+        "team_id": "IRV",
+        "name": "Marek Wexley",
+        "short_name": "WEXLEY",
+        "number": 11,
+        "position": "RW",
+        "role": "inside forward",
+        "starter": true,
+        "attributes": {
+          "passing": 0.46569880147367704,
+          "vision": 0.4440049423438908,
+          "pressing": 0.6639804071000261,
+          "tackling": 0.5566556340639507,
+          "pace": 0.7619071640891877,
+          "stamina": 0.47598274099825466,
+          "finishing": 0.4842374291883586,
+          "dribbling": 0.9584605419067164
+        },
+        "skin_tone": 5
+      },
+      {
+        "id": "IRV-17",
+        "team_id": "IRV",
+        "name": "Kenji Haskari",
+        "short_name": "HASKARI",
+        "number": 17,
+        "position": "LW",
+        "role": "wide creator",
+        "starter": true,
+        "attributes": {
+          "passing": 0.4246123958958993,
+          "vision": 0.8173487381874895,
+          "pressing": 0.7070247936178098,
+          "tackling": 0.6704145360802275,
+          "pace": 0.834154614553819,
+          "stamina": 0.3612907897775748,
+          "finishing": 0.42088803999828217,
+          "dribbling": 0.8064939282936583
+        },
+        "skin_tone": 1
+      },
+      {
+        "id": "IRV-09",
+        "team_id": "IRV",
+        "name": "Sorin Morrow-Hale",
+        "short_name": "MORROW-HALE",
+        "number": 9,
+        "position": "ST",
+        "role": "pressing forward",
+        "starter": true,
+        "attributes": {
+          "passing": 0.575546537111845,
+          "vision": 0.4974552515274867,
+          "pressing": 0.6842989701385005,
+          "tackling": 0.6053340649831997,
+          "pace": 0.50993136178893,
+          "stamina": 0.5497249858807495,
+          "finishing": 0.9255373891712597,
+          "dribbling": 0.573164830592675
+        },
+        "skin_tone": 5
+      },
+      {
+        "id": "IRV-13",
+        "team_id": "IRV",
+        "name": "Caius Nyborg",
+        "short_name": "NYBORG",
+        "number": 13,
+        "position": "GK",
+        "role": "reserve keeper",
+        "starter": false,
+        "attributes": {
+          "passing": 0.41315570580213024,
+          "vision": 0.5230522071378615,
+          "pressing": 0.4851169608149834,
+          "tackling": 0.6253287341015626,
+          "pace": 0.3,
+          "stamina": 0.6273222163126517,
+          "finishing": 0.6198371796634038,
+          "dribbling": 0.6075664713742698
+        },
+        "skin_tone": 2
+      },
+      {
+        "id": "IRV-15",
+        "team_id": "IRV",
+        "name": "Arvo Valcourt",
+        "short_name": "VALCOURT",
+        "number": 15,
+        "position": "CB",
+        "role": "defensive cover",
+        "starter": false,
+        "attributes": {
+          "passing": 0.4965757890554485,
+          "vision": 0.6990034992103682,
+          "pressing": 0.5351632353083761,
+          "tackling": 0.7749615622711954,
+          "pace": 0.4385316398625019,
+          "stamina": 0.7040181583013485,
+          "finishing": 0.5662851066256809,
+          "dribbling": 0.6271110238096661
+        },
+        "skin_tone": 2
+      },
+      {
+        "id": "IRV-14",
+        "team_id": "IRV",
+        "name": "Jory Quennell",
+        "short_name": "QUENNELL",
+        "number": 14,
+        "position": "CM",
+        "role": "tempo setter",
+        "starter": false,
+        "attributes": {
+          "passing": 0.5399361201478742,
+          "vision": 0.42093311258687693,
+          "pressing": 0.5968739592796135,
+          "tackling": 0.49878227255077834,
+          "pace": 0.5926337650835558,
+          "stamina": 0.578477688406046,
+          "finishing": 0.5747462926484767,
+          "dribbling": 0.6417147613170926
+        },
+        "skin_tone": 0
+      },
+      {
+        "id": "IRV-19",
+        "team_id": "IRV",
+        "name": "Mavi Okafor-Lind",
+        "short_name": "OKAFOR-LIND",
+        "number": 19,
+        "position": "RW",
+        "role": "impact winger",
+        "starter": false,
+        "attributes": {
+          "passing": 0.481913024984103,
+          "vision": 0.7159267124690748,
+          "pressing": 0.44263349852155276,
+          "tackling": 0.6861997861244323,
+          "pace": 0.98,
+          "stamina": 0.4904894218393012,
+          "finishing": 0.5844248836392045,
+          "dribbling": 0.40976136417584097
+        },
+        "skin_tone": 1
+      },
+      {
+        "id": "IRV-20",
+        "team_id": "IRV",
+        "name": "Emeka Oyelaran",
+        "short_name": "OYELARAN",
+        "number": 20,
+        "position": "ST",
+        "role": "target forward",
+        "starter": false,
+        "attributes": {
+          "passing": 0.5515056869391763,
+          "vision": 0.3505291875665401,
+          "pressing": 0.4367935878654633,
+          "tackling": 0.43377518730424436,
+          "pace": 0.6443668033470534,
+          "stamina": 0.5229655228183205,
+          "finishing": 0.5514468645245534,
+          "dribbling": 0.5981896969003558
+        },
+        "skin_tone": 2
+      }
+    ]
+  },
+  "synthetic": true,
+  "generator_version": "1.0"
+}

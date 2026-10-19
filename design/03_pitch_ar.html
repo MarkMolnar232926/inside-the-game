@@ -1,0 +1,81 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Pitch AR</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:'Archivo',sans-serif;color:#fff}
+#stage{position:relative;width:1920px;height:1080px}
+.bg,.pitch,.layer{position:absolute;inset:0}
+.turf{opacity:.86}
+.turf.tex{mix-blend-mode:overlay;opacity:.5}
+.beamtag{position:absolute;transform:translate(-50%,-100%);text-align:center;font-stretch:115%;font-weight:800;font-size:26px;letter-spacing:.04em;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.beamtag small{display:block;font-weight:600;font-size:13px;letter-spacing:.32em;color:#ffd0d7;margin-bottom:2px}
+.name{position:absolute;transform:translate(-50%,-100%);display:flex;align-items:center;gap:10px;font-stretch:120%;font-weight:800;font-size:24px;letter-spacing:.03em;text-shadow:0 2px 10px rgba(0,0,0,.7)}
+.name i{font-style:normal;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#e0233f;font-size:19px;text-shadow:none}
+.name span{font-weight:500;font-size:16px;color:#cfe;opacity:.9}
+.bug{position:absolute;left:60px;top:54px;display:flex;align-items:center;gap:16px;font-stretch:118%;font-weight:800;font-size:26px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.bug .s{padding:6px 14px;background:rgba(255,255,255,.95);color:#111;border-radius:4px}
+.bug .c{font-weight:500;font-size:20px;opacity:.85}
+.bug .d{width:10px;height:10px;border-radius:2px}
+.zl{position:absolute;font-stretch:125%;font-weight:700;font-size:15px;letter-spacing:.35em;color:rgba(255,255,255,.9);transform-origin:left center;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.tag{position:absolute;left:60px;bottom:40px;font:600 15px 'Archivo';font-stretch:120%;letter-spacing:.3em;color:rgba(255,255,255,.75)}
+</style></head>
+<body><div id="stage"></div>
+<script src="out/scene.js"></script><script src="common.js"></script>
+<script>
+{
+const {S, svgEl, stage, html} = DESIGN;
+const {root, svg, defs} = stage();
+const mkSvg = () => { const s = svgEl("svg", {viewBox: "0 0 1920 1080", class: "pitch", width: 1920, height: 1080}); root.appendChild(s); return s; };
+const mkImg = (src, cls) => { const i = document.createElement("img"); i.src = src; i.className = "layer " + cls; root.appendChild(i); return i; };
+defs.innerHTML = `
+  <linearGradient id="zoneG" gradientUnits="userSpaceOnUse" x1="250" y1="0" x2="1500" y2="0">
+    <stop offset="0" stop-color="#ff2d4a" stop-opacity=".30"/><stop offset=".5" stop-color="#ff2d4a" stop-opacity=".08"/><stop offset="1" stop-color="#e0233f" stop-opacity="0"/></linearGradient>
+  <filter id="bl"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="gl" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <radialGradient id="spot"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="beam" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff5a6e" stop-opacity=".85"/><stop offset=".6" stop-color="#ff5a6e" stop-opacity=".18"/><stop offset="1" stop-color="#ff5a6e" stop-opacity="0"/></linearGradient>
+  <linearGradient id="beamCore" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <marker id="arr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#fff"/></marker>`;
+// 1. zone tint (under the painted graphic)
+svgEl("path", {d: S.zone, fill: "url(#zoneG)"}, svg);
+svgEl("path", {d: S.zone_edge, fill: "none", stroke: "#ff4d63", "stroke-width": 6, filter: "url(#bl)"}, svg);
+svgEl("path", {d: S.zone_edge, fill: "none", stroke: "#fff", "stroke-width": 2.5}, svg);
+// 2. painted turf number + caption, with grass texture showing through
+mkImg("out/turf_number.png", "turf"); mkImg("out/turf_number.png", "turf tex");
+// 3. ground graphics: evidence discs, chain with arrows, player spotlight
+const g = mkSvg();
+g.innerHTML = "";
+svgEl("path", {d: S.chain, fill: "none", stroke: "#000", "stroke-opacity": .35, "stroke-width": 10, filter: "url(#bl)"}, g);
+svgEl("path", {d: S.chain, fill: "none", stroke: "#fff", "stroke-width": 3, "stroke-dasharray": "14 9", "marker-end": "url(#arr)"}, g);
+S.markers.forEach((m) => {
+  svgEl("path", {d: m.ring3, fill: "#ff3550", "fill-opacity": .35, filter: "url(#bl)"}, g);
+  svgEl("path", {d: m.ring2, fill: "none", stroke: "#fff", "stroke-width": 2, "stroke-opacity": .9}, g);
+  svgEl("path", {d: m.ring1, fill: "#ff3550", stroke: "#fff", "stroke-width": 2.5, filter: "url(#gl)"}, g);
+});
+const P = S.player, R = S.ring;
+svgEl("path", {d: R.spot, fill: "#fff", "fill-opacity": .16, filter: "url(#bl)"}, g);
+svgEl("path", {d: R.r2, fill: "none", stroke: "#fff", "stroke-width": 3.5, filter: "url(#gl)"}, g);
+svgEl("path", {d: R.r3, fill: "none", stroke: "#fff", "stroke-opacity": .45, "stroke-width": 1.5}, g);
+if (R.trail) svgEl("path", {d: R.trail, fill: "none", stroke: "#fff", "stroke-opacity": .6, "stroke-width": 4, "stroke-linecap": "round", filter: "url(#bl)"}, g);
+// 4. players in front of everything that lies on the grass
+mkImg("out/players.png", "players");
+// 5. in-air graphics: light beams rising from each interception
+const air = mkSvg();
+const beamDefs = svgEl("defs", {}, air); beamDefs.innerHTML = defs.innerHTML;
+S.markers.forEach((m, i) => {
+  const h = 4.4 * m.scale, w = 1.25 * m.scale;
+  svgEl("rect", {x: m.u - w / 2, y: m.v - h, width: w, height: h, fill: "url(#beam)", filter: "url(#bl)"}, air);
+  svgEl("rect", {x: m.u - 1.5, y: m.v - h * .9, width: 3, height: h * .9, fill: "url(#beamCore)"}, air);
+  html(root, `<div class="beamtag" style="left:${m.u}px;top:${m.v - h * .92}px"><small>INTERCEPTION</small>${m.minute}</div>`);
+});
+html(root, `<div class="name" style="left:${P.foot[0] + 16}px;top:${P.box[1] + 22}px;transform:translateY(-100%)"><i>${P.number}</i>KESTANE <span>${P.speed} km/h</span></div>`);
+// attacking third label laid along the zone edge (screen angle of that line)
+const ze = S.zone_edge.match(/-?[\d.]+/g).map(Number), n = ze.length / 2;
+const top = [ze[2 * n - 2], ze[2 * n - 1]], bot = [ze[0], ze[1]], ang = Math.atan2(bot[1] - top[1], bot[0] - top[0]) * 180 / Math.PI;
+const at = [top[0] + (bot[0] - top[0]) * .22, top[1] + (bot[1] - top[1]) * .22];
+html(root, `<div class="zl" style="left:${at[0] + 16}px;top:${at[1] - 10}px;transform:rotate(${ang}deg)">ATTACKING THIRD</div>`);
+html(root, `<div class="bug"><span class="d" style="background:#e0233f"></span>KBY<span class="s">${S.stat.score.join(" – ")}</span>IRV<span class="d" style="background:#eee"></span><span class="c">${S.stat.clock}</span></div>`);
+html(root, `<div class="tag">C · PITCH AR</div>`);
+}
+</script></body></html>

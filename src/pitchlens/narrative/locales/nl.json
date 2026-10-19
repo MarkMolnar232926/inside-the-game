@@ -1,0 +1,143 @@
+{
+  "lang": "nl",
+  "name": "Nederlands",
+  "decimal": ",",
+  "labels": {
+    "why_it_matters": "Waarom het ertoe doet",
+    "speed": "Snelheid",
+    "top_speed": "Topsnelheid",
+    "ball": "Bal",
+    "shot": "Schot",
+    "distance": "Afstand",
+    "sprints": "Sprints",
+    "estimated": "geschat",
+    "key_moments": "Hoogtepunten",
+    "player_of_the_match": "Man van de wedstrijd",
+    "full_time": "Eindstand",
+    "tactical_summary": "Tactisch verhaal",
+    "milestone": "Mijlpaal",
+    "orientation_note": "alles getoond in de speelrichting van deze helft",
+    "xg": "xG",
+    "ppda": "PPDA",
+    "share": "Aandeel team",
+    "rank": "Rang",
+    "avg_dist_goal": "Gem. afstand tot doel",
+    "difficulty": "Moeilijkheid",
+    "completion": "Verw. slagingskans",
+    "progression": "Terreinwinst",
+    "field_tilt": "Veldoverwicht",
+    "chaos_index": "Chaosindex",
+    "team_xg": "Team-xG",
+    "passes": "Passes",
+    "duration": "Duur"
+  },
+  "templates": {
+    "interceptions_attacking_third": {
+      "headline": "Onderscheppingen in het laatste derde",
+      "casual": "{player_short} pikt de bal steeds hoog op het veld af: al {value} onderscheppingen in het laatste derde.",
+      "casual_top": "{player_short} pikt de bal steeds hoog op het veld af: al {value} onderscheppingen in het laatste derde, meer dan wie ook vanavond.",
+      "analyst": "{value} onderscheppingen in het laatste derde ({share_pct}% van het totaal van {team_short}), gemiddeld {avg_dist_goal_m} m van het doel: de druk wint de bal waar het het meest pijn doet.",
+      "kids": "Wat een balafpakker! {player_short} heeft de bal al {value} keer gepakt vlak bij het doel van de tegenstander!"
+    },
+    "tackles_won_attacking_third": {
+      "headline": "Gewonnen tackles in het laatste derde",
+      "casual": "{player_short} wint de duels voorin: {value} gewonnen tackles in het laatste derde.",
+      "casual_top": "{player_short} wint de duels voorin: {value} gewonnen tackles in het laatste derde, de meeste op het veld.",
+      "analyst": "{value} gewonnen tackles in het laatste derde ({share_pct}% van {team_short}), gemiddeld {avg_dist_goal_m} m van het doel: vooruit verdedigen dat de tegenstander vastzet.",
+      "kids": "Tackle! {player_short} heeft de bal {value} keer gewonnen bij het doel!"
+    },
+    "recoveries_attacking_third": {
+      "headline": "Balveroveringen in het laatste derde",
+      "casual": "{player_short} raapt voorin alle losse ballen op: {value} balveroveringen in het laatste derde.",
+      "casual_top": "{player_short} raapt voorin alle losse ballen op: {value} balveroveringen in het laatste derde, meer dan wie ook.",
+      "analyst": "{value} balveroveringen in het laatste derde ({share_pct}% van {team_short}), gemiddeld {avg_dist_goal_m} m van het doel: de tweede ballen vallen voor {team_short}.",
+      "kids": "{player_short} vond de bal {value} keer bij het doel. Goed gezocht!"
+    },
+    "interceptions_defensive_third": {
+      "headline": "Onderscheppingen op eigen helft",
+      "casual": "{player_short} ziet het gevaar achterin aankomen: {value} onderscheppingen in het eigen derde van {team_short}.",
+      "casual_top": "{player_short} ziet het gevaar achterin aankomen: {value} onderscheppingen in het eigen derde van {team_short}, de meeste vanavond.",
+      "analyst": "{value} onderscheppingen in het verdedigende derde ({share_pct}% van {team_short}): {team_short} vangt de druk laag op in plaats van hoog druk te zetten.",
+      "kids": "{player_short} stopte {value} aanvallen bij het eigen doel. Wat een verdediger!"
+    },
+    "quality_pass": {
+      "headline": "Passkwaliteit",
+      "casual": "Wat een bal van {player_short}! Een pass van {distance_m} m op {recipient_short} die maar in {completion_pct}% van de gevallen aankomt.",
+      "analyst": "Pass van {distance_m} m, +{progressive_m} m terreinwinst, moeilijkheid {difficulty_10}/10 (verwachte slagingskans {completion_pct}%), balsnelheid {ball_speed_kmh} km/u.",
+      "kids": "Wat een pass! {player_short} schoot de bal {distance_m} meter precies naar {recipient_short}!"
+    },
+    "big_chance": {
+      "headline": "Verwachte goals (xG)",
+      "casual": "Grote kans voor {player_short}! Zulke schoten gaan ongeveer {xg_pct}% van de keren erin.",
+      "analyst": "{xg} xG van {distance_m} m, geschoten met {shot_speed_kmh} km/u. {team_short} staat nu op {team_xg} xG.",
+      "kids": "Bijna! {player_short} schoot met {shot_speed_kmh} km/u!"
+    },
+    "goal": {
+      "headline": "Goal: kwaliteit van de kans (xG)",
+      "casual": "{player_short} scoort! Met {shot_speed_kmh} km/u van {distance_m} m afstand.",
+      "analyst": "Goal uit een kans van {xg} xG ({distance_m} m, {shot_speed_kmh} km/u). {team_short} totaal: {team_xg} xG.",
+      "kids": "GOAL! {player_short} knalde hem erin met {shot_speed_kmh} km/u!"
+    },
+    "control_spell": {
+      "headline": "Passes in één aanval",
+      "casual": "{team_short} houdt de bal: {value} passes op rij en {opponent_short} komt er niet aan te pas.",
+      "analyst": "Reeks van {value} passes in {duration_s} s, terwijl het 5-minutengemiddelde {avg_passes_per_possession} passes per balbezit is: een periode van controle (chaosindex {chaos_index}).",
+      "kids": "{team_short} passte {value} keer op rij! Teamwork!"
+    },
+    "chaos_spike": {
+      "headline": "Balverlies in {window_min} minuten",
+      "casual": "Het golft op en neer! De bal wisselde {value} keer van ploeg in {window_min} minuten.",
+      "analyst": "{value} keer balverlies in {window_min} min met slechts {avg_passes_per_possession} passes per balbezit (chaosindex {chaos_index}): geen van beide ploegen vindt rust.",
+      "kids": "Gek! De bal wisselde {value} keer van team in {window_min} minuten!"
+    },
+    "pressing_surge": {
+      "headline": "PPDA, laatste 10 minuten",
+      "casual": "{team_short} jaagt op de bal: {opponent_short} krijgt maar zo'n {value} passes voordat de bal weer kwijt is.",
+      "analyst": "PPDA {ppda_recent} in de laatste {window_min} min tegenover {ppda_match} over de hele wedstrijd: de druk is flink opgevoerd, met {actions} balveroveringen op de helft van de tegenstander.",
+      "kids": "{team_short} jaagt overal op de bal!"
+    },
+    "momentum_swing": {
+      "headline": "xG, laatste 10 minuten",
+      "casual": "Het momentum is gekanteld naar {team_short}: {xg_for} verwachte goals in de laatste 10 minuten tegen {xg_against}.",
+      "analyst": "{team_short} {xg_for} xG tegen {xg_against} in de laatste {window_min} min: de kansenbalans is omgeslagen.",
+      "kids": "{team_short} is nu de baas en krijgt veel kansen!"
+    },
+    "top_speed": {
+      "headline": "Topsnelheid (km/u)",
+      "casual": "{player_short} vliegt: {speed_kmh} km/u, de snelste sprint van de wedstrijd tot nu toe.",
+      "analyst": "Wedstrijdrecord {speed_kmh} km/u; tot nu toe {distance_km} km afgelegd.",
+      "kids": "Zoef! {player_short} rende {speed_kmh} km/u!"
+    },
+    "sprints": {
+      "headline": "Sprints",
+      "casual": "{player_short} blijft maar rennen: al {value} sprints.",
+      "analyst": "{value} sprints boven 25 km/u en {distance_km} km afgelegd.",
+      "kids": "{player_short} heeft al {value} keer gesprint. Zoveel energie!"
+    },
+    "passing_milestone": {
+      "headline": "Geslaagde passes",
+      "casual": "{player_short} trekt aan de touwtjes: {value} geslaagde passes.",
+      "analyst": "{value}/{attempted} passes geslaagd ({completion_pct}%), waarvan {progressive} vooruitgaand.",
+      "kids": "{player_short} heeft al {value} goede passes gegeven!"
+    }
+  },
+  "context": {
+    "control": "{ctx_team_short} bepaalt het ritme ({ctx_avg_passes} passes per balbezit).",
+    "chaos": "Het is een wilde wedstrijd: {ctx_turnovers_per_min} keer balverlies per minuut.",
+    "tempo": "Het tempo ligt hoog: {ctx_passes_per_min} passes per minuut."
+  },
+  "recap": {
+    "headline_comeback": "{winner} komt terug en wint met {score} van {loser}",
+    "headline_win": "{winner} wint met {score} van {loser}",
+    "headline_draw": "{home} en {away} spelen gelijk, {score}",
+    "summary": "{winner_short} creëerde {xg_w} xG tegen {xg_l}. {tactical}",
+    "summary_draw": "De kansen waren gelijk verdeeld: {xg_h} xG tegen {xg_a}. {tactical}",
+    "tactical_press": "{press_team} zette harder druk (PPDA {ppda_press} tegen {ppda_other}) en veroverde {press_regains} ballen op de helft van de tegenstander.",
+    "moment_goal": "GOAL {player_short} ({team_short}), {xg} xG",
+    "moment_chance": "Grote kans {player_short}, {xg} xG",
+    "moment_insight": "{headline}: {value} ({player_short})",
+    "moment_team_insight": "{headline}: {value} ({team_short})",
+    "potm": "{player_name} ({team_short}): {reason}",
+    "potm_reason": "{goals} goals, {interceptions} onderscheppingen, {passes_completed} geslaagde passes"
+  }
+}

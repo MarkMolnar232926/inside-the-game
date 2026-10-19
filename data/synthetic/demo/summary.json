@@ -1,0 +1,38 @@
+{
+  "match_id": "SYN-0006-LATE",
+  "narrative": "late_comeback",
+  "final_score": [
+    2,
+    1
+  ],
+  "teams": {
+    "KBY": {
+      "passes": 663,
+      "pass_completion": 0.771,
+      "shots": 15,
+      "goals": 2,
+      "xg": 2.35,
+      "tackles": 36,
+      "interceptions": 63,
+      "pressures": 467,
+      "fouls": 7,
+      "corners": 2,
+      "possession_share_by_passes": 0.511
+    },
+    "IRV": {
+      "passes": 634,
+      "pass_completion": 0.767,
+      "shots": 7,
+      "goals": 1,
+      "xg": 0.5,
+      "tackles": 31,
+      "interceptions": 48,
+      "pressures": 441,
+      "fouls": 5,
+      "corners": 0,
+      "possession_share_by_passes": 0.489
+    }
+  },
+  "n_events": 3291,
+  "tracking_rows": 1283423
+}

@@ -1,0 +1,143 @@
+{
+  "lang": "hu",
+  "name": "Magyar",
+  "decimal": ",",
+  "labels": {
+    "why_it_matters": "Miért fontos",
+    "speed": "Sebesség",
+    "top_speed": "Csúcssebesség",
+    "ball": "Labda",
+    "shot": "Lövés",
+    "distance": "Táv",
+    "sprints": "Sprintek",
+    "estimated": "becsült",
+    "key_moments": "Kulcspillanatok",
+    "player_of_the_match": "A meccs játékosa",
+    "full_time": "Lefújták",
+    "tactical_summary": "Taktikai történet",
+    "milestone": "Mérföldkő",
+    "orientation_note": "mind a félidő támadási irányában ábrázolva",
+    "xg": "xG",
+    "ppda": "PPDA",
+    "share": "Csapaton belüli arány",
+    "rank": "Helyezés",
+    "avg_dist_goal": "Átl. táv a kaputól",
+    "difficulty": "Nehézség",
+    "completion": "Várható pontosság",
+    "progression": "Előrejutás",
+    "field_tilt": "Területi fölény",
+    "chaos_index": "Káoszindex",
+    "team_xg": "Csapat xG",
+    "passes": "Passzok",
+    "duration": "Időtartam"
+  },
+  "templates": {
+    "interceptions_attacking_third": {
+      "headline": "Labdaszerzés a támadóharmadban",
+      "casual": "{player_short} újra és újra elcsípi a labdát elöl: már {value} labdaszerzés a támadóharmadban.",
+      "casual_top": "{player_short} újra és újra elcsípi a labdát elöl: már {value} labdaszerzés a támadóharmadban, ma este senki sem szerzett többet.",
+      "analyst": "{value} labdaszerzés a támadóharmadban ({team_short} összesének {share_pct}%-a), átlagosan {avg_dist_goal_m} méterre a kaputól: a letámadás ott nyeri vissza a labdát, ahol a legjobban fáj.",
+      "kids": "Szuper! {player_short} már {value}-szor szerezte meg a labdát az ellenfél kapuja előtt!"
+    },
+    "tackles_won_attacking_third": {
+      "headline": "Megnyert szerelés a támadóharmadban",
+      "casual": "{player_short} elöl is nyeri a párharcokat: {value} sikeres szerelés a támadóharmadban.",
+      "casual_top": "{player_short} elöl is nyeri a párharcokat: {value} sikeres szerelés a támadóharmadban, ez a legtöbb a pályán.",
+      "analyst": "{value} megnyert szerelés a támadóharmadban ({team_short} összesének {share_pct}%-a), átlagosan {avg_dist_goal_m} méterre a kaputól: agresszív, előretolt védekezés.",
+      "kids": "Szerelés! {player_short} {value}-szor vette el a labdát a kapu közelében!"
+    },
+    "recoveries_attacking_third": {
+      "headline": "Visszaszerzett labda a támadóharmadban",
+      "casual": "{player_short} elöl összeszedi a gazdátlan labdákat: {value} visszaszerzés a támadóharmadban.",
+      "casual_top": "{player_short} elöl összeszedi a gazdátlan labdákat: {value} visszaszerzés a támadóharmadban, többet senki sem.",
+      "analyst": "{value} labdavisszaszerzés a támadóharmadban ({team_short} összesének {share_pct}%-a), átlagosan {avg_dist_goal_m} méterre a kaputól: a második labdák {team_short} felé pattannak.",
+      "kids": "{player_short} {value}-szor találta meg a labdát a kapu előtt!"
+    },
+    "interceptions_defensive_third": {
+      "headline": "Labdaszerzés a saját harmadban",
+      "casual": "{player_short} hátul is olvassa a veszélyt: {value} labdaszerzés {team_short} saját harmadában.",
+      "casual_top": "{player_short} hátul is olvassa a veszélyt: {value} labdaszerzés {team_short} saját harmadában, ez a legtöbb ma este.",
+      "analyst": "{value} labdaszerzés a védekező harmadban ({team_short} összesének {share_pct}%-a): {team_short} mélyen nyeli el a nyomást, nem magasan támad le.",
+      "kids": "{player_short} {value} támadást állított meg a saját kapuja előtt!"
+    },
+    "quality_pass": {
+      "headline": "Passzminőség",
+      "casual": "Micsoda labda {player_short} lábáról! {distance_m} méteres passz {recipient_short} elé, ilyen csak az esetek {completion_pct}%-ában sikerül.",
+      "analyst": "{distance_m} m-es passz, +{progressive_m} m előrejutás, nehézség {difficulty_10}/10 (várható pontosság {completion_pct}%), labdasebesség {ball_speed_kmh} km/h.",
+      "kids": "Csodapassz! {player_short} {distance_m} métert rúgta, egyenesen {recipient_short} lábára!"
+    },
+    "big_chance": {
+      "headline": "Várható gól (xG)",
+      "casual": "Nagy helyzet {player_short} előtt! Az ilyen lövések nagyjából {xg_pct}%-ban mennek be.",
+      "analyst": "{xg} xG {distance_m} méterről, {shot_speed_kmh} km/h-s lövés. {team_short} összesen {team_xg} xG-nél tart.",
+      "kids": "Majdnem! {player_short} {shot_speed_kmh} km/h-val lőtt!"
+    },
+    "goal": {
+      "headline": "Gól: a helyzet minősége (xG)",
+      "casual": "{player_short} betalál! {shot_speed_kmh} km/h-s lövés {distance_m} méterről.",
+      "analyst": "Gól egy {xg} xG-s helyzetből ({distance_m} m, {shot_speed_kmh} km/h). {team_short} összesen: {team_xg} xG.",
+      "kids": "GÓÓÓL! {player_short} {shot_speed_kmh} km/h-val bombázott!"
+    },
+    "control_spell": {
+      "headline": "Passz egy akcióban",
+      "casual": "{team_short} nem adja ki a labdát: {value} passz egymás után, {opponent_short} a közelébe sem kerül.",
+      "analyst": "{value} passzos sorozat {duration_s} másodperc alatt, miközben az 5 perces átlag {avg_passes_per_possession} passz labdabirtoklásonként: kontroll-periódus (káoszindex {chaos_index}).",
+      "kids": "{team_short} {value}-szer passzolt egymásnak egymás után! Csapatmunka!"
+    },
+    "chaos_spike": {
+      "headline": "Labdavesztés {window_min} perc alatt",
+      "casual": "Oda-vissza megy a játék! A labda {value}-szor cserélt gazdát {window_min} perc alatt.",
+      "analyst": "{value} labdavesztés {window_min} perc alatt, mindössze {avg_passes_per_possession} passz labdabirtoklásonként (káoszindex {chaos_index}): egyik csapat sem tudja megnyugtatni a játékot.",
+      "kids": "Őrület! A labda {value}-szer váltott csapatot {window_min} perc alatt!"
+    },
+    "pressing_surge": {
+      "headline": "PPDA, utolsó 10 perc",
+      "casual": "{team_short} vadászik a labdára: {opponent_short} csak nagyjából {value} passzig jut, mielőtt elveszíti.",
+      "analyst": "PPDA {ppda_recent} az utolsó {window_min} percben, a meccsátlag {ppda_match}: élesen nőtt a letámadás intenzitása, {actions} labdaszerzés az ellenfél térfelén.",
+      "kids": "{team_short} mindenhol kergeti a labdát!"
+    },
+    "momentum_swing": {
+      "headline": "xG, utolsó 10 perc",
+      "casual": "{team_short} felé billent a meccs: {xg_for} várható gól az utolsó 10 percben, szemben {xg_against}-vel.",
+      "analyst": "{team_short} {xg_for} xG vs {xg_against} az utolsó {window_min} percben: megfordult a helyzetek egyensúlya.",
+      "kids": "Jelenleg {team_short} uralja a játékot, rengeteg helyzettel!"
+    },
+    "top_speed": {
+      "headline": "Csúcssebesség (km/h)",
+      "casual": "{player_short} repül: {speed_kmh} km/h, ez eddig a meccs leggyorsabb futása.",
+      "analyst": "Meccscsúcs: {speed_kmh} km/h; eddig {distance_km} km megtett táv.",
+      "kids": "Zúúúm! {player_short} {speed_kmh} km/h-val futott!"
+    },
+    "sprints": {
+      "headline": "Sprintek",
+      "casual": "{player_short} meg sem áll: eddig {value} sprint.",
+      "analyst": "{value} sprint 25 km/h felett, {distance_km} km megtett táv.",
+      "kids": "{player_short} már {value}-szor sprintelt. Mennyi energia!"
+    },
+    "passing_milestone": {
+      "headline": "Pontos passzok",
+      "casual": "{player_short} irányítja a játékot: {value} pontos passz.",
+      "analyst": "{value}/{attempted} pontos passz ({completion_pct}%), ebből {progressive} előrevivő.",
+      "kids": "{player_short} már {value} jó passzt adott!"
+    }
+  },
+  "context": {
+    "control": "{ctx_team_short} diktálja a ritmust ({ctx_avg_passes} passz labdabirtoklásonként).",
+    "chaos": "Eszeveszett a tempó: percenként {ctx_turnovers_per_min} labdavesztés.",
+    "tempo": "Magas a tempó: percenként {ctx_passes_per_min} passz."
+  },
+  "recap": {
+    "headline_comeback": "Fordítás! {winner}–{loser}: {score}",
+    "headline_win": "{winner}–{loser}: {score}",
+    "headline_draw": "Döntetlen: {home}–{away}, {score}",
+    "summary": "{winner_short} {xg_w} xG-t dolgozott ki, az ellenfél {xg_l}-t. {tactical}",
+    "summary_draw": "Kiegyenlített helyzetek: {xg_h} xG vs {xg_a}. {tactical}",
+    "tactical_press": "{press_team} keményebben támadott le (PPDA {ppda_press} vs {ppda_other}), és {press_regains} labdát szerzett az ellenfél térfelén.",
+    "moment_goal": "GÓL {player_short} ({team_short}), {xg} xG",
+    "moment_chance": "Nagy helyzet: {player_short}, {xg} xG",
+    "moment_insight": "{headline}: {value} ({player_short})",
+    "moment_team_insight": "{headline}: {value} ({team_short})",
+    "potm": "{player_name} ({team_short}): {reason}",
+    "potm_reason": "{goals} gól, {interceptions} labdaszerzés, {passes_completed} pontos passz"
+  }
+}

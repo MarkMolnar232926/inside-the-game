@@ -1,0 +1,110 @@
+{
+  "$defs": {
+    "ScreenTrack": {
+      "description": "Image-space track of one identified player (from vision + identity reconciliation).",
+      "properties": {
+        "player_id": {
+          "title": "Player Id",
+          "type": "string"
+        },
+        "track_id": {
+          "title": "Track Id",
+          "type": "integer"
+        },
+        "frames": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Frames",
+          "type": "array"
+        },
+        "boxes": {
+          "description": "x1, y1, x2, y2 pixels",
+          "items": {
+            "maxItems": 4,
+            "minItems": 4,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Boxes",
+          "type": "array"
+        },
+        "pitch_xy": {
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Pitch Xy",
+          "type": "array"
+        },
+        "speed_kmh": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Speed Kmh",
+          "type": "array"
+        },
+        "source": {
+          "default": "vision_estimated",
+          "enum": [
+            "synthetic",
+            "vision_estimated"
+          ],
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "player_id",
+        "track_id",
+        "frames",
+        "boxes"
+      ],
+      "title": "ScreenTrack",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "fps": {
+      "title": "Fps",
+      "type": "number"
+    },
+    "tracks": {
+      "additionalProperties": {
+        "$ref": "#/$defs/ScreenTrack"
+      },
+      "title": "Tracks",
+      "type": "object"
+    }
+  },
+  "required": [
+    "fps",
+    "tracks"
+  ],
+  "title": "ScreenTracks",
+  "type": "object",
+  "$id": "https://pitchlens.dev/schema/1.0.0/screen_tracks.json",
+  "x-schema-version": "1.0.0"
+}

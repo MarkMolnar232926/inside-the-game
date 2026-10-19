@@ -1,0 +1,1425 @@
+{
+  "$defs": {
+    "Chip": {
+      "properties": {
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "string"
+        },
+        "unit": {
+          "default": "",
+          "title": "Unit",
+          "type": "string"
+        },
+        "appear_at": {
+          "default": 0.0,
+          "title": "Appear At",
+          "type": "number"
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ],
+      "title": "Chip",
+      "type": "object"
+    },
+    "Grounding": {
+      "properties": {
+        "verified": {
+          "default": false,
+          "title": "Verified",
+          "type": "boolean"
+        },
+        "checks": {
+          "description": "Human-readable checks that passed",
+          "items": {
+            "type": "string"
+          },
+          "title": "Checks",
+          "type": "array"
+        },
+        "failures": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Failures",
+          "type": "array"
+        },
+        "generator": {
+          "default": "template",
+          "enum": [
+            "template",
+            "llm",
+            "operator"
+          ],
+          "title": "Generator",
+          "type": "string"
+        }
+      },
+      "title": "Grounding",
+      "type": "object"
+    },
+    "MediaClock": {
+      "properties": {
+        "fps": {
+          "default": 30.0,
+          "title": "Fps",
+          "type": "number"
+        },
+        "width": {
+          "default": 1920,
+          "title": "Width",
+          "type": "integer"
+        },
+        "height": {
+          "default": 1080,
+          "title": "Height",
+          "type": "integer"
+        },
+        "duration_s": {
+          "title": "Duration S",
+          "type": "number"
+        },
+        "match_t_at_media_zero": {
+          "description": "Match clock (s) shown at media t = 0",
+          "title": "Match T At Media Zero",
+          "type": "number"
+        }
+      },
+      "required": [
+        "duration_s",
+        "match_t_at_media_zero"
+      ],
+      "title": "MediaClock",
+      "type": "object"
+    },
+    "Minimap": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "t_start": {
+          "description": "Media clock, seconds",
+          "minimum": 0,
+          "title": "T Start",
+          "type": "number"
+        },
+        "t_end": {
+          "minimum": 0,
+          "title": "T End",
+          "type": "number"
+        },
+        "priority": {
+          "default": 5,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "insight_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Insight Id"
+        },
+        "evidence_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Event Ids",
+          "type": "array"
+        },
+        "text": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TextBlock"
+          },
+          "description": "Keyed by BCP-47 language code",
+          "title": "Text",
+          "type": "object"
+        },
+        "style": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Design-token overrides",
+          "title": "Style",
+          "type": "object"
+        },
+        "grounding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Grounding"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "minimap",
+          "default": "minimap",
+          "title": "Type",
+          "type": "string"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/PitchPoint"
+          },
+          "title": "Points",
+          "type": "array"
+        },
+        "focus_player_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Focus Player Id"
+        },
+        "show_team_shape": {
+          "default": true,
+          "title": "Show Team Shape",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "t_start",
+        "t_end"
+      ],
+      "title": "Minimap",
+      "type": "object"
+    },
+    "NarrativeLowerThird": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "t_start": {
+          "description": "Media clock, seconds",
+          "minimum": 0,
+          "title": "T Start",
+          "type": "number"
+        },
+        "t_end": {
+          "minimum": 0,
+          "title": "T End",
+          "type": "number"
+        },
+        "priority": {
+          "default": 5,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "insight_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Insight Id"
+        },
+        "evidence_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Event Ids",
+          "type": "array"
+        },
+        "text": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TextBlock"
+          },
+          "description": "Keyed by BCP-47 language code",
+          "title": "Text",
+          "type": "object"
+        },
+        "style": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Design-token overrides",
+          "title": "Style",
+          "type": "object"
+        },
+        "grounding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Grounding"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "narrative_lower_third",
+          "default": "narrative_lower_third",
+          "title": "Type",
+          "type": "string"
+        },
+        "tone": {
+          "default": "neutral",
+          "enum": [
+            "neutral",
+            "control",
+            "chaos",
+            "tempo",
+            "pressure",
+            "milestone",
+            "physical",
+            "quality",
+            "momentum"
+          ],
+          "title": "Tone",
+          "type": "string"
+        },
+        "audio": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Language -> TTS asset key",
+          "title": "Audio",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "t_start",
+        "t_end"
+      ],
+      "title": "NarrativeLowerThird",
+      "type": "object"
+    },
+    "PassLine": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "t_start": {
+          "description": "Media clock, seconds",
+          "minimum": 0,
+          "title": "T Start",
+          "type": "number"
+        },
+        "t_end": {
+          "minimum": 0,
+          "title": "T End",
+          "type": "number"
+        },
+        "priority": {
+          "default": 5,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "insight_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Insight Id"
+        },
+        "evidence_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Event Ids",
+          "type": "array"
+        },
+        "text": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TextBlock"
+          },
+          "description": "Keyed by BCP-47 language code",
+          "title": "Text",
+          "type": "object"
+        },
+        "style": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Design-token overrides",
+          "title": "Style",
+          "type": "object"
+        },
+        "grounding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Grounding"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "pass_line",
+          "default": "pass_line",
+          "title": "Type",
+          "type": "string"
+        },
+        "start": {
+          "$ref": "#/$defs/PitchPoint"
+        },
+        "end": {
+          "$ref": "#/$defs/PitchPoint"
+        },
+        "distance_m": {
+          "title": "Distance M",
+          "type": "number"
+        },
+        "difficulty": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Difficulty",
+          "type": "number"
+        },
+        "accuracy": {
+          "enum": [
+            "perfect",
+            "accurate",
+            "loose",
+            "failed"
+          ],
+          "title": "Accuracy",
+          "type": "string"
+        },
+        "ball_speed_kmh": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ball Speed Kmh"
+        },
+        "player_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Player Id"
+        },
+        "recipient_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recipient Id"
+        }
+      },
+      "required": [
+        "id",
+        "t_start",
+        "t_end",
+        "start",
+        "end",
+        "distance_m",
+        "difficulty",
+        "accuracy"
+      ],
+      "title": "PassLine",
+      "type": "object"
+    },
+    "PitchMarkers": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "t_start": {
+          "description": "Media clock, seconds",
+          "minimum": 0,
+          "title": "T Start",
+          "type": "number"
+        },
+        "t_end": {
+          "minimum": 0,
+          "title": "T End",
+          "type": "number"
+        },
+        "priority": {
+          "default": 5,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "insight_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Insight Id"
+        },
+        "evidence_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Event Ids",
+          "type": "array"
+        },
+        "text": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TextBlock"
+          },
+          "description": "Keyed by BCP-47 language code",
+          "title": "Text",
+          "type": "object"
+        },
+        "style": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Design-token overrides",
+          "title": "Style",
+          "type": "object"
+        },
+        "grounding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Grounding"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "pitch_markers",
+          "default": "pitch_markers",
+          "title": "Type",
+          "type": "string"
+        },
+        "points": {
+          "items": {
+            "$ref": "#/$defs/PitchPoint"
+          },
+          "title": "Points",
+          "type": "array"
+        },
+        "shape": {
+          "default": "star",
+          "enum": [
+            "star",
+            "ring",
+            "cross",
+            "dot"
+          ],
+          "title": "Shape",
+          "type": "string"
+        },
+        "numbered": {
+          "default": true,
+          "title": "Numbered",
+          "type": "boolean"
+        },
+        "connect": {
+          "default": false,
+          "title": "Connect",
+          "type": "boolean"
+        },
+        "color": {
+          "default": "marker",
+          "title": "Color",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "t_start",
+        "t_end",
+        "points"
+      ],
+      "title": "PitchMarkers",
+      "type": "object"
+    },
+    "PitchPoint": {
+      "properties": {
+        "x": {
+          "description": "Metres along the pitch length (0..105)",
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "description": "Metres across the pitch (0..68)",
+          "title": "Y",
+          "type": "number"
+        },
+        "label": {
+          "default": "",
+          "title": "Label",
+          "type": "string"
+        },
+        "event_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Event Id"
+        },
+        "appear_at": {
+          "default": 0.0,
+          "description": "Seconds after item t_start when this point appears",
+          "title": "Appear At",
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "title": "PitchPoint",
+      "type": "object"
+    },
+    "PlayerHighlight": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "t_start": {
+          "description": "Media clock, seconds",
+          "minimum": 0,
+          "title": "T Start",
+          "type": "number"
+        },
+        "t_end": {
+          "minimum": 0,
+          "title": "T End",
+          "type": "number"
+        },
+        "priority": {
+          "default": 5,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "insight_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Insight Id"
+        },
+        "evidence_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Event Ids",
+          "type": "array"
+        },
+        "text": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TextBlock"
+          },
+          "description": "Keyed by BCP-47 language code",
+          "title": "Text",
+          "type": "object"
+        },
+        "style": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Design-token overrides",
+          "title": "Style",
+          "type": "object"
+        },
+        "grounding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Grounding"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "player_highlight",
+          "default": "player_highlight",
+          "title": "Type",
+          "type": "string"
+        },
+        "player_id": {
+          "title": "Player Id",
+          "type": "string"
+        },
+        "player_number": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Player Number"
+        },
+        "show_name": {
+          "default": true,
+          "title": "Show Name",
+          "type": "boolean"
+        },
+        "display_name": {
+          "default": "",
+          "title": "Display Name",
+          "type": "string"
+        },
+        "color": {
+          "default": "accent",
+          "title": "Color",
+          "type": "string"
+        },
+        "chips": {
+          "items": {
+            "$ref": "#/$defs/Chip"
+          },
+          "title": "Chips",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "t_start",
+        "t_end",
+        "player_id"
+      ],
+      "title": "PlayerHighlight",
+      "type": "object"
+    },
+    "RecapCard": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "t_start": {
+          "description": "Media clock, seconds",
+          "minimum": 0,
+          "title": "T Start",
+          "type": "number"
+        },
+        "t_end": {
+          "minimum": 0,
+          "title": "T End",
+          "type": "number"
+        },
+        "priority": {
+          "default": 5,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "insight_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Insight Id"
+        },
+        "evidence_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Event Ids",
+          "type": "array"
+        },
+        "text": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TextBlock"
+          },
+          "description": "Keyed by BCP-47 language code",
+          "title": "Text",
+          "type": "object"
+        },
+        "style": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Design-token overrides",
+          "title": "Style",
+          "type": "object"
+        },
+        "grounding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Grounding"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "recap_card",
+          "default": "recap_card",
+          "title": "Type",
+          "type": "string"
+        },
+        "moments": {
+          "items": {
+            "$ref": "#/$defs/TextBlock"
+          },
+          "title": "Moments",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "t_start",
+        "t_end"
+      ],
+      "title": "RecapCard",
+      "type": "object"
+    },
+    "ScoreBug": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "t_start": {
+          "description": "Media clock, seconds",
+          "minimum": 0,
+          "title": "T Start",
+          "type": "number"
+        },
+        "t_end": {
+          "minimum": 0,
+          "title": "T End",
+          "type": "number"
+        },
+        "priority": {
+          "default": 5,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "insight_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Insight Id"
+        },
+        "evidence_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Event Ids",
+          "type": "array"
+        },
+        "text": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TextBlock"
+          },
+          "description": "Keyed by BCP-47 language code",
+          "title": "Text",
+          "type": "object"
+        },
+        "style": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Design-token overrides",
+          "title": "Style",
+          "type": "object"
+        },
+        "grounding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Grounding"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "score_bug",
+          "default": "score_bug",
+          "title": "Type",
+          "type": "string"
+        },
+        "home_short": {
+          "title": "Home Short",
+          "type": "string"
+        },
+        "away_short": {
+          "title": "Away Short",
+          "type": "string"
+        },
+        "home_color": {
+          "title": "Home Color",
+          "type": "string"
+        },
+        "away_color": {
+          "title": "Away Color",
+          "type": "string"
+        },
+        "score_track": {
+          "description": "(media_t, home, away) change points",
+          "items": {
+            "maxItems": 3,
+            "minItems": 3,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Score Track",
+          "type": "array"
+        },
+        "clock_offset": {
+          "description": "match_clock = media_t + clock_offset",
+          "title": "Clock Offset",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "t_start",
+        "t_end",
+        "home_short",
+        "away_short",
+        "home_color",
+        "away_color",
+        "score_track",
+        "clock_offset"
+      ],
+      "title": "ScoreBug",
+      "type": "object"
+    },
+    "SpeedTag": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "t_start": {
+          "description": "Media clock, seconds",
+          "minimum": 0,
+          "title": "T Start",
+          "type": "number"
+        },
+        "t_end": {
+          "minimum": 0,
+          "title": "T End",
+          "type": "number"
+        },
+        "priority": {
+          "default": 5,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "insight_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Insight Id"
+        },
+        "evidence_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Event Ids",
+          "type": "array"
+        },
+        "text": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TextBlock"
+          },
+          "description": "Keyed by BCP-47 language code",
+          "title": "Text",
+          "type": "object"
+        },
+        "style": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Design-token overrides",
+          "title": "Style",
+          "type": "object"
+        },
+        "grounding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Grounding"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "speed_tag",
+          "default": "speed_tag",
+          "title": "Type",
+          "type": "string"
+        },
+        "subject": {
+          "default": "player",
+          "enum": [
+            "player",
+            "ball"
+          ],
+          "title": "Subject",
+          "type": "string"
+        },
+        "player_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Player Id"
+        },
+        "speed_kmh": {
+          "title": "Speed Kmh",
+          "type": "number"
+        },
+        "distance_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Distance M"
+        },
+        "estimated": {
+          "default": false,
+          "title": "Estimated",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "t_start",
+        "t_end",
+        "speed_kmh"
+      ],
+      "title": "SpeedTag",
+      "type": "object"
+    },
+    "StatCard": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "t_start": {
+          "description": "Media clock, seconds",
+          "minimum": 0,
+          "title": "T Start",
+          "type": "number"
+        },
+        "t_end": {
+          "minimum": 0,
+          "title": "T End",
+          "type": "number"
+        },
+        "priority": {
+          "default": 5,
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "insight_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Insight Id"
+        },
+        "evidence_event_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Event Ids",
+          "type": "array"
+        },
+        "text": {
+          "additionalProperties": {
+            "$ref": "#/$defs/TextBlock"
+          },
+          "description": "Keyed by BCP-47 language code",
+          "title": "Text",
+          "type": "object"
+        },
+        "style": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Design-token overrides",
+          "title": "Style",
+          "type": "object"
+        },
+        "grounding": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Grounding"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "type": {
+          "const": "stat_card",
+          "default": "stat_card",
+          "title": "Type",
+          "type": "string"
+        },
+        "value": {
+          "description": "The big number, e.g. '4' or '87%'",
+          "title": "Value",
+          "type": "string"
+        },
+        "player_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Player Id"
+        },
+        "team_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Team Id"
+        },
+        "player_number": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Player Number"
+        },
+        "player_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Player Name"
+        },
+        "team_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Team Name"
+        },
+        "portrait": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Asset key for the portrait illustration",
+          "title": "Portrait"
+        },
+        "crest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Crest"
+        },
+        "placement": {
+          "default": "right",
+          "enum": [
+            "right",
+            "left"
+          ],
+          "title": "Placement",
+          "type": "string"
+        },
+        "density": {
+          "default": "standard",
+          "enum": [
+            "minimal",
+            "standard",
+            "dense"
+          ],
+          "title": "Density",
+          "type": "string"
+        },
+        "extra_metrics": {
+          "description": "Shown in dense (analyst) mode",
+          "items": {
+            "$ref": "#/$defs/Chip"
+          },
+          "title": "Extra Metrics",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "t_start",
+        "t_end",
+        "value"
+      ],
+      "title": "StatCard",
+      "type": "object"
+    },
+    "TextBlock": {
+      "properties": {
+        "headline": {
+          "default": "",
+          "title": "Headline",
+          "type": "string"
+        },
+        "body": {
+          "default": "",
+          "title": "Body",
+          "type": "string"
+        },
+        "label": {
+          "default": "",
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "title": "TextBlock",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "match_id": {
+      "title": "Match Id",
+      "type": "string"
+    },
+    "profile_id": {
+      "title": "Profile Id",
+      "type": "string"
+    },
+    "languages": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Languages",
+      "type": "array"
+    },
+    "default_language": {
+      "default": "en",
+      "title": "Default Language",
+      "type": "string"
+    },
+    "media": {
+      "$ref": "#/$defs/MediaClock"
+    },
+    "items": {
+      "items": {
+        "discriminator": {
+          "mapping": {
+            "minimap": "#/$defs/Minimap",
+            "narrative_lower_third": "#/$defs/NarrativeLowerThird",
+            "pass_line": "#/$defs/PassLine",
+            "pitch_markers": "#/$defs/PitchMarkers",
+            "player_highlight": "#/$defs/PlayerHighlight",
+            "recap_card": "#/$defs/RecapCard",
+            "score_bug": "#/$defs/ScoreBug",
+            "speed_tag": "#/$defs/SpeedTag",
+            "stat_card": "#/$defs/StatCard"
+          },
+          "propertyName": "type"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/ScoreBug"
+          },
+          {
+            "$ref": "#/$defs/StatCard"
+          },
+          {
+            "$ref": "#/$defs/PlayerHighlight"
+          },
+          {
+            "$ref": "#/$defs/PitchMarkers"
+          },
+          {
+            "$ref": "#/$defs/SpeedTag"
+          },
+          {
+            "$ref": "#/$defs/PassLine"
+          },
+          {
+            "$ref": "#/$defs/NarrativeLowerThird"
+          },
+          {
+            "$ref": "#/$defs/Minimap"
+          },
+          {
+            "$ref": "#/$defs/RecapCard"
+          }
+        ]
+      },
+      "title": "Items",
+      "type": "array"
+    }
+  },
+  "required": [
+    "match_id",
+    "profile_id",
+    "languages",
+    "media",
+    "items"
+  ],
+  "title": "OverlayTimeline",
+  "type": "object",
+  "$id": "https://pitchlens.dev/schema/1.0.0/overlay_timeline.json",
+  "x-schema-version": "1.0.0"
+}

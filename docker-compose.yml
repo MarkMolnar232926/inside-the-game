@@ -1,0 +1,18 @@
+# docker compose up --build  ->  http://localhost:8000
+services:
+  api:
+    build: .
+    ports: ["8000:8000"]
+    env_file: [.env.example]
+    environment:
+      PITCHLENS_DEMO_DIR: /app/outputs/demo
+    volumes:
+      # Mount a locally built demo bundle (python scripts/build_demo.py) to get the video + overlays.
+      - ./outputs/demo:/app/outputs/demo:ro
+  # One-shot job that renders the full demo bundle inside the container (CPU, ~6 min).
+  build-demo:
+    build: .
+    profiles: ["build"]
+    command: python scripts/build_demo.py --out /app/outputs/demo
+    volumes:
+      - ./outputs/demo:/app/outputs/demo

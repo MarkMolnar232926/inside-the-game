@@ -1,0 +1,131 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Clear Premium</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* Clear TV rules (title-safe 96x54, opaque plates, >= 7:1 contrast, body >= 34 px, one message,
+   gold/white pitch marks that survive colour blindness) with a broadcast-grade finish:
+   wide grotesk headlines, tabular numerals, layered plates (gradient + inner highlight + hairline
+   + deep soft shadow), fictional crests, perspective-correct ground marks with contact shadows. */
+:root{
+  --navy-0:#06102a;--navy-1:#0c1b3f;--navy-2:#16295a;--gold:#f6c445;--gold-hi:#ffe08a;--gold-lo:#d99a12;
+  --ink:#fff;--sub:#c9d3ea;--hair:rgba(255,255,255,.14);
+  --plate:linear-gradient(180deg,var(--navy-2) 0%,var(--navy-1) 46%,var(--navy-0) 100%);
+  --goldfill:linear-gradient(180deg,var(--gold-hi) 0%,var(--gold) 38%,var(--gold-lo) 100%);
+  --shadow:0 2px 0 rgba(0,0,0,.25),0 18px 40px rgba(2,6,20,.55),0 4px 12px rgba(2,6,20,.35);
+}
+*{box-sizing:border-box;margin:0}
+body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:'Inter Tight',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:1920px;height:1080px}
+.bg,.pitch{position:absolute;inset:0}
+.wide{font-family:'Archivo';font-stretch:118%}
+.plate{background:var(--plate);box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.16),inset 0 0 0 1px var(--hair);position:relative;overflow:hidden}
+.plate::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.07) 0%,rgba(255,255,255,0) 38%);pointer-events:none}
+.gold{background:var(--goldfill);color:var(--navy-0);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -2px 0 rgba(120,70,0,.25)}
+.tnum{font-variant-numeric:tabular-nums lining-nums}
+
+/* score bug */
+.bug{position:absolute;left:96px;top:54px;display:flex;align-items:stretch;height:76px;border-radius:12px}
+.bug .side{display:flex;align-items:center;gap:14px;padding:0 22px;font-weight:800;font-size:36px;letter-spacing:.02em}
+.bug .crest{width:40px;height:46px;flex:none}
+.bug .score{display:flex;align-items:center;gap:12px;padding:0 24px;background:linear-gradient(180deg,#fff,#e6ebf5);color:var(--navy-0);font-weight:800;font-size:44px;box-shadow:inset 0 -2px 0 rgba(6,16,42,.12)}
+.bug .score span{opacity:.35;font-weight:600}
+.bug .clock{display:flex;align-items:center;gap:12px;padding:0 24px 0 22px;font-family:'Inter Tight';font-weight:700;font-size:34px;border-left:1px solid var(--hair)}
+.bug .clock i{width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(246,196,69,.18)}
+.bug .rule{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--goldfill)}
+
+/* on-pitch: numbered pins + player plate */
+.pin{position:absolute;transform:translate(-50%,-100%);width:62px;height:62px;border-radius:50%;display:grid;place-items:center;
+  font-family:'Archivo';font-stretch:112%;font-weight:900;font-size:34px;
+  box-shadow:0 0 0 3px var(--navy-0),0 0 0 6px #fff,0 10px 22px rgba(2,6,20,.55)}
+.nameplate{position:absolute;display:flex;align-items:stretch;height:70px;border-radius:10px;transform:translate(-100%,-50%)}
+.nameplate .no{display:grid;place-items:center;width:70px;font-weight:900;font-size:40px}
+.nameplate .nm{display:flex;flex-direction:column;justify-content:center;padding:0 24px 0 18px;line-height:1}
+.nameplate .nm small{font-size:18px;font-weight:700;letter-spacing:.16em;color:var(--gold);text-transform:uppercase}
+.nameplate .nm b{font-size:36px;font-weight:800;letter-spacing:.015em;margin-top:5px}
+
+/* lower third */
+.lt{position:absolute;left:96px;right:96px;bottom:54px}
+.lt .tab{position:absolute;left:0;top:-42px;height:42px;display:flex;align-items:center;gap:12px;padding:0 20px 0 16px;border-radius:10px 10px 0 0;
+  font-family:'Archivo';font-stretch:125%;font-weight:800;font-size:17px;letter-spacing:.24em}
+.lt .tab svg{width:20px;height:20px}
+.lt .bar{display:flex;align-items:stretch;height:196px;border-radius:0 14px 14px 14px}
+.lt .big{position:relative;display:grid;place-items:center;width:212px;font-family:'Archivo';font-stretch:112%;font-weight:900;font-size:168px;line-height:1;letter-spacing:-.03em}
+.lt .big::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 10%,rgba(255,255,255,.45),rgba(255,255,255,0) 55%)}
+.lt .big span{position:relative;text-shadow:0 2px 0 rgba(255,255,255,.35)}
+.lt .main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 40px}
+.lt .who{display:flex;align-items:center;gap:14px;font-size:28px;font-weight:700;color:var(--gold);letter-spacing:.01em}
+.lt .who svg{width:30px;height:35px}
+.lt h2{font-family:'Archivo';font-stretch:104%;font-size:56px;font-weight:800;line-height:1.04;margin-top:8px;letter-spacing:-.005em}
+.lt p{font-size:34px;font-weight:600;color:var(--sub);margin-top:10px}
+.lt .key{display:flex;flex-direction:column;justify-content:center;gap:12px;padding:0 40px 0 34px;border-left:1px solid var(--hair);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,0))}
+.lt .key .k{font-size:17px;font-weight:800;letter-spacing:.2em;color:var(--sub);text-transform:uppercase;margin-bottom:2px}
+.lt .key div.r{display:flex;align-items:center;gap:16px;font-size:34px;font-weight:700}
+.lt .key i{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;font-style:normal;font-family:'Archivo';font-weight:900;font-size:22px}
+.lt .onair{position:absolute;left:212px;right:0;bottom:0;height:4px;background:rgba(255,255,255,.08)}
+.lt .onair span{display:block;width:38%;height:100%;background:var(--goldfill)}
+.tag{position:absolute;right:96px;top:64px;font:800 15px 'Archivo';font-stretch:125%;letter-spacing:.3em;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+</style></head>
+<body><div id="stage"></div>
+<script src="out/scene.js"></script><script src="common.js"></script>
+<script>
+{
+const {S, svgEl, stage, html} = DESIGN;
+const {root, svg, defs} = stage();
+// fictional crests
+const crest = (a, b, mono) => `<svg viewBox="0 0 40 46" class="crest"><defs><linearGradient id="cg${mono}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+  <path d="M20 1 L38 6 V22 C38 34 30 41 20 45 C10 41 2 34 2 22 V6 Z" fill="${a}" stroke="#fff" stroke-width="2"/>
+  <path d="M2 18 L20 28 L38 18 V24 L20 34 L2 24 Z" fill="${b}"/>
+  <path d="M20 1 L38 6 V22 C38 34 30 41 20 45 C10 41 2 34 2 22 V6 Z" fill="url(#cg${mono})"/>
+  <text x="20" y="20" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="11" fill="#fff">${mono}</text></svg>`;
+const KBY = crest("#c8102e", "#0c1b3f", "KB"), IRV = crest("#0f9d8f", "#ffffff", "IV");
+defs.innerHTML = `
+  <linearGradient id="goldV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset=".45" stop-color="#f6c445"/><stop offset="1" stop-color="#d99a12"/></linearGradient>
+  <linearGradient id="stemG" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#f6c445"/><stop offset="1" stop-color="#ffe08a"/></linearGradient>
+  <filter id="cs" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="ls" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#06102a" flood-opacity=".7"/></filter>`;
+const annulus = (outer, inner) => outer + " " + inner;  // evenodd ring
+// evidence path: crisp white with contact shadow and a direction chevron at the end
+svgEl("path", {d: S.chain, fill: "none", stroke: "#06102a", "stroke-opacity": .55, "stroke-width": 9, "stroke-linecap": "round", filter: "url(#cs)", transform: "translate(0,3)"}, svg);
+svgEl("path", {d: S.chain, fill: "none", stroke: "#fff", "stroke-width": 4.5, "stroke-linecap": "round", "stroke-dasharray": "18 10"}, svg);
+S.markers.forEach((m, i) => {
+  // contact shadow, soft glow pool, gold annulus with dark keyline, white centre
+  svgEl("path", {d: m.ring3, fill: "#06102a", "fill-opacity": .32, filter: "url(#cs)", transform: "translate(0,3)"}, svg);
+  svgEl("path", {d: annulus(m.ring2, m.ring1), "fill-rule": "evenodd", fill: "#06102a", "fill-opacity": .8, stroke: "#06102a", "stroke-width": 5}, svg);
+  svgEl("path", {d: annulus(m.ring2, m.ring1), "fill-rule": "evenodd", fill: "url(#goldV)"}, svg);
+  svgEl("path", {d: m.disc, fill: "#fff", stroke: "#06102a", "stroke-width": 2.5}, svg);
+  // tapered stem to the pin head
+  const h = 2.5 * m.scale;
+  svgEl("path", {d: `M${m.u - 3.2},${m.v} L${m.u + 3.2},${m.v} L${m.u + 1.4},${m.v - h} L${m.u - 1.4},${m.v - h} Z`, fill: "url(#stemG)", stroke: "#06102a", "stroke-width": 1.5, filter: "url(#ls)"}, svg);
+  html(root, `<div class="pin gold" style="left:${m.u}px;top:${m.v - h + 6}px">${i + 1}</div>`);
+});
+// player: double halo (white keyline + gold band) on the grass
+const P = S.player, R = S.ring;
+svgEl("path", {d: R.r3, fill: "#06102a", "fill-opacity": .28, filter: "url(#cs)", transform: "translate(0,3)"}, svg);
+svgEl("path", {d: annulus(R.r2, R.r1), "fill-rule": "evenodd", fill: "#06102a", "fill-opacity": .75, stroke: "#06102a", "stroke-width": 4}, svg);
+svgEl("path", {d: annulus(R.r2, R.r1), "fill-rule": "evenodd", fill: "#fff"}, svg);
+svgEl("path", {d: R.arc, fill: "none", stroke: "url(#goldV)", "stroke-width": 5, "stroke-linecap": "round"}, svg);
+const nx = P.foot[0] - 22, ny = P.box[1] - 112, lx = P.foot[0] + 16;  // above pin 3, leader kept clear of it
+const lead = `M${P.foot[0]},${P.box[1] - 6} L${lx},${P.box[1] - 22} L${lx},${ny} L${nx},${ny}`;
+svgEl("path", {d: lead, fill: "none", stroke: "#06102a", "stroke-width": 7, "stroke-linejoin": "round"}, svg);
+svgEl("path", {d: lead, fill: "none", stroke: "#fff", "stroke-width": 3, "stroke-linejoin": "round"}, svg);
+svgEl("circle", {cx: P.foot[0], cy: P.box[1] - 6, r: 5, fill: "#fff", stroke: "#06102a", "stroke-width": 2.5}, svg);
+html(root, `<div class="nameplate plate" style="left:${nx}px;top:${ny}px"><div class="no gold wide tnum">${P.number}</div>
+  <div class="nm"><small>${P.first}</small><b class="wide">${P.last.toUpperCase()}</b></div></div>`);
+// score bug
+html(root, `<div class="bug plate"><div class="side">${KBY}<span class="wide">${S.stat.home}</span></div>
+  <div class="score wide tnum">${S.stat.score[0]}<span>–</span>${S.stat.score[1]}</div>
+  <div class="side"><span class="wide">${S.stat.away}</span>${IRV}</div>
+  <div class="clock tnum"><i></i>${S.stat.clock}</div><div class="rule"></div></div>`);
+// lower third
+html(root, `<div class="lt">
+  <div class="tab plate"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="none" stroke="#f6c445" stroke-width="2.4"/><circle cx="10" cy="10" r="3.2" fill="#f6c445"/></svg>MATCH INSIGHT</div>
+  <div class="bar plate">
+    <div class="big gold"><span>${S.stat.value}</span></div>
+    <div class="main"><div class="who">${KBY.replace('class="crest"', "")}Jory Kestane · Kestrel Bay</div>
+      <h2>Balls won near the opponent's goal</h2><p>More than any other player tonight</p></div>
+    <div class="key"><div class="k">On the pitch</div>${S.markers.map((m, i) => `<div class="r"><i class="gold">${i + 1}</i><span class="tnum">${m.minute}</span></div>`).join("")}</div>
+    <div class="onair"><span></span></div>
+  </div></div>`);
+html(root, `<div class="tag">G · CLEAR PREMIUM</div>`);
+}
+</script></body></html>

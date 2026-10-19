@@ -1,0 +1,313 @@
+{
+  "$defs": {
+    "Kit": {
+      "properties": {
+        "shirt": {
+          "description": "Hex colour",
+          "title": "Shirt",
+          "type": "string"
+        },
+        "shorts": {
+          "title": "Shorts",
+          "type": "string"
+        },
+        "socks": {
+          "title": "Socks",
+          "type": "string"
+        },
+        "number": {
+          "default": "#ffffff",
+          "title": "Number",
+          "type": "string"
+        },
+        "gk_shirt": {
+          "default": "#2bd96b",
+          "title": "Gk Shirt",
+          "type": "string"
+        }
+      },
+      "required": [
+        "shirt",
+        "shorts",
+        "socks"
+      ],
+      "title": "Kit",
+      "type": "object"
+    },
+    "Player": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "team_id": {
+          "title": "Team Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "short_name": {
+          "title": "Short Name",
+          "type": "string"
+        },
+        "number": {
+          "maximum": 99,
+          "minimum": 1,
+          "title": "Number",
+          "type": "integer"
+        },
+        "position": {
+          "$ref": "#/$defs/Position"
+        },
+        "role": {
+          "description": "Tactical role, e.g. 'pressing playmaker'",
+          "title": "Role",
+          "type": "string"
+        },
+        "starter": {
+          "default": true,
+          "title": "Starter",
+          "type": "boolean"
+        },
+        "attributes": {
+          "$ref": "#/$defs/PlayerAttributes",
+          "default": {
+            "passing": 0.6,
+            "vision": 0.5,
+            "pressing": 0.5,
+            "tackling": 0.5,
+            "pace": 0.5,
+            "stamina": 0.6,
+            "finishing": 0.4,
+            "dribbling": 0.5
+          }
+        },
+        "skin_tone": {
+          "default": 0,
+          "description": "Index into the illustration palette",
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Skin Tone",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "team_id",
+        "name",
+        "short_name",
+        "number",
+        "position",
+        "role"
+      ],
+      "title": "Player",
+      "type": "object"
+    },
+    "PlayerAttributes": {
+      "description": "Fictional attributes (0..1) that drive simulated behaviour.",
+      "properties": {
+        "passing": {
+          "default": 0.6,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Passing",
+          "type": "number"
+        },
+        "vision": {
+          "default": 0.5,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Vision",
+          "type": "number"
+        },
+        "pressing": {
+          "default": 0.5,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Pressing",
+          "type": "number"
+        },
+        "tackling": {
+          "default": 0.5,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Tackling",
+          "type": "number"
+        },
+        "pace": {
+          "default": 0.5,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Pace",
+          "type": "number"
+        },
+        "stamina": {
+          "default": 0.6,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Stamina",
+          "type": "number"
+        },
+        "finishing": {
+          "default": 0.4,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Finishing",
+          "type": "number"
+        },
+        "dribbling": {
+          "default": 0.5,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Dribbling",
+          "type": "number"
+        }
+      },
+      "title": "PlayerAttributes",
+      "type": "object"
+    },
+    "Position": {
+      "enum": [
+        "GK",
+        "RB",
+        "CB",
+        "LB",
+        "DM",
+        "CM",
+        "AM",
+        "RW",
+        "LW",
+        "ST"
+      ],
+      "title": "Position",
+      "type": "string"
+    },
+    "Team": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "short": {
+          "maxLength": 3,
+          "minLength": 3,
+          "title": "Short",
+          "type": "string"
+        },
+        "city": {
+          "title": "City",
+          "type": "string"
+        },
+        "formation": {
+          "default": "4-3-3",
+          "title": "Formation",
+          "type": "string"
+        },
+        "kit": {
+          "$ref": "#/$defs/Kit"
+        },
+        "primary": {
+          "title": "Primary",
+          "type": "string"
+        },
+        "secondary": {
+          "title": "Secondary",
+          "type": "string"
+        },
+        "style": {
+          "default": "balanced",
+          "description": "Coaching style flavour used by the generator",
+          "title": "Style",
+          "type": "string"
+        },
+        "players": {
+          "items": {
+            "$ref": "#/$defs/Player"
+          },
+          "title": "Players",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "short",
+        "city",
+        "kit",
+        "primary",
+        "secondary",
+        "players"
+      ],
+      "title": "Team",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "match_id": {
+      "title": "Match Id",
+      "type": "string"
+    },
+    "competition": {
+      "default": "Synthetic Premier Showcase",
+      "title": "Competition",
+      "type": "string"
+    },
+    "venue": {
+      "title": "Venue",
+      "type": "string"
+    },
+    "kickoff_utc": {
+      "title": "Kickoff Utc",
+      "type": "string"
+    },
+    "seed": {
+      "title": "Seed",
+      "type": "integer"
+    },
+    "narrative": {
+      "title": "Narrative",
+      "type": "string"
+    },
+    "duration_s": {
+      "description": "Simulated length in seconds of match clock",
+      "title": "Duration S",
+      "type": "number"
+    },
+    "home": {
+      "$ref": "#/$defs/Team"
+    },
+    "away": {
+      "$ref": "#/$defs/Team"
+    },
+    "synthetic": {
+      "default": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "generator_version": {
+      "default": "1.0",
+      "title": "Generator Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "match_id",
+    "venue",
+    "kickoff_utc",
+    "seed",
+    "narrative",
+    "duration_s",
+    "home",
+    "away"
+  ],
+  "title": "MatchMeta",
+  "type": "object",
+  "$id": "https://pitchlens.dev/schema/1.0.0/match_meta.json",
+  "x-schema-version": "1.0.0"
+}

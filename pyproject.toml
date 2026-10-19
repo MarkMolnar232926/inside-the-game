@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pitchlens"
+version = "0.1.0"
+description = "Agentic insight-overlay engine for football broadcasts, built on synthetic match data."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+  "numpy>=1.26",
+  "pandas>=2.1",
+  "pyarrow>=14",
+  "pydantic>=2.6",
+  "opencv-python-headless>=4.9",
+  "pillow>=10",
+  "scipy>=1.11",
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.27",
+  "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.4", "jsonschema>=4", "pre-commit>=3"]
+vision = ["ultralytics>=8.2"]          # optional deep detector (YOLO); CPU fallback is built in
+azure = ["azure-eventhub>=5.11", "azure-storage-blob>=12.19", "azure-messaging-webpubsubservice>=1.1"]
+
+[project.scripts]
+pitchlens = "pitchlens.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pitchlens = ["render/tokens.json", "narrative/locales/*.json"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "W"]
+ignore = ["E501", "B008"]
+
+[tool.ruff.lint.per-file-ignores]
+# Diagnostic / one-off scripts favour terse exploratory style.
+"scripts/*" = ["E701", "E702", "E402", "E741", "B007", "B905"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q -p no:warnings"
+markers = ["slow: long-running render/vision tests"]

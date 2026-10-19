@@ -1,0 +1,362 @@
+{
+  "$defs": {
+    "EventType": {
+      "enum": [
+        "kick_off",
+        "pass",
+        "carry",
+        "shot",
+        "goal",
+        "save",
+        "tackle",
+        "interception",
+        "duel",
+        "pressure",
+        "ball_recovery",
+        "clearance",
+        "foul",
+        "free_kick",
+        "corner",
+        "throw_in",
+        "goal_kick",
+        "out_of_play",
+        "possession_change",
+        "substitution",
+        "period_start",
+        "period_end"
+      ],
+      "title": "EventType",
+      "type": "string"
+    },
+    "Outcome": {
+      "enum": [
+        "success",
+        "fail",
+        "na"
+      ],
+      "title": "Outcome",
+      "type": "string"
+    },
+    "PassInfo": {
+      "properties": {
+        "length_m": {
+          "title": "Length M",
+          "type": "number"
+        },
+        "progressive_m": {
+          "description": "Metres gained towards the opponent goal",
+          "title": "Progressive M",
+          "type": "number"
+        },
+        "difficulty": {
+          "description": "0 = trivial, 1 = extremely hard",
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Difficulty",
+          "type": "number"
+        },
+        "height": {
+          "default": "ground",
+          "enum": [
+            "ground",
+            "low",
+            "high"
+          ],
+          "title": "Height",
+          "type": "string"
+        },
+        "under_pressure": {
+          "default": false,
+          "title": "Under Pressure",
+          "type": "boolean"
+        },
+        "ball_speed_kmh": {
+          "default": 0.0,
+          "title": "Ball Speed Kmh",
+          "type": "number"
+        },
+        "key_pass": {
+          "default": false,
+          "title": "Key Pass",
+          "type": "boolean"
+        },
+        "expected_completion": {
+          "default": 0.8,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Expected Completion",
+          "type": "number"
+        }
+      },
+      "required": [
+        "length_m",
+        "progressive_m",
+        "difficulty"
+      ],
+      "title": "PassInfo",
+      "type": "object"
+    },
+    "ShotInfo": {
+      "properties": {
+        "xg": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Xg",
+          "type": "number"
+        },
+        "speed_kmh": {
+          "title": "Speed Kmh",
+          "type": "number"
+        },
+        "body_part": {
+          "default": "right_foot",
+          "enum": [
+            "right_foot",
+            "left_foot",
+            "head"
+          ],
+          "title": "Body Part",
+          "type": "string"
+        },
+        "on_target": {
+          "default": false,
+          "title": "On Target",
+          "type": "boolean"
+        },
+        "distance_m": {
+          "default": 0.0,
+          "title": "Distance M",
+          "type": "number"
+        }
+      },
+      "required": [
+        "xg",
+        "speed_kmh"
+      ],
+      "title": "ShotInfo",
+      "type": "object"
+    }
+  },
+  "description": "A single on-ball (or match-state) event.",
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "match_id": {
+      "title": "Match Id",
+      "type": "string"
+    },
+    "seq": {
+      "description": "Monotonic sequence number within the match",
+      "title": "Seq",
+      "type": "integer"
+    },
+    "t": {
+      "description": "Match clock in seconds since kick-off (continuous across halves)",
+      "minimum": 0,
+      "title": "T",
+      "type": "number"
+    },
+    "period": {
+      "default": 1,
+      "maximum": 2,
+      "minimum": 1,
+      "title": "Period",
+      "type": "integer"
+    },
+    "type": {
+      "$ref": "#/$defs/EventType"
+    },
+    "team_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Team Id"
+    },
+    "player_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Player Id"
+    },
+    "x": {
+      "anyOf": [
+        {
+          "maximum": 107.0,
+          "minimum": -2,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "X"
+    },
+    "y": {
+      "anyOf": [
+        {
+          "maximum": 70.0,
+          "minimum": -2,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Y"
+    },
+    "end_x": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "End X"
+    },
+    "end_y": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "End Y"
+    },
+    "outcome": {
+      "$ref": "#/$defs/Outcome",
+      "default": "na"
+    },
+    "recipient_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Recipient Id"
+    },
+    "opponent_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Opposing player involved (tackled/intercepted)",
+      "title": "Opponent Id"
+    },
+    "possession_id": {
+      "default": 0,
+      "title": "Possession Id",
+      "type": "integer"
+    },
+    "source": {
+      "default": "synthetic",
+      "enum": [
+        "synthetic",
+        "vision_estimated"
+      ],
+      "title": "Source",
+      "type": "string"
+    },
+    "confidence": {
+      "default": 1.0,
+      "description": "1.0 for synthetic ground truth",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "pass_info": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PassInfo"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "shot_info": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ShotInfo"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "score": {
+      "default": [
+        0,
+        0
+      ],
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "title": "Score",
+      "type": "array"
+    },
+    "note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Note"
+    }
+  },
+  "required": [
+    "id",
+    "match_id",
+    "seq",
+    "t",
+    "type"
+  ],
+  "title": "Event",
+  "type": "object",
+  "$id": "https://pitchlens.dev/schema/1.0.0/event.json",
+  "x-schema-version": "1.0.0"
+}
