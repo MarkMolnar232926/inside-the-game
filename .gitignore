@@ -24,3 +24,8 @@ dist/
 # Node / web
 node_modules/
 web/dist/
+
+# design comps: derived from a local real clip (never commit) + downloaded web fonts
+design/out/
+design/renders/
+design/fonts/

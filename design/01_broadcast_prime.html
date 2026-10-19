@@ -1,0 +1,94 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Broadcast Prime</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{--navy:#0b1630;--navy2:#13244a;--crim:#e0233f;--crim2:#ff4a5f;--teal:#19c4b4;--ink:#fff;--mute:#9fb0d3}
+*{box-sizing:border-box;margin:0}
+body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:'Barlow Condensed',sans-serif;color:var(--ink)}
+#stage{position:relative;width:1920px;height:1080px}
+.bg,.pitch{position:absolute;inset:0}
+.glass{background:linear-gradient(180deg,rgba(19,36,74,.92),rgba(8,16,36,.94));backdrop-filter:blur(14px);box-shadow:0 18px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.12)}
+/* score bug */
+.bug{position:absolute;left:64px;top:52px;display:flex;align-items:stretch;height:58px;clip-path:polygon(0 0,100% 0,calc(100% - 18px) 100%,0 100%)}
+.bug .team{display:flex;align-items:center;gap:12px;padding:0 18px;font-weight:700;font-size:30px;letter-spacing:.06em}
+.bug .chip{width:8px;height:30px;border-radius:2px}
+.bug .score{display:flex;align-items:center;gap:14px;padding:0 20px;background:#fff;color:var(--navy);font-weight:800;font-size:36px}
+.bug .clock{display:flex;align-items:center;padding:0 34px 0 18px;font-family:'JetBrains Mono';font-weight:600;font-size:24px;color:var(--teal)}
+/* player plate */
+.plate{position:absolute;display:flex;align-items:stretch;height:52px;transform:translateX(-50%)}
+.plate .num{display:grid;place-items:center;width:52px;background:var(--crim);font-weight:800;font-size:34px;clip-path:polygon(0 0,100% 0,100% 100%,12px 100%,0 calc(100% - 12px))}
+.plate .name{display:flex;flex-direction:column;justify-content:center;padding:0 18px 0 14px;line-height:.95}
+.plate .name small{font-size:15px;font-weight:600;letter-spacing:.18em;color:var(--mute)}
+.plate .name b{font-size:28px;font-weight:700;letter-spacing:.05em}
+.plate .spd{display:flex;align-items:center;gap:6px;padding:0 16px;background:var(--teal);color:var(--navy);font-weight:800;font-size:28px;clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%)}
+.plate .spd i{font-style:normal;font-size:15px;font-weight:700;letter-spacing:.08em}
+.pin{position:absolute;transform:translate(-50%,-100%);font-weight:700;font-size:22px;letter-spacing:.04em;padding:3px 10px 2px;background:var(--navy);border-top:3px solid var(--crim)}
+/* stat panel */
+.panel{position:absolute;right:64px;bottom:72px;width:620px}
+.panel .head{display:flex;align-items:center;gap:12px;padding:12px 22px;background:var(--crim);font-weight:700;font-size:20px;letter-spacing:.22em;clip-path:polygon(0 0,100% 0,100% 100%,22px 100%,0 calc(100% - 22px))}
+.panel .head .dot{width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.25)}
+.panel .body{display:grid;grid-template-columns:auto 1fr;gap:6px 26px;padding:22px 26px 24px;clip-path:polygon(0 0,100% 0,100% calc(100% - 26px),calc(100% - 26px) 100%,0 100%)}
+.panel .big{grid-row:span 2;font-size:150px;font-weight:800;line-height:.82;background:linear-gradient(180deg,#fff,#c9d6f5);-webkit-background-clip:text;color:transparent}
+.panel h2{font-size:40px;font-weight:700;line-height:1;text-transform:uppercase;letter-spacing:.02em;align-self:end}
+.panel .who{font-size:21px;color:var(--mute);letter-spacing:.12em;font-weight:600;align-self:start}
+.panel p{grid-column:1/-1;font-family:'Inter Tight';font-size:21px;line-height:1.38;color:#dfe6f7;margin-top:12px;border-top:1px solid rgba(255,255,255,.12);padding-top:16px}
+.facts{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.facts div{background:rgba(255,255,255,.06);padding:10px 14px;border-left:3px solid var(--teal)}
+.facts b{display:block;font-size:30px;font-weight:700}
+.facts span{font-size:15px;letter-spacing:.14em;color:var(--mute);font-weight:600}
+.tag{position:absolute;left:64px;bottom:40px;font:600 16px 'Barlow Condensed';letter-spacing:.3em;color:rgba(255,255,255,.7)}
+</style></head>
+<body><div id="stage"></div>
+<script src="out/scene.js"></script><script src="common.js"></script>
+<script>
+const {S, svgEl, stage, html} = DESIGN;
+const {root, svg, defs} = stage();
+defs.innerHTML = `
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="soft"><feGaussianBlur stdDeviation="10"/></filter>
+  <linearGradient id="stem" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <linearGradient id="chainG" x1="0" x2="1"><stop offset="0" stop-color="#19c4b4"/><stop offset="1" stop-color="#e0233f"/></linearGradient>`;
+// evidence chain on the ground
+svgEl("path", {d: S.chain, fill: "none", stroke: "#000", "stroke-opacity": .35, "stroke-width": 9, filter: "url(#soft)"}, svg);
+svgEl("path", {d: S.chain, fill: "none", stroke: "url(#chainG)", "stroke-width": 3.5, "stroke-dasharray": "2 10", "stroke-linecap": "round"}, svg);
+// evidence pins: floor halo + hex + stem + label
+S.markers.forEach((m, i) => {
+  const g = svgEl("g", {}, svg);
+  svgEl("path", {d: m.ring3, fill: "#e0233f", "fill-opacity": .18, stroke: "none", filter: "url(#soft)"}, g);
+  svgEl("path", {d: m.ring2, fill: "none", stroke: "#fff", "stroke-opacity": .55, "stroke-width": 1.5}, g);
+  svgEl("path", {d: m.hex, fill: "#e0233f", "fill-opacity": .9, stroke: "#fff", "stroke-width": 2.5, filter: "url(#glow)"}, g);
+  const h = 2.6 * m.scale;
+  svgEl("rect", {x: m.u - 1.5, y: m.v - h, width: 3, height: h, fill: "url(#stem)"}, g);
+  const side = i === 2 ? "translate(-100%,-100%)" : "translate(-50%,-100%)";  // keep #03 clear of the player
+  html(root, `<div class="pin" style="left:${m.u + (i === 2 ? 1.5 : 0)}px;top:${m.v - h}px;transform:${side}">${String(i + 1).padStart(2, "0")} · ${m.minute}</div>`);
+});
+// player: glowing floor rings, rotating arc segment, stem to plate
+const R = S.ring, P = S.player;
+svgEl("path", {d: R.spot, fill: "#e0233f", "fill-opacity": .22, filter: "url(#soft)"}, svg);
+svgEl("path", {d: R.r3, fill: "none", stroke: "#fff", "stroke-opacity": .35, "stroke-width": 1.5, "stroke-dasharray": "3 7"}, svg);
+svgEl("path", {d: R.r2, fill: "none", stroke: "#e0233f", "stroke-width": 5, filter: "url(#glow)"}, svg);
+svgEl("path", {d: R.arc, fill: "none", stroke: "#19c4b4", "stroke-width": 5, "stroke-linecap": "round", filter: "url(#glow)"}, svg);
+const headY = P.box[1] - 14, plateY = headY - 80, plateR = P.foot[0] - 70;
+svgEl("path", {d: `M${P.foot[0]},${headY} L${P.foot[0]},${plateY + 26} L${plateR},${plateY + 26}`, fill: "none", stroke: "#fff", "stroke-width": 2, "stroke-opacity": .85}, svg);
+svgEl("circle", {cx: P.foot[0], cy: headY, r: 4, fill: "#fff"}, svg);
+html(root, `<div class="plate glass" style="left:${plateR}px;top:${plateY}px;transform:translateX(-100%)">
+  <div class="num">${P.number}</div><div class="name"><small>${P.first.toUpperCase()}</small><b>${P.last.toUpperCase()}</b></div>
+  <div class="spd">${P.speed}<i>KM/H</i></div></div>`);
+// score bug
+html(root, `<div class="bug glass">
+  <div class="team"><span class="chip" style="background:#e0233f"></span>${S.stat.home}</div>
+  <div class="score">${S.stat.score[0]}<span style="opacity:.35">–</span>${S.stat.score[1]}</div>
+  <div class="team">${S.stat.away}<span class="chip" style="background:#f2f2f2"></span></div>
+  <div class="clock">${S.stat.clock}</div></div>`);
+// insight panel
+html(root, `<div class="panel">
+  <div class="head"><span class="dot"></span>PITCHLENS INSIGHT · LIVE</div>
+  <div class="body glass">
+    <div class="big">${S.stat.value}</div>
+    <h2>${S.stat.headline}</h2>
+    <div class="who">#7 ${P.first.toUpperCase()} ${P.last.toUpperCase()} · KESTREL BAY</div>
+    <p>${S.stat.why}</p>
+    <div class="facts"><div><b>${S.stat.share}%</b><span>OF TEAM'S</span></div><div><b>${S.stat.dist} m</b><span>AVG FROM GOAL</span></div><div><b>#${S.stat.rank}</b><span>IN THE MATCH</span></div></div>
+  </div></div>`);
+html(root, `<div class="tag">A · BROADCAST PRIME</div>`);
+</script></body></html>
