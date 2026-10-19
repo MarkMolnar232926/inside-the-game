@@ -183,6 +183,26 @@ def main() -> None:
     matte = cv2.GaussianBlur(cv2.morphologyEx(matte, cv2.MORPH_OPEN, np.ones((2, 2), np.uint8)), (0, 0), 0.8)
     cv2.imwrite(str(OUT / "players.png"), np.dstack([frame, matte]))
 
+    # ---- the pass each interception broke (the opponent pass right before it, same orientation as the marker)
+    by_id = {e["id"]: e for e in ev}
+    order = [e["id"] for e in ev]
+    passes = []
+    for (mx, my), eid in zip(pts, ["SYN-0006-LATE-e01253", "SYN-0006-LATE-e02119", "SYN-0006-LATE-e02165"], strict=True):
+        e = by_id[eid]
+        pv = by_id[order[order.index(eid) - 1]]
+        flip = -1 if e["period"] == 2 else 1  # KBY attacks right after orientation: 2nd half is mirrored
+        dx, dy = flip * (e["x"] - pv["x"]), flip * (e["y"] - pv["y"])
+        o = (mx - dx, my - dy)
+        u = np.array([dx, dy]) / (np.hypot(dx, dy) + 1e-9)
+        ghost = (mx + 5 * u[0], my + 5 * u[1])
+        n = np.array([-u[1], u[0]])
+        cut = [(mx + 1.6 * n[0], my + 1.6 * n[1]), (mx - 1.6 * n[0], my - 1.6 * n[1])]
+        passes.append({"event": eid, "pass": pv["id"], "passer": pv["player_id"],
+                       "from": apply_h(H, np.array([o]))[0].tolist(), "to": apply_h(H, np.array([[mx, my]]))[0].tolist(),
+                       "ghost": apply_h(H, np.array([ghost]))[0].tolist(), "cut": apply_h(H, np.array(cut)).tolist(),
+                       "length_m": round(float(np.hypot(dx, dy)), 1)})
+    hexes = [path(H, circle(x, y, 1.5, 7, np.pi / 6, np.pi / 6 + 2 * np.pi)) for x, y in pts]
+
     # ---- other people for the minimap
     tr_df = pd.read_parquet(a.demo / "clip/vision/tracks.parquet")
     f_df = tr_df[tr_df.frame == a.frame]
@@ -195,7 +215,8 @@ def main() -> None:
         "player": {"id": a.player, "number": 7, "first": "Jory", "last": "Kestane", "team": "Kestrel Bay FC",
                    "box": box, "foot": foot.tolist(), "scale": sx, "pitch": pxy, "speed": 27.4, "distance_km": 8.1},
         "markers": markers, "chain": chain, "zone": zone, "zone_edge": zone_edge, "lines": lines, "box18": box18,
-        "ring": ring, "dots": dots, "frustum": corners.tolist(),
+        "ring": ring, "dots": dots, "frustum": corners.tolist(), "passes": passes, "hexes": hexes,
+        "zone_edge_ends": apply_h(H, np.array([[70, 0], [70, 68]], float)).tolist(),
         "stat": {"value": 3, "headline": "Interceptions in the attacking third", "share": 100, "dist": 20, "rank": 1,
                  "minute": "62'", "clock": "62:13", "score": [1, 1], "home": "KBY", "away": "IRV",
                  "why": "Kestane keeps snatching the ball high up the pitch: 3 interceptions in the final third, more than anyone tonight.",
