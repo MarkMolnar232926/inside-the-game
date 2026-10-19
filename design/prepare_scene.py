@@ -152,6 +152,13 @@ def main() -> None:
     num = np.asarray(big.transpose(Image.FLIP_TOP_BOTTOM))
     rgba = cv2.cvtColor(num, cv2.COLOR_RGBA2BGRA)
     cv2.imwrite(str(OUT / "turf_number.png"), warp_layer(H, rgba, ppm))
+    # number-only variant (when a side panel already carries the caption)
+    big = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(big)
+    d.text(P(77.0, 13.6), "3", font=f_num, fill=(255, 255, 255, 255), anchor="mm")
+    d.rectangle([*P(73.5, 8.1), *P(80.5, 7.75)], fill=(227, 23, 62, 255))
+    rgba = cv2.cvtColor(np.asarray(big.transpose(Image.FLIP_TOP_BOTTOM)), cv2.COLOR_RGBA2BGRA)
+    cv2.imwrite(str(OUT / "turf_3.png"), warp_layer(H, rgba, ppm))
 
     # occlusion matte: non-grass pixels inside every detection box, so on-turf graphics pass under players
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)

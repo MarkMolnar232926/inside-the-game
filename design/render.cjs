@@ -9,10 +9,12 @@ const fs = require("fs"), path = require("path");
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
   page.on("pageerror", (e) => console.error("pageerror", e.message));
   for (const n of names) {
-    await page.goto("file://" + path.join(dir, n + ".html"));
+    const [base, hash] = n.split("#");
+    await page.goto("file://" + path.join(dir, base + ".html") + (hash ? "#" + hash : ""));
+    if (hash) await page.reload();
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(300);
-    await page.screenshot({ path: path.join(dir, "renders", n + ".png") });
+    await page.screenshot({ path: path.join(dir, "renders", n.replace("#", "_") + ".png") });
     console.log("rendered", n);
   }
   await browser.close();
