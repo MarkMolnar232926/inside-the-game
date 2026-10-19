@@ -20,7 +20,7 @@ body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:var(
 .grain{position:relative;isolation:isolate}
 .grain::after{content:"";position:absolute;inset:0;z-index:5;pointer-events:none;opacity:.16;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.4 -.2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
-.eyebrow{font:700 15px var(--txt);letter-spacing:.26em;text-transform:uppercase}
+.eyebrow{font:700 18px var(--txt);letter-spacing:.26em;text-transform:uppercase}
 .drop{filter:drop-shadow(0 16px 26px rgba(6,3,26,.5)) drop-shadow(0 3px 6px rgba(6,3,26,.35))}
 
 /* ---------- score bug */
@@ -36,7 +36,7 @@ body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:var(
 .bug .line{position:absolute;left:0;right:0;bottom:-4px;height:4px;background:var(--brand)}
 
 /* ---------- column */
-.col{position:absolute;right:96px;top:142px;width:500px}
+.col{position:absolute;right:96px;top:142px;width:500px;transform:scale(.82);transform-origin:top right}  /* 410 px on screen */
 .col .spine{position:absolute;left:-10px;top:14px;bottom:0;width:4px;background:linear-gradient(180deg,#e3173e,#7a2cff 60%,#3fe2ff)}
 .card{position:relative;overflow:hidden}
 /* stat */
@@ -47,14 +47,14 @@ body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:var(
 .hair{position:absolute;inset:0;background:repeating-linear-gradient(-62deg,rgba(255,255,255,.055) 0 1px,transparent 1px 11px)}
 .stat .eyebrow{position:absolute;left:28px;top:22px;display:flex;align-items:center;gap:10px;color:var(--cy)}
 .stat .eyebrow svg{width:18px;height:18px}
-.stat .min{position:absolute;right:28px;top:20px;font:800 22px var(--disp);letter-spacing:.06em;color:#fff;opacity:.9}
+.stat .min{position:absolute;right:28px;top:18px;font:800 26px var(--disp);letter-spacing:.06em;color:#fff;opacity:.9}
 .stat .hero{position:absolute;left:18px;top:56px;width:150px;height:170px}
 .stat .hero span{position:absolute;left:22px;top:0;font:900 136px/1 var(--disp);letter-spacing:-.02em}
 .stat .hero .ghost{color:transparent;-webkit-text-stroke:2px rgba(63,226,255,.55);transform:translate(7px,6px)}
 .stat .hero .fill{background:linear-gradient(180deg,#fff 30%,#c9c1ff 100%);-webkit-background-clip:text;color:transparent}
 .stat .txt{position:absolute;left:156px;right:26px;top:80px}
 .stat .txt b{display:block;font:800 52px/0.95 var(--disp);letter-spacing:.015em;text-transform:uppercase}
-.stat .txt span{display:block;margin-top:8px;font:700 18px var(--txt);letter-spacing:.11em;white-space:nowrap;text-transform:uppercase;color:var(--lav)}
+.stat .txt span{display:block;margin-top:8px;font:700 20px var(--txt);letter-spacing:.08em;white-space:nowrap;text-transform:uppercase;color:var(--lav)}
 .stat .pill{position:absolute;left:172px;bottom:22px;display:flex;align-items:center;gap:10px;font:700 15px var(--txt);letter-spacing:.2em;text-transform:uppercase}
 .stat .pill i{font-style:normal;padding:5px 10px 4px;background:var(--crim);font:900 20px var(--disp);letter-spacing:.04em;clip-path:polygon(0 0,100% 0,calc(100% - 7px) 100%,0 100%)}
 /* kit */
@@ -74,9 +74,9 @@ body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:var(
 .name .no{position:relative;width:118px;height:100%;display:grid;place-items:center;font:900 76px/1 var(--disp);color:var(--cy)}
 .name .no::after{content:"";position:absolute;right:0;top:24px;bottom:24px;width:2px;background:rgba(255,255,255,.18);transform:skewX(-14deg)}
 .name .who{flex:1;padding-left:22px}
-.name .who small{display:block;font:700 17px var(--txt);letter-spacing:.3em;color:var(--lav);text-transform:uppercase}
+.name .who small{display:block;font:700 20px var(--txt);letter-spacing:.3em;color:var(--lav);text-transform:uppercase}
 .name .who b{display:block;font:900 60px/0.92 var(--disp);letter-spacing:.02em;text-transform:uppercase;margin-top:4px}
-.name .who span{display:block;font:600 15px var(--txt);letter-spacing:.22em;color:rgba(255,255,255,.72);text-transform:uppercase;margin-top:6px}
+.name .who span{display:block;font:600 18px var(--txt);letter-spacing:.16em;color:rgba(255,255,255,.72);text-transform:uppercase;margin-top:6px}
 .name .crest{width:104px;height:104px;margin-right:16px;display:grid;place-items:center;background:linear-gradient(180deg,#fff,#e9e6ff)}
 .name .crest svg{width:62px;height:72px}
 
