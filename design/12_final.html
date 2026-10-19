@@ -133,8 +133,6 @@ svgEl("path", {d: S.zone, fill: "url(#zoneG)"}, svg);
 svgEl("path", {d: S.zone_edge, fill: "none", stroke: "#ff3a5c", "stroke-width": 8, filter: "url(#bl)"}, svg);
 svgEl("path", {d: S.zone_edge, fill: "none", stroke: "#fff", "stroke-width": 3}, svg);
 const player = (pointer = true) => {
-  svgEl("path", {d: R.arc, fill: "none", stroke: "#fff", "stroke-width": 9, "stroke-linecap": "round"}, svg);
-  svgEl("path", {d: R.arc, fill: "none", stroke: "#e3173e", "stroke-width": 5.5, "stroke-linecap": "round"}, svg);
   if (!pointer) return;
   const hx = P.foot[0], hy = P.box[1] - 12, cg = svgEl("g", {filter: "url(#ds)"}, svg);
   cg.innerHTML = `<path d="M${hx - 13},${hy - 22} L${hx + 13},${hy - 22} L${hx},${hy} Z" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
