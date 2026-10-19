@@ -88,9 +88,13 @@ body{width:1920px;height:1080px;overflow:hidden;background:#000;font-family:var(
 .map svg{display:block;margin:0 8px 8px}
 .map .line{height:3px;background:var(--brand)}
 .tag{position:absolute;left:96px;bottom:54px;font:700 14px var(--txt);letter-spacing:.3em;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+:root[data-pos="bl"] .col{right:auto;left:96px;transform-origin:bottom left}
+:root[data-pos="bl"] .col .spine{left:auto;right:-10px}
+:root[data-pos="tr"] .col{bottom:auto;top:142px;transform-origin:top right}
 </style></head>
 <body><div id="stage"></div>
 <script src="out/scene.js"></script><script src="common.js"></script>
+<script>document.documentElement.dataset.pos = (location.hash || "#br").slice(1);</script>
 <script>
 {
 const {S, svgEl, stage, html, mini} = DESIGN;
